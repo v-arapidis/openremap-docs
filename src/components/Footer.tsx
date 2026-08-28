@@ -2,7 +2,7 @@ import { siteConfig } from "@/lib/config";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-neutral-800 py-8">
+    <footer className="border-t border-[#333338] py-8">
       <div className="mx-auto flex max-w-[1400px] flex-col items-center gap-3 px-6 text-sm text-neutral-500">
         <p>
           <a href="/" className="text-neutral-300 hover:text-emerald-400">

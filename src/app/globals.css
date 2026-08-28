@@ -2,14 +2,14 @@
 @source "../**/*.{ts,tsx}";
 
 :root {
-    --color-bg: #0a0a0f;
-    --color-bg-secondary: #12121a;
-    --color-text: #e5e5e5;
-    --color-text-muted: #a3a3a3;
+    --color-bg: #1b1b1f;
+    --color-bg-secondary: #222226;
+    --color-text: #e6e6e6;
+    --color-text-muted: #a8a8ad;
     --color-accent: #10b981;
     --color-accent-hover: #34d399;
-    --color-border: #262626;
-    --color-code-bg: #1a1a2e;
+    --color-border: #333338;
+    --color-code-bg: #26262b;
 }
 
 html {

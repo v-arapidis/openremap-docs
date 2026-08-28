@@ -91,7 +91,7 @@ function Branch({
       </div>
 
       {hasChildren && isOpen && (
-        <ul className="ml-2 border-l border-neutral-800 pl-2">
+        <ul className="ml-2 border-l border-[#333338] pl-2">
           {node.children.map((child) => (
             <Branch
               key={child.segment}
@@ -139,7 +139,7 @@ export default function Sidebar({
   return (
     <nav
       aria-label="Documentation navigation"
-      className="w-64 shrink-0 overflow-y-auto border-r border-neutral-800 bg-neutral-950/40 py-6 pl-3 pr-2"
+      className="w-64 shrink-0 overflow-y-auto border-r border-[#333338] bg-[#222226]/40 py-6 pl-3 pr-2"
     >
       <div className="mb-4 pr-3">
         <Link
@@ -147,7 +147,7 @@ export default function Sidebar({
           className={`block rounded-md px-3 py-1.5 text-sm transition-colors ${
             pathname === "/"
               ? "bg-emerald-500/10 font-medium text-emerald-400"
-              : "text-neutral-400 hover:bg-neutral-800/40 hover:text-neutral-100"
+              : "text-neutral-400 hover:bg-[#26262b]/60 hover:text-neutral-100"
           }`}
         >
           Home

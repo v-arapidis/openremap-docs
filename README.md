@@ -1,10 +1,11 @@
 # OpenRemap Docs
 
 The OpenRemap wiki — the documentation for the open-source ECU binary toolkit.
-Lives at **docs.openremap.com** and is the source of truth for OpenRemap
-documentation.
+Live at **[docs.openremap.com](https://docs.openremap.com)** — the source of
+truth for OpenRemap documentation.
 
-> The PR/marketing site (openremap.com) and the engine (openremap-core) live in
+> The marketing/PR site ([openremap.com](https://openremap.com)) and the engine
+> ([openremap-core](https://github.com/v-arapidis/openremap-core)) live in
 > separate repos. This repo is the **wiki only**.
 
 ## Quick start

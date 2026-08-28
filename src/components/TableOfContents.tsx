@@ -59,7 +59,7 @@ export default function TableOfContents({
         <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-500">
           On this page
         </h4>
-        <ul className="space-y-1 border-l border-neutral-800">
+        <ul className="space-y-1 border-l border-[#333338]">
           {headings.map((h) => (
             <li key={h.id}>
               <a

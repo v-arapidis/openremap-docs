@@ -47,7 +47,7 @@ function StatusBanner({ entry }: { entry: DocEntry }) {
 function RelatedArticles({ related }: { related: DocEntry[] }) {
   if (related.length === 0) return null;
   return (
-    <aside className="mt-12 rounded-lg border border-neutral-800 bg-neutral-900/40 p-5">
+    <aside className="mt-12 rounded-lg border border-[#333338] bg-[#222226]/40 p-5">
       <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-500">
         Related articles
       </h2>
@@ -70,7 +70,7 @@ function RelatedArticles({ related }: { related: DocEntry[] }) {
 
 function PageFooter({ entry }: { entry: DocEntry }) {
   return (
-    <div className="mt-12 flex items-center justify-between border-t border-neutral-800 pt-6 text-sm">
+    <div className="mt-12 flex items-center justify-between border-t border-[#333338] pt-6 text-sm">
       <Link
         href={githubUrl("content", entry.filePath)}
         target="_blank"
@@ -171,7 +171,7 @@ export default async function DocShell({ slug }: { slug: string[] }) {
             {overviewEntry && (
               <Link
                 href={overviewEntry.route}
-                className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-neutral-700 bg-neutral-800/60 px-3 py-1 text-xs font-medium text-neutral-300 transition-colors hover:border-neutral-500 hover:text-white"
+                className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-[#3d3d43] bg-[#26262b]/60 px-3 py-1 text-xs font-medium text-neutral-300 transition-colors hover:border-[#4a4a52] hover:text-white"
               >
                 ← Overview
               </Link>
@@ -192,7 +192,7 @@ export default async function DocShell({ slug }: { slug: string[] }) {
                 {prev ? (
                   <Link
                     href={prev.route}
-                    className="group rounded-lg border border-neutral-800 bg-neutral-900/50 p-4 transition-colors hover:border-neutral-700"
+                    className="group rounded-lg border border-[#333338] bg-[#222226]/50 p-4 transition-colors hover:border-[#4a4a52]"
                   >
                     <span className="flex items-center gap-1 text-xs text-neutral-500">
                       <ArrowLeftIcon size={13} /> Previous
@@ -207,7 +207,7 @@ export default async function DocShell({ slug }: { slug: string[] }) {
                 {next ? (
                   <Link
                     href={next.route}
-                    className="group rounded-lg border border-neutral-800 bg-neutral-900/50 p-4 text-right transition-colors hover:border-neutral-700"
+                    className="group rounded-lg border border-[#333338] bg-[#222226]/50 p-4 text-right transition-colors hover:border-[#4a4a52]"
                   >
                     <span className="flex items-center justify-end gap-1 text-xs text-neutral-500">
                       Next <ArrowRightIcon size={13} />
