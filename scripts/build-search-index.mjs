@@ -66,9 +66,11 @@ const docs = listFiles(CONTENT_DIR).map((filePath) => {
     data.title || content.match(/^#\s+(.+)$/m)?.[1]?.trim() ||
     (slug[slug.length - 1] ?? "Home");
   const description = data.description ?? "";
+  const route = slug.length ? `/${slug.join("/")}` : "/";
   return {
+    id: route, // MiniSearch requires a unique `id` field
     slug,
-    path: slug.length ? `/${slug.join("/")}` : "/",
+    path: route,
     title,
     description,
     tags: asStringArray(data.tags),
