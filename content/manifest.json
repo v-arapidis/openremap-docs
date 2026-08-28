@@ -1,0 +1,1549 @@
+[
+  {
+    "slug": [
+      "commands",
+      "analyze",
+      "advanced"
+    ],
+    "filePath": "commands/analyze/advanced.md",
+    "title": "analyze — advanced",
+    "description": "Describe a whole ECU binary — every flag, JSON schema, section order, speed budget.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "analyze"
+    ],
+    "filePath": "commands/analyze/index.md",
+    "title": "analyze",
+    "description": "Describe a whole ECU binary in one pass — identity, VIN, flash layout, maps, code references, coherence, checksums, health verdict.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "audit",
+      "advanced"
+    ],
+    "filePath": "commands/audit/advanced.md",
+    "title": "audit — advanced",
+    "description": "The receipt check — do stock, tuned, and recipe belong together?",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "audit"
+    ],
+    "filePath": "commands/audit/index.md",
+    "title": "audit",
+    "description": "The receipt check — do stock, tuned, and recipe belong together?",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "checksum",
+      "advanced"
+    ],
+    "filePath": "commands/checksum/advanced.md",
+    "title": "checksum — advanced",
+    "description": "Verify known checksum schemes — every flag, output fields, examples.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "checksum"
+    ],
+    "filePath": "commands/checksum/index.md",
+    "title": "checksum",
+    "description": "Verify known checksum schemes — OK/STALE detection, no correction.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "convert",
+      "advanced"
+    ],
+    "filePath": "commands/convert/advanced.md",
+    "title": "convert — advanced",
+    "description": "Normalise ECU binary images — every flag, JSON output, format override, gaps and checksums.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "convert"
+    ],
+    "filePath": "commands/convert/index.md",
+    "title": "convert",
+    "description": "Normalise ECU binary images — real Intel HEX and S-Record files become flat raw binaries.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "cook",
+      "advanced"
+    ],
+    "filePath": "commands/cook/advanced.md",
+    "title": "cook — advanced",
+    "description": "Compare stock vs tuned and save a recipe — every flag, output fields, examples.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "cook"
+    ],
+    "filePath": "commands/cook/index.md",
+    "title": "cook",
+    "description": "Compare a stock and a tuned binary and save the difference as a portable .remap recipe.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "cook-volatile",
+      "advanced"
+    ],
+    "filePath": "commands/cook-volatile/advanced.md",
+    "title": "cook-volatile — advanced",
+    "description": "Cook a car-portable recipe — every flag, the volatile section, evidence tiers, examples.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "cook-volatile"
+    ],
+    "filePath": "commands/cook-volatile/index.md",
+    "title": "cook-volatile",
+    "description": "Cook a car-portable recipe — exclude vehicle-specific bytes (VIN, checksum stores) with recorded evidence.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "diff-maps",
+      "advanced"
+    ],
+    "filePath": "commands/diff-maps/advanced.md",
+    "title": "diff-maps — advanced",
+    "description": "Compare two binaries at map level — every flag, grouping, JSON output.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "diff-maps"
+    ],
+    "filePath": "commands/diff-maps/index.md",
+    "title": "diff-maps",
+    "description": "Compare two binaries at map level — match maps by axis fingerprint and diff cell-by-cell.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "families",
+      "advanced"
+    ],
+    "filePath": "commands/families/advanced.md",
+    "title": "families — advanced",
+    "description": "List supported ECU families — every flag, output fields, examples.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "families"
+    ],
+    "filePath": "commands/families/index.md",
+    "title": "families",
+    "description": "List every supported ECU family with era, file size, and notes.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "health",
+      "advanced"
+    ],
+    "filePath": "commands/health/advanced.md",
+    "title": "health — advanced",
+    "description": "One-shot calibration health check — every flag, JSON gate, examples.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "health"
+    ],
+    "filePath": "commands/health/index.md",
+    "title": "health",
+    "description": "One-shot calibration health check — checksums, axis sanity, map counts, erased blocks, VINs. CI-gateable.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "identify",
+      "advanced"
+    ],
+    "filePath": "commands/identify/advanced.md",
+    "title": "identify — advanced",
+    "description": "Identify an ECU binary — every flag, JSON schema, exit codes, examples.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "identify"
+    ],
+    "filePath": "commands/identify/index.md",
+    "title": "identify",
+    "description": "Identify an ECU binary — manufacturer, family, software version, hardware, calibration ID, and confidence.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands"
+    ],
+    "filePath": "commands/index.md",
+    "title": "`openremap commands`",
+    "description": "Print a compact one-line-per-command cheat-sheet of every available command.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "layout",
+      "advanced"
+    ],
+    "filePath": "commands/layout/advanced.md",
+    "title": "layout — advanced",
+    "description": "Flash-layout block map — every flag, JSON output, examples.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "layout"
+    ],
+    "filePath": "commands/layout/index.md",
+    "title": "layout",
+    "description": "Flash-layout block map — where erased pages, code, calibration, and ident blocks start and end.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "merge",
+      "advanced"
+    ],
+    "filePath": "commands/merge/advanced.md",
+    "title": "merge — advanced",
+    "description": "Combine two recipes against a common stock — every flag, conflicts, examples.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "merge"
+    ],
+    "filePath": "commands/merge/index.md",
+    "title": "merge",
+    "description": "Combine two recipes into one, validated against a common stock binary.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "scan",
+      "advanced"
+    ],
+    "filePath": "commands/scan/advanced.md",
+    "title": "scan — advanced",
+    "description": "Batch-classify a folder — every flag, move/organize, reports, examples.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "scan"
+    ],
+    "filePath": "commands/scan/index.md",
+    "title": "scan",
+    "description": "Batch-classify a folder of ECU binaries — preview, move, or organize into a manufacturer/family tree.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "scan-maps",
+      "advanced"
+    ],
+    "filePath": "commands/scan-maps/advanced.md",
+    "title": "scan-maps — advanced",
+    "description": "Structural map scan — every flag, classify, CSV export, examples.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "scan-maps"
+    ],
+    "filePath": "commands/scan-maps/index.md",
+    "title": "scan-maps",
+    "description": "Structural scan — find calibration map axes and 2D tables without identification.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "scan-vins",
+      "advanced"
+    ],
+    "filePath": "commands/scan-vins/advanced.md",
+    "title": "scan-vins — advanced",
+    "description": "Full reference — every flag, the evidence fields, and the JSON output schema.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "scan-vins"
+    ],
+    "filePath": "commands/scan-vins/index.md",
+    "title": "scan-vins",
+    "description": "Locate VIN candidates in an ECU binary and score them — WMI, check digit, year, mirror counts.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "tune",
+      "advanced"
+    ],
+    "filePath": "commands/tune/advanced.md",
+    "title": "tune — advanced",
+    "description": "Validate → apply → verify — every flag, report, examples.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "tune"
+    ],
+    "filePath": "commands/tune/index.md",
+    "title": "tune",
+    "description": "One-shot — validate before, apply the recipe, verify after. Never writes a partial tune.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "validate",
+      "advanced"
+    ],
+    "filePath": "commands/validate/advanced.md",
+    "title": "validate — advanced",
+    "description": "Validation steps before/check/after — every flag, JSON, exit codes.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "validate"
+    ],
+    "filePath": "commands/validate/index.md",
+    "title": "validate",
+    "description": "Individual validation steps — before (pre-flight), check (diagnostic), after (post-tune confirmation).",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "commands",
+      "workflow"
+    ],
+    "filePath": "commands/workflow.md",
+    "title": "`openremap workflow`",
+    "description": "Print a complete step-by-step guide through the entire tuning workflow — plain English, exact commands to type, and what to look for (or do) when something goes wrong.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "concepts",
+      "architecture"
+    ],
+    "filePath": "concepts/architecture.md",
+    "title": "Architecture Overview",
+    "description": "OpenRemap is a service-oriented toolkit for ECU binary identification, diff-based recipe creation, and guided patching.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "concepts",
+      "confidence"
+    ],
+    "filePath": "concepts/confidence.md",
+    "title": "Confidence Scoring",
+    "description": "Every `openremap identify` result and every `openremap scan` line includes a confidence assessment — a measure of how reliably the system detected and identified the ECU binary, based on detection quality, extracted identity fields, filename heuristics, and map-structure analysis.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "concepts",
+      "decoders"
+    ],
+    "filePath": "concepts/decoders.md",
+    "title": "Decoders",
+    "description": "What the CPU decoders are and how OpenRemap uses them — the code-reference signal, the CPU-detection cascade, and the decoder tag in analyze.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "concepts",
+      "evidence"
+    ],
+    "filePath": "concepts/evidence.md",
+    "title": "Evidence",
+    "description": "How OpenRemap explains its results — detection evidence tags, confidence signals, probabilistic labels, and provenance.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "concepts",
+      "glossary"
+    ],
+    "filePath": "concepts/glossary.md",
+    "title": "Glossary",
+    "description": "A quick-reference glossary of OpenRemap terms — ECU, recipe, map, extractor, checksum, VIN, confidence, decoder, and the rest of the pipeline vocabulary.",
+    "tags": [
+      "concept",
+      "glossary"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "concepts",
+      "how-it-works"
+    ],
+    "filePath": "concepts/how-it-works.md",
+    "title": "How It Works",
+    "description": "The full OpenRemap pipeline — identify, health-check, verify checksums, cook, merge, tune, validate, audit — step by step, with the safety rules.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "concepts"
+    ],
+    "filePath": "concepts/index.md",
+    "title": "Concepts",
+    "description": "The concepts hub — how OpenRemap works, confidence, evidence, the recipe format, architecture, and the deprecated tune format.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "concepts",
+      "orst-format"
+    ],
+    "filePath": "concepts/orst-format.md",
+    "title": "Tune Format (.orst)",
+    "description": "> **⚠ DEPRECATED.** The `.orst` saved-tune format is being phased out. > New work should use the portable [`.remap` recipe format](recipe-format.md) > (schem…",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "concepts",
+      "recipe-format"
+    ],
+    "filePath": "concepts/recipe-format.md",
+    "title": "Recipe Format",
+    "description": "A recipe is a JSON file with the `.remap` extension that captures every byte-level change between an original and a modified ECU binary. It is the central da…",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started",
+      "about"
+    ],
+    "filePath": "getting-started/about.md",
+    "title": "About OpenRemap",
+    "description": "What OpenRemap is, the gap it fills, why it is open source, and what the project aims to be.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started",
+      "cli"
+    ],
+    "filePath": "getting-started/cli.md",
+    "title": "CLI Reference",
+    "description": "The openremap command-line reference — every command with a one-line description, a worked example session, and the deprecated server note.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started"
+    ],
+    "filePath": "getting-started/index.md",
+    "title": "Getting Started",
+    "description": "Start here — what OpenRemap is, who it is for, and the fastest path from install to a working tune analysis.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started",
+      "install",
+      "developers"
+    ],
+    "filePath": "getting-started/install/developers.md",
+    "title": "Developer Setup",
+    "description": "For contributors, extractor authors, and anyone who wants to run OpenRemap from source, modify the code, or run the test suite.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started",
+      "install"
+    ],
+    "filePath": "getting-started/install/index.md",
+    "title": "Installation",
+    "description": "Choose your platform:",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started",
+      "install",
+      "macos-linux"
+    ],
+    "filePath": "getting-started/install/macos-linux.md",
+    "title": "Installing OpenRemap on macOS / Linux",
+    "description": "---",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started",
+      "install",
+      "windows"
+    ],
+    "filePath": "getting-started/install/windows.md",
+    "title": "Installing OpenRemap on Windows",
+    "description": "> Written for people who rarely or never use a terminal.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started",
+      "quickstart"
+    ],
+    "filePath": "getting-started/quickstart.md",
+    "title": "Quick Start",
+    "description": "The five-minute path — install, identify a file, health-check it, cook a tune into a recipe, and apply it.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started",
+      "setup"
+    ],
+    "filePath": "getting-started/setup.md",
+    "title": "Setup",
+    "description": "Install, verify, update, develop, and troubleshoot OpenRemap — with the essential commands for every case.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started",
+      "tui"
+    ],
+    "filePath": "getting-started/tui.md",
+    "title": "Interactive TUI",
+    "description": "> **⚠ Known stale (2026-08-20).** The TUI predates the CLI rework and is > not kept current with newer commands (e.g. `cook-volatile`, `health`, > `checksum`…",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [],
+    "filePath": "index.md",
+    "title": "OpenRemap Documentation",
+    "description": "The wiki home — getting started, concepts, every command (simple + advanced), manufacturers, and internal notes.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "edc1"
+    ],
+    "filePath": "manufacturers/bosch/edc1.md",
+    "title": "EDC1 / EDC2",
+    "description": "Early Bosch diesel ECUs",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "edc15"
+    ],
+    "filePath": "manufacturers/bosch/edc15.md",
+    "title": "EDC15",
+    "description": "The classic 512 KB diesel",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "edc16"
+    ],
+    "filePath": "manufacturers/bosch/edc16.md",
+    "title": "EDC16",
+    "description": "DECAFE magic, PD/CR diesel",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "edc17"
+    ],
+    "filePath": "manufacturers/bosch/edc17.md",
+    "title": "EDC17 / MEDC17 / MED17 / ME17 / MD1",
+    "description": "The dominant modern platform",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "edc3x"
+    ],
+    "filePath": "manufacturers/bosch/edc3x.md",
+    "title": "EDC 3.x",
+    "description": "The diesel bridge generation",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch"
+    ],
+    "filePath": "manufacturers/bosch/index.md",
+    "title": "Bosch",
+    "description": "Supported Bosch ECU families — 18 extractors, 1982 to the present.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "internals"
+    ],
+    "filePath": "manufacturers/bosch/internals.md",
+    "title": "Bosch Extractor Internals",
+    "description": "This document covers detection strategies, OEM-specific format notes, and internal extractor structure.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "lh"
+    ],
+    "filePath": "manufacturers/bosch/lh.md",
+    "title": "LH-Jetronic",
+    "description": "The oldest family in the registry",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "m1x"
+    ],
+    "filePath": "manufacturers/bosch/m1x.md",
+    "title": "M1.x / M1.55 / M1.5.5",
+    "description": "The Motronic petrol foundations",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "m2x"
+    ],
+    "filePath": "manufacturers/bosch/m2x.md",
+    "title": "M2.x",
+    "description": "Motorola-based Motronic",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "m3x"
+    ],
+    "filePath": "manufacturers/bosch/m3x.md",
+    "title": "M3.x / MP3.x / MP7.x",
+    "description": "BMW and PSA petrol",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "m4x"
+    ],
+    "filePath": "manufacturers/bosch/m4x.md",
+    "title": "M4.x",
+    "description": "Volvo petrol",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "m5x"
+    ],
+    "filePath": "manufacturers/bosch/m5x.md",
+    "title": "M5.x / M3.8x",
+    "description": "VAG 1.8T, pre-ME7",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "me155"
+    ],
+    "filePath": "manufacturers/bosch/me155.md",
+    "title": "ME1.5.5",
+    "description": "C167-based Opel/Fiat petrol",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "me7"
+    ],
+    "filePath": "manufacturers/bosch/me7.md",
+    "title": "ME7",
+    "description": "The 1.8T legend — best-checksummed family",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "me9"
+    ],
+    "filePath": "manufacturers/bosch/me9.md",
+    "title": "ME9",
+    "description": "VW/Audi 1.8T 20v full flash",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "med9"
+    ],
+    "filePath": "manufacturers/bosch/med9.md",
+    "title": "MED9",
+    "description": "VAG FSI/TFSI direct injection",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "mono"
+    ],
+    "filePath": "manufacturers/bosch/mono.md",
+    "title": "Mono-Motronic",
+    "description": "Single-point injection",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "motronic-legacy"
+    ],
+    "filePath": "manufacturers/bosch/motronic-legacy.md",
+    "title": "Motronic Legacy",
+    "description": "Pre-M1.x Motorola 6802-era",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "mp9"
+    ],
+    "filePath": "manufacturers/bosch/mp9.md",
+    "title": "MP9",
+    "description": "Single-point MP 9.0",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "delphi"
+    ],
+    "filePath": "manufacturers/delphi/index.md",
+    "title": "Delphi",
+    "description": "Supported Delphi ECU families — Multec diesel and Multec S petrol.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "delphi",
+      "multec"
+    ],
+    "filePath": "manufacturers/delphi/multec.md",
+    "title": "Multec",
+    "description": "Opel/Vauxhall 1.7 DTI diesel",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "delphi",
+      "multec_s"
+    ],
+    "filePath": "manufacturers/delphi/multec_s.md",
+    "title": "Multec S",
+    "description": "Opel/Vauxhall petrol",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "denso",
+      "diesel"
+    ],
+    "filePath": "manufacturers/denso/diesel.md",
+    "title": "EE20 Diesel",
+    "description": "Subaru boxer diesel",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "denso"
+    ],
+    "filePath": "manufacturers/denso/index.md",
+    "title": "Denso",
+    "description": "Supported Denso ECU families — Subaru applications, 2001–2014.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "denso",
+      "sh7055"
+    ],
+    "filePath": "manufacturers/denso/sh7055.md",
+    "title": "SH7055",
+    "description": "16-bit Subaru, 2001–2004",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "denso",
+      "sh7058"
+    ],
+    "filePath": "manufacturers/denso/sh7058.md",
+    "title": "SH7058",
+    "description": "32-bit Subaru, 2004–2007",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "denso",
+      "sh72531"
+    ],
+    "filePath": "manufacturers/denso/sh72531.md",
+    "title": "SH72531",
+    "description": "CAN-era Subaru, 2006–2014",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "hitachi"
+    ],
+    "filePath": "manufacturers/hitachi/index.md",
+    "title": "Hitachi",
+    "description": "Supported Hitachi ECU families — the SH72546 platform, Subaru 2013+.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "hitachi",
+      "sh72546"
+    ],
+    "filePath": "manufacturers/hitachi/sh72546.md",
+    "title": "SH72546",
+    "description": "Hitachi Subaru platform, 2013+",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers"
+    ],
+    "filePath": "manufacturers/index.md",
+    "title": "Supported Manufacturers",
+    "description": "The 6 ECU OEMs OpenRemap identifies — Bosch, Siemens, Delphi, Magneti Marelli, Denso, Hitachi — with per-family references.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "marelli",
+      "iaw_1ap"
+    ],
+    "filePath": "manufacturers/marelli/iaw_1ap.md",
+    "title": "IAW 1AP",
+    "description": "PSA single-point petrol",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "marelli",
+      "iaw_1av"
+    ],
+    "filePath": "manufacturers/marelli/iaw_1av.md",
+    "title": "IAW 1AV",
+    "description": "VAG single-point petrol",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "marelli",
+      "iaw_4lv"
+    ],
+    "filePath": "manufacturers/marelli/iaw_4lv.md",
+    "title": "IAW 4LV",
+    "description": "VAG multi-point petrol, M68K",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "marelli"
+    ],
+    "filePath": "manufacturers/marelli/index.md",
+    "title": "Magneti Marelli",
+    "description": "Supported Magneti Marelli ECU families — IAW 1AV/1AP/4LV and MJD 6JF.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "marelli",
+      "mjd6jf"
+    ],
+    "filePath": "manufacturers/marelli/mjd6jf.md",
+    "title": "MJD 6JF",
+    "description": "GM/Opel 1.3 CDTI diesel",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "siemens",
+      "ems2000"
+    ],
+    "filePath": "manufacturers/siemens/ems2000.md",
+    "title": "EMS2000",
+    "description": "Volvo turbo petrol",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "siemens"
+    ],
+    "filePath": "manufacturers/siemens/index.md",
+    "title": "Siemens",
+    "description": "Supported Siemens ECU families — Simtec 56 through EMS2000, plus the MS43/GS20/SMG2 checksum coverage.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "siemens",
+      "internals"
+    ],
+    "filePath": "manufacturers/siemens/internals.md",
+    "title": "Siemens Extractor Internals",
+    "description": "This document covers detection strategies, binary format details, and internal extractor structure.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "siemens",
+      "ms43"
+    ],
+    "filePath": "manufacturers/siemens/ms43.md",
+    "title": "MS43",
+    "description": "BMW E46 — identity extractor + full checksum coverage.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "siemens",
+      "ppd"
+    ],
+    "filePath": "manufacturers/siemens/ppd.md",
+    "title": "PPD1.x",
+    "description": "VAG 2.0 TDI Pumpe-Düse diesel",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "siemens",
+      "sid801"
+    ],
+    "filePath": "manufacturers/siemens/sid801.md",
+    "title": "SID 801 / SID 801A",
+    "description": "PSA/Ford HDi diesel",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "siemens",
+      "sid803"
+    ],
+    "filePath": "manufacturers/siemens/sid803.md",
+    "title": "SID 803 / SID 803A",
+    "description": "PSA/Ford/JLR diesel",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "siemens",
+      "simos"
+    ],
+    "filePath": "manufacturers/siemens/simos.md",
+    "title": "SIMOS",
+    "description": "VAG petrol — SIMOS, SIMOS2, SIMOS3",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "siemens",
+      "simtec56"
+    ],
+    "filePath": "manufacturers/siemens/simtec56.md",
+    "title": "Simtec 56",
+    "description": "Opel/Vauxhall 128 KB petrol ECUs",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.3.0"
+    ],
+    "filePath": "project/changelog/0.3.0.md",
+    "title": "0.3.0 — 2026-02-14",
+    "description": "Initial public release of the `openremap` core library.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.3.1"
+    ],
+    "filePath": "project/changelog/0.3.1.md",
+    "title": "0.3.1 — 2026-03-27",
+    "description": "Patch release with two main areas of work: extractor correctness for Opel, PSA/Citroën, and Porsche binaries discovered during a corpus audit; and a rework of the CLI commands including two new commands (`commands`, `families`), renamed `validate` sub-commands, and a rebuilt one-shot `tune` workflow.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.4.0"
+    ],
+    "filePath": "project/changelog/0.4.0.md",
+    "title": "0.4.0 — 2026-04-01",
+    "description": "Terminal User Interface, smart entry-point dispatch, scan improvements, new Bosch M4.x / MP9 extractors, and extractor hardening across the board.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.4.1"
+    ],
+    "filePath": "project/changelog/0.4.1.md",
+    "title": "0.4.1 — 2026-04-02",
+    "description": "Siemens, Delphi, and Magneti Marelli manufacturer support; Bosch ME1.5.5; manufacturer-aware confidence scoring; README rewrite; `.remap` recipe extension; T…",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.4.2"
+    ],
+    "filePath": "project/changelog/0.4.2.md",
+    "title": "0.4.2 — 2026-04-03",
+    "description": "EDC16 hardware-number extraction fix, evidence-based detection system, confidence scoring reframed as identification quality, and documentation consistency pass.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.4.3"
+    ],
+    "filePath": "project/changelog/0.4.3.md",
+    "title": "0.4.3 — 2026-04-07",
+    "description": "Flat package layout, Python 3.10 minimum compatibility, README and docs refresh, TUI syntax fix, and test reliability fix.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.4.4"
+    ],
+    "filePath": "project/changelog/0.4.4.md",
+    "title": "0.4.4 — 2026-05-14",
+    "description": "Recipe safety guards, instruction annotation (VIN detection), patcher collision safety, recipe provenance & fingerprinting, and full CLI/TUI surfacing of all new signals.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.5.0"
+    ],
+    "filePath": "project/changelog/0.5.0.md",
+    "title": "0.5.0 — 2026-08-08",
+    "description": "Recipe format 4.3 — schema restructure, creator simplification, and metadata expansion. Breaking changes from 4.2 are limited to the recipe format itself; th…",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.6.0"
+    ],
+    "filePath": "project/changelog/0.6.0.md",
+    "title": "0.6.0 — 2026-08-09",
+    "description": "Rust native extension with PyO3 + maturin, hybrid dispatch, and automated multi-platform wheel publishing.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.6.1"
+    ],
+    "filePath": "project/changelog/0.6.1.md",
+    "title": "0.6.1 — 2026-08-09",
+    "description": "Rust source directory rename and release pipeline fixes.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.6.2"
+    ],
+    "filePath": "project/changelog/0.6.2.md",
+    "title": "0.6.2 — 2026-08-10",
+    "description": "Rust map hunter — `scan_map_axes` and `scan_map_tables` ported to Rust with 26× speedup, plus a new `scan-maps` CLI command for structural calibration map discovery.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.6.3"
+    ],
+    "filePath": "project/changelog/0.6.3.md",
+    "title": "0.6.3 — 2026-08-11",
+    "description": "Shared-axis detection, scoring refinements, speed-based deduplication of the Rust/Python backends, and musl wheels for Alpine Docker.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.6.4"
+    ],
+    "filePath": "project/changelog/0.6.4.md",
+    "title": "0.6.4 — 2026-08-11",
+    "description": "Speed-based backend deduplication — every function lives in exactly one language, chosen by benchmark.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.7.0"
+    ],
+    "filePath": "project/changelog/0.7.0.md",
+    "title": "0.7.0 — 2026-08-23",
+    "description": "Milestone release — see the summary in `CHANGELOG.md`.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.7.1"
+    ],
+    "filePath": "project/changelog/0.7.1.md",
+    "title": "0.7.1 — unreleased",
+    "description": "0.7.x stabilization — diff-maps robustness + layout consumers + ISSUE-2.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.7.2"
+    ],
+    "filePath": "project/changelog/0.7.2.md",
+    "title": "0.7.2 — 2026-08-25",
+    "description": "The full-picture release — unified `analyze` workflow, real Intel HEX / S-Record input, VIN decoding, fuzzy family lookup, faster recipe parsing, and dead-dependency cleanup.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog",
+      "0.7.3"
+    ],
+    "filePath": "project/changelog/0.7.3.md",
+    "title": "0.7.3 — 2026-08-28",
+    "description": "The code-reference release — the first third-party integration of the 0.7.x cycle's second goal: capstone-powered disassembly that turns \"is this table actua…",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "changelog"
+    ],
+    "filePath": "project/changelog/index.md",
+    "title": "Changelog",
+    "description": "The at-a-glance changelog index — every OpenRemap version with its date, summary, and a link to the full per-version notes.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "contributing"
+    ],
+    "filePath": "project/contributing.md",
+    "title": "Contributing to OpenRemap",
+    "description": "First off, thank you for taking the time to contribute.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "disclaimer"
+    ],
+    "filePath": "project/disclaimer.md",
+    "title": "Disclaimer",
+    "description": "OpenRemap is experimental software developed for **research, educational, and development purposes only**.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "license"
+    ],
+    "filePath": "project/license.md",
+    "title": "license",
+    "description": "MIT License",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "project",
+      "third-party"
+    ],
+    "filePath": "project/third-party.md",
+    "title": "Third-party credits & community ground truth",
+    "description": "OpenRemap's checksum and detection knowledge is built on open community work.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  }
+]

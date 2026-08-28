@@ -1,0 +1,31 @@
+---
+title: Changelog
+description: >-
+  The at-a-glance changelog index — every OpenRemap version with its date,
+  summary, and a link to the full per-version notes.
+---
+# Changelog
+
+
+Each version has its own file in [`changelog/`](.) — this page is
+the at-a-glance index.
+
+| Version | Date | Summary | Detail |
+|---|---|---|---|
+| [0.7.3](0.7.3.md) | 2026-08-26 | **Code-reference signal + C166 decoder** — capstone xref signal (presence-only, data-driven load-base), Rust C166/ST10 decoder (ME7/EDC15/EDC16/MS43/PPD/SID/Simtec/EMS2000), MS43 identity extractor, CPU-detection cascade for unknown families, coherence check (identity/checksum/xref agreement), TriCore a0 + C166 DPP resolution — decoder coverage 5 → 15 families | [changelog/0.7.3.md](0.7.3.md) |
+| [0.7.2](0.7.2.md) | 2026-08-25 | `analyze` command (unified full-picture report), real Intel HEX / S-Record input (content-sniffed, `bincopy`), `convert` command, VIN decoding via `vininfo` (scan-vins/health/identify), fuzzy family lookup via `rapidfuzz`, orjson recipe parsing (loads path), dropped unused `pydantic` | [changelog/0.7.2.md](0.7.2.md) |
+| [0.7.1](0.7.1.md) | unreleased | diff-maps robustness (axis-changed near-match, correlation suspicion, unidentified report), layout consumers (calibration-region default + cook region tags), ISSUE-2 same-file-only tier | [changelog/0.7.1.md](0.7.1.md) |
+| [0.7.0](0.7.0.md) | 2026-08-23 | **Milestone** — `cook-volatile` (car-portable recipes, volatile-byte exclusion, schema 4.5), volatile-aware audit, checksum profiles (IronFelix, NefMoto, MS43, GS20/SMG2, Denso), Denso/Hitachi Subaru support, batch map scanning, health report, Rust migrations, domain restructure, docs wiki | [changelog/0.7.0.md](0.7.0.md) |
+| [0.6.4](0.6.4.md) | 2026-08-11 | Rust-only entropy (36–75× faster), CI/CD | [changelog/0.6.4.md](0.6.4.md) |
+| [0.6.3](0.6.3.md) | 2026-08-11 | Shared-axis map detection, scoring & defaults, dual-backend elimination | [changelog/0.6.3.md](0.6.3.md) |
+| [0.6.2](0.6.2.md) | 2026-08-10 | Rust map hunter (scan_map_axes 26×), CLI, scanner improvements | [changelog/0.6.2.md](0.6.2.md) |
+| [0.6.1](0.6.1.md) | 2026-08-09 | `_rust/` → `_rs/` rename | [changelog/0.6.1.md](0.6.1.md) |
+| [0.6.0](0.6.0.md) | 2026-08-09 | PyO3 + maturin build | [changelog/0.6.0.md](0.6.0.md) |
+| [0.5.0](0.5.0.md) | 2026-08-08 | Recipe envelope dropped — top-level `type` / `schema_version` | [changelog/0.5.0.md](0.5.0.md) |
+| [0.4.4](0.4.4.md) | 2026-05-14 | Size-match guard (hard error) | [changelog/0.4.4.md](0.4.4.md) |
+| [0.4.3](0.4.3.md) | 2026-04-07 | Flat package layout | [changelog/0.4.3.md](0.4.3.md) |
+| [0.4.2](0.4.2.md) | 2026-04-03 | Hardware number extraction | [changelog/0.4.2.md](0.4.2.md) |
+| [0.4.1](0.4.1.md) | 2026-04-02 | Siemens extractors (6 families) | [changelog/0.4.1.md](0.4.1.md) |
+| [0.4.0](0.4.0.md) | 2026-04-01 | Full Textual-based terminal UI (seven panels) | [changelog/0.4.0.md](0.4.0.md) |
+| [0.3.1](0.3.1.md) | 2026-03-27 | Full test-suite green after audit fixes | [changelog/0.3.1.md](0.3.1.md) |
+| [0.3.0](0.3.0.md) | 2026-02-14 | ECU binary identifier (`identify_ecu`) + extractor registry | [changelog/0.3.0.md](0.3.0.md) |

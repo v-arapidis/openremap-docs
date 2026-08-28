@@ -1,0 +1,37 @@
+{
+  "name": "openremap-docs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The OpenRemap wiki — a Godot-style, Arch-quality documentation site.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "manifest": "node scripts/build-manifest.mjs",
+    "search": "node scripts/build-search-index.mjs",
+    "images": "node scripts/copy-images.mjs",
+    "backfill": "node scripts/backfill-frontmatter.mjs",
+    "predev": "node scripts/build-search-index.mjs && node scripts/copy-images.mjs && node scripts/build-manifest.mjs",
+    "prebuild": "node scripts/build-search-index.mjs && node scripts/copy-images.mjs && node scripts/build-manifest.mjs"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "minisearch": "^7.1.0",
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remark": "^15.0.1",
+    "remark-gfm": "^4.0.0",
+    "remark-html": "^16.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0"
+  }
+}

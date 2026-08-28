@@ -1,0 +1,34 @@
+# dependencies
+/node_modules
+/.npm-cache
+/.pnp
+.pnp.*
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env files
+.env*.local
+.env
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# generated (search index + image mirror are reproducible from content/)
+/public/search-index.json
+/public/images/*
+!/public/images/.gitkeep

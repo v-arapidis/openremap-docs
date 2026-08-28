@@ -1,0 +1,295 @@
+@import "tailwindcss";
+@source "../**/*.{ts,tsx}";
+
+:root {
+    --color-bg: #0a0a0f;
+    --color-bg-secondary: #12121a;
+    --color-text: #e5e5e5;
+    --color-text-muted: #a3a3a3;
+    --color-accent: #10b981;
+    --color-accent-hover: #34d399;
+    --color-border: #262626;
+    --color-code-bg: #1a1a2e;
+}
+
+html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code,
+kbd,
+pre,
+samp {
+    font-family: "JetBrains Mono", "Fira Code", "Cascadia Code",
+        "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.9em;
+}
+
+/* ── Prose (rendered markdown) ───────────────────────────────────────── */
+
+.prose {
+    max-width: 75ch;
+    color: var(--color-text);
+    line-height: 1.8;
+}
+
+.prose h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #f5f5f5;
+    line-height: 1.2;
+}
+
+.prose h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: #f5f5f5;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.prose h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: #f5f5f5;
+}
+
+.prose h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #d4d4d4;
+}
+
+.prose p {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+}
+
+.prose a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+.prose a:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+}
+
+.prose strong {
+    font-weight: 700;
+    color: #f5f5f5;
+}
+
+.prose ul,
+.prose ol {
+    padding-left: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+}
+
+.prose li {
+    margin-bottom: 0.375rem;
+}
+
+.prose li::marker {
+    color: var(--color-text-muted);
+}
+
+.prose code {
+    background-color: var(--color-code-bg);
+    color: var(--color-accent);
+    padding: 0.15em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    font-weight: 500;
+}
+
+.prose pre {
+    background-color: var(--color-code-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.prose pre code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    font-size: 0.85em;
+    color: #d4d4d8;
+    font-weight: 400;
+}
+
+.prose blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding: 0.5rem 1rem;
+    margin: 0 0 1.25rem 0;
+    background-color: var(--color-code-bg);
+    border-radius: 0 0.375rem 0.375rem 0;
+    color: var(--color-text-muted);
+}
+
+.prose blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+.prose hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 2rem 0;
+}
+
+.prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 0.9em;
+    display: block;
+    overflow-x: auto;
+}
+
+.prose thead th {
+    text-align: left;
+    font-weight: 600;
+    color: #f5f5f5;
+    padding: 0.625rem 0.75rem;
+    border-bottom: 2px solid var(--color-border);
+    background-color: var(--color-bg-secondary);
+    white-space: nowrap;
+}
+
+.prose tbody td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+}
+
+.prose tbody tr:hover {
+    background-color: rgba(16, 185, 129, 0.04);
+}
+
+.prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+/* ── Admonitions (GFM alerts: > [!NOTE] etc.) ────────────────────────── */
+
+.markdown-alert {
+    padding: 0.75rem 1rem;
+    margin: 0 0 1.25rem 0;
+    border-radius: 0.5rem;
+    border: 1px solid;
+    background: rgba(255, 255, 255, 0.02);
+    font-size: 0.95em;
+}
+
+.markdown-alert .markdown-alert-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    margin: 0 0 0.4rem 0;
+}
+
+.markdown-alert .markdown-alert-title svg {
+    flex-shrink: 0;
+}
+
+.markdown-alert > p:last-child {
+    margin-bottom: 0;
+}
+
+.markdown-alert-note {
+    border-color: rgba(59, 130, 246, 0.4);
+    background: rgba(59, 130, 246, 0.08);
+}
+.markdown-alert-note .markdown-alert-title {
+    color: #93c5fd;
+}
+
+.markdown-alert-tip {
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.08);
+}
+.markdown-alert-tip .markdown-alert-title {
+    color: #6ee7b7;
+}
+
+.markdown-alert-important {
+    border-color: rgba(168, 85, 247, 0.4);
+    background: rgba(168, 85, 247, 0.08);
+}
+.markdown-alert-important .markdown-alert-title {
+    color: #d8b4fe;
+}
+
+.markdown-alert-warning {
+    border-color: rgba(245, 158, 11, 0.45);
+    background: rgba(245, 158, 11, 0.08);
+}
+.markdown-alert-warning .markdown-alert-title {
+    color: #fcd34d;
+}
+
+.markdown-alert-caution {
+    border-color: rgba(239, 68, 68, 0.45);
+    background: rgba(239, 68, 68, 0.08);
+}
+.markdown-alert-caution .markdown-alert-title {
+    color: #fca5a5;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #444;
+}
+
+::selection {
+    background-color: rgba(16, 185, 129, 0.3);
+    color: #f5f5f5;
+}
