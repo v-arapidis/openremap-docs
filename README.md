@@ -1,8 +1,8 @@
 # OpenRemap Docs
 
-The OpenRemap wiki — a Godot-style, Arch-quality documentation site for the
-open-source ECU binary toolkit. Lives at **docs.openremap.com** and is the
-source of truth for OpenRemap documentation.
+The OpenRemap wiki — the documentation for the open-source ECU binary toolkit.
+Lives at **docs.openremap.com** and is the source of truth for OpenRemap
+documentation.
 
 > The PR/marketing site (openremap.com) and the engine (openremap-core) live in
 > separate repos. This repo is the **wiki only**.
@@ -25,7 +25,6 @@ All wiki pages are plain Markdown under [`content/`](content/). The folder tree
 - `content/commands/<name>/` — one `index.md` (simple) + `advanced.md` (flags)
 - `content/manufacturers/<oem>/` — per-family pages + `internals.md`
 - `content/project/` — contributing, disclaimer, license, changelog
-- `content/internal/` — repo-only notes (excluded from the site)
 
 ### Frontmatter
 
@@ -87,14 +86,3 @@ npm run manifest   # writes content/manifest.json
 | `npm run search` | `node scripts/build-search-index.mjs` → `public/search-index.json` |
 | `npm run images` | `node scripts/copy-images.mjs` → `public/images/` |
 | `npm run backfill` | add missing title/description frontmatter |
-
-## Deployment
-
-- Host on Vercel (Next.js App Router).
-- Set `CONTENT_BASE` to a raw mirror for the no-redeploy flow (leave unset to
-  build from the local `content/` dir).
-- Set `REVALIDATE_SECRET` and point a GitHub `push` webhook at `/api/revalidate`.
-- `NEXT_PUBLIC_REPO` / `NEXT_PUBLIC_REPO_BRANCH` override the repo used for
-  "Edit on GitHub" and cross-repo links (default `v-arapidis/openremap-docs`).
-- `NEXT_PUBLIC_PROJECT_REPO` overrides the repo the header/footer "GitHub"
-  buttons link to (default `v-arapidis/openremap-core`).

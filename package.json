@@ -2,7 +2,10 @@
   "name": "openremap-docs",
   "version": "1.0.0",
   "private": true,
-  "description": "The OpenRemap wiki — a Godot-style, Arch-quality documentation site.",
+  "description": "The OpenRemap wiki — documentation for the open-source ECU binary toolkit.",
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
