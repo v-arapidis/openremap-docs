@@ -26,7 +26,7 @@ export default function Header() {
             <ExternalLinkIcon size={13} />
           </a>
           <a
-            href={`https://github.com/${siteConfig.repo}`}
+            href={`https://github.com/${siteConfig.projectRepo}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 rounded-md border border-neutral-800 bg-neutral-900/60 px-3 py-1.5 text-sm text-neutral-300 transition-colors hover:border-neutral-600 hover:text-white"

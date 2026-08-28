@@ -20,7 +20,7 @@ export default function Footer() {
             Website
           </a>
           <a
-            href={`https://github.com/${siteConfig.repo}`}
+            href={`https://github.com/${siteConfig.projectRepo}`}
             className="hover:text-emerald-400"
             target="_blank"
             rel="noopener noreferrer"

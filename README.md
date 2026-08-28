@@ -96,3 +96,5 @@ npm run manifest   # writes content/manifest.json
 - Set `REVALIDATE_SECRET` and point a GitHub `push` webhook at `/api/revalidate`.
 - `NEXT_PUBLIC_REPO` / `NEXT_PUBLIC_REPO_BRANCH` override the repo used for
   "Edit on GitHub" and cross-repo links (default `v-arapidis/openremap-docs`).
+- `NEXT_PUBLIC_PROJECT_REPO` overrides the repo the header/footer "GitHub"
+  buttons link to (default `v-arapidis/openremap-core`).

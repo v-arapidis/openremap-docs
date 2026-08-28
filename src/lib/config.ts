@@ -7,9 +7,14 @@ export const siteConfig = {
   domain: "https://docs.openremap.com",
   // Link back to the marketing/PR site.
   websiteUrl: "https://openremap.com",
-  // Source repository (used for "Edit on GitHub" and cross-repo links).
+  // Source repository for the wiki content (used for "Edit on GitHub" and
+  // cross-repo links).
   repo: process.env.NEXT_PUBLIC_REPO ?? "v-arapidis/openremap-docs",
   repoBranch: process.env.NEXT_PUBLIC_REPO_BRANCH ?? "main",
+  // The OpenRemap project repository — what the header/footer "GitHub"
+  // buttons link to.
+  projectRepo:
+    process.env.NEXT_PUBLIC_PROJECT_REPO ?? "v-arapidis/openremap-core",
   // Content source: when set, content is fetched at request time from a live
   // raw mirror (GitHub raw or jsDelivr) instead of the local `content/` dir.
   // This is the "no redeploy" mechanism — content commits go live without a
