@@ -47,7 +47,7 @@ function StatusBanner({ entry }: { entry: DocEntry }) {
 function RelatedArticles({ related }: { related: DocEntry[] }) {
   if (related.length === 0) return null;
   return (
-    <aside className="mt-12 rounded-lg border border-[#333338] bg-[#222226]/40 p-5">
+    <aside className="mt-12 rounded-lg border border-[#3d4145] bg-[#2e3236]/40 p-5">
       <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-500">
         Related articles
       </h2>
@@ -56,9 +56,9 @@ function RelatedArticles({ related }: { related: DocEntry[] }) {
           <li key={r.route}>
             <Link
               href={r.route}
-              className="group flex items-center gap-1.5 text-sm text-neutral-300 transition-colors hover:text-emerald-400"
+              className="group flex items-center gap-1.5 text-sm text-neutral-300 transition-colors hover:text-[#99ddff]"
             >
-              <span className="text-neutral-600 group-hover:text-emerald-400">→</span>
+              <span className="text-neutral-600 group-hover:text-[#99ddff]">→</span>
               {r.title}
             </Link>
           </li>
@@ -70,7 +70,7 @@ function RelatedArticles({ related }: { related: DocEntry[] }) {
 
 function PageFooter({ entry }: { entry: DocEntry }) {
   return (
-    <div className="mt-12 flex items-center justify-between border-t border-[#333338] pt-6 text-sm">
+    <div className="mt-12 flex items-center justify-between border-t border-[#3d4145] pt-6 text-sm">
       <Link
         href={githubUrl("content", entry.filePath)}
         target="_blank"
@@ -83,7 +83,7 @@ function PageFooter({ entry }: { entry: DocEntry }) {
         href={editUrl(`content/${entry.filePath}`)}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 text-neutral-400 transition-colors hover:text-emerald-400"
+        className="inline-flex items-center gap-1.5 text-neutral-400 transition-colors hover:text-[#99ddff]"
       >
         ✎ Edit on GitHub <ExternalLinkIcon size={13} />
       </a>
@@ -120,7 +120,7 @@ export default async function DocShell({ slug }: { slug: string[] }) {
     <div className="mx-auto flex max-w-[1400px]">
       {/* Sidebar */}
       <div className="hidden lg:block">
-        <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
+        <div className="sticky top-16 h-[calc(100vh-4rem)]">
           <Sidebar tree={tree} />
         </div>
       </div>
@@ -134,7 +134,7 @@ export default async function DocShell({ slug }: { slug: string[] }) {
               aria-label="Breadcrumb"
               className="mb-6 flex flex-wrap items-center gap-2 text-sm text-neutral-500"
             >
-              <Link href="/" className="transition-colors hover:text-emerald-400">
+              <Link href="/" className="transition-colors hover:text-[#99ddff]">
                 Home
               </Link>
               {trail.map((item, i) => {
@@ -145,7 +145,7 @@ export default async function DocShell({ slug }: { slug: string[] }) {
                     {item.route && !isLast ? (
                       <Link
                         href={item.route}
-                        className="transition-colors hover:text-emerald-400"
+                        className="transition-colors hover:text-[#99ddff]"
                       >
                         {item.title}
                       </Link>
@@ -163,7 +163,7 @@ export default async function DocShell({ slug }: { slug: string[] }) {
             {advancedEntry && (
               <Link
                 href={advancedEntry.route}
-                className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400 transition-colors hover:bg-emerald-500/20"
+                className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-[#88ccff]/30 bg-[#88ccff]/10 px-3 py-1 text-xs font-medium text-[#88ccff] transition-colors hover:bg-[#88ccff]/20"
               >
                 Advanced reference →
               </Link>
@@ -171,7 +171,7 @@ export default async function DocShell({ slug }: { slug: string[] }) {
             {overviewEntry && (
               <Link
                 href={overviewEntry.route}
-                className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-[#3d3d43] bg-[#26262b]/60 px-3 py-1 text-xs font-medium text-neutral-300 transition-colors hover:border-[#4a4a52] hover:text-white"
+                className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-[#45484d] bg-[#2c3035]/60 px-3 py-1 text-xs font-medium text-neutral-300 transition-colors hover:border-[#565b60] hover:text-white"
               >
                 ← Overview
               </Link>
@@ -192,12 +192,12 @@ export default async function DocShell({ slug }: { slug: string[] }) {
                 {prev ? (
                   <Link
                     href={prev.route}
-                    className="group rounded-lg border border-[#333338] bg-[#222226]/50 p-4 transition-colors hover:border-[#4a4a52]"
+                    className="group rounded-lg border border-[#3d4145] bg-[#2e3236]/50 p-4 transition-colors hover:border-[#565b60]"
                   >
                     <span className="flex items-center gap-1 text-xs text-neutral-500">
                       <ArrowLeftIcon size={13} /> Previous
                     </span>
-                    <span className="mt-1 block text-sm font-medium text-neutral-300 transition-colors group-hover:text-emerald-400">
+                    <span className="mt-1 block text-sm font-medium text-neutral-300 transition-colors group-hover:text-[#99ddff]">
                       {prev.title}
                     </span>
                   </Link>
@@ -207,12 +207,12 @@ export default async function DocShell({ slug }: { slug: string[] }) {
                 {next ? (
                   <Link
                     href={next.route}
-                    className="group rounded-lg border border-[#333338] bg-[#222226]/50 p-4 text-right transition-colors hover:border-[#4a4a52]"
+                    className="group rounded-lg border border-[#3d4145] bg-[#2e3236]/50 p-4 text-right transition-colors hover:border-[#565b60]"
                   >
                     <span className="flex items-center justify-end gap-1 text-xs text-neutral-500">
                       Next <ArrowRightIcon size={13} />
                     </span>
-                    <span className="mt-1 block text-sm font-medium text-neutral-300 transition-colors group-hover:text-emerald-400">
+                    <span className="mt-1 block text-sm font-medium text-neutral-300 transition-colors group-hover:text-[#99ddff]">
                       {next.title}
                     </span>
                   </Link>

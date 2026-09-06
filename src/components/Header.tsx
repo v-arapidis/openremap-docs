@@ -5,12 +5,12 @@ import SearchDialog from "./SearchDialog";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-[#333338] bg-[#1b1b1f]/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-[#3d4145] bg-[#202326]/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2.5">
           <LogoIcon />
           <span className="text-base font-semibold tracking-tight text-neutral-100">
-            OpenRemap<span className="text-emerald-400"> Docs</span>
+            OpenRemap<span className="text-[#88ccff]"> Docs</span>
           </span>
         </Link>
 
@@ -29,7 +29,7 @@ export default function Header() {
             href={`https://github.com/${siteConfig.projectRepo}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-md border border-[#333338] bg-[#222226]/60 px-3 py-1.5 text-sm text-neutral-300 transition-colors hover:border-[#4a4a52] hover:text-white"
+            className="flex items-center gap-2 rounded-md border border-[#3d4145] bg-[#2e3236]/60 px-3 py-1.5 text-sm text-neutral-300 transition-colors hover:border-[#565b60] hover:text-white"
             aria-label="GitHub repository"
           >
             <GitHubIcon size={16} />

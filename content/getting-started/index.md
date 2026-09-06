@@ -24,8 +24,9 @@ alongside your flashing and checksum tools.
 | You are… | Start here |
 |---|---|
 | 🏁 Just trying it out | [Install (2 min)](setup.md) → [Quick start (5 min)](quickstart.md) |
-| 🔧 Tuning a car | [Quick start](quickstart.md) → [identify](../commands/identify/index.md) → [health](../commands/health/index.md) → [cook](../commands/cook/index.md) / [tune](../commands/tune/index.md) |
+| 🔧 Tuning a car | [Quick start](quickstart.md) → [identify](../identify/index.md) → [health](../health/index.md) → [cook](../cook/index.md) / [tune](../tune/index.md) |
 | 💻 Building tools on top | [Developer setup](install/developers.md) → [Architecture](../concepts/architecture.md) → [Contributing](../../CONTRIBUTING.md) |
+| 🧑‍🔧 Automating or calling from code | [CLI, API & RPC](interfaces.md) — the same methods via terminal, Python, or JSON-RPC |
 
 ---
 
@@ -33,20 +34,20 @@ alongside your flashing and checksum tools.
 
 1. **Install** — `uv tool install openremap` ([full setup](setup.md))
 2. **Identify a file** — `openremap identify stock.bin`
-   ([what to look for](../commands/identify/index.md))
+   ([what to look for](../identify/index.md))
 3. **Health-check it** — `openremap health stock.bin`
-   (checksums, axes, map counts, VINs — [details](../commands/health/index.md))
+   (checksums, axes, map counts, VINs — [details](../health/index.md))
 4. **Cook + tune** — follow the [quick start walkthrough](quickstart.md)
    (stock vs tuned → recipe → applied target)
 5. **Fix checksums** — mandatory after any modification
-   ([which schemes OpenRemap verifies](../commands/checksum/index.md))
+   ([which schemes OpenRemap verifies](../checksum/index.md))
 
 ---
 
 ## Command map
 
 Every command supports `--help`. Full references live on each command's
-page (simple + advanced).
+intro / CLI / API pages.
 
 | Command | What it does |
 |---|---|
@@ -84,11 +85,11 @@ page (simple + advanced).
 
 | Manufacturer | Families |
 |---|---|
-| [Bosch](../manufacturers/bosch/index.md) | 18 — EDC1 … MD1, ME7, Motronic, LH-Jetronic |
-| [Siemens](../manufacturers/siemens/index.md) | 6 — Simtec 56 … EMS2000 |
+| [Bosch](../manufacturers/bosch/index.md) | 19 — EDC1 … MD1 (incl. ME7.9.x), ME7, Motronic, LH-Jetronic |
+| [Siemens](../manufacturers/siemens/index.md) | 8 — Simtec 56 … EMS2000, GS20 |
 | [Delphi](../manufacturers/delphi/index.md) | 2 — Multec, Multec S |
 | [Magneti Marelli](../manufacturers/marelli/index.md) | 4 — IAW, MJD |
-| [Denso](../manufacturers/denso/index.md) | 4 — SH7055, SH7058, SH72531, EE20 diesel (Subaru) |
+| [Denso](../manufacturers/denso/index.md) | 4 — 68HC16Y5, SH7055, SH7058, EE20 diesel (Subaru) |
 | [Hitachi](../manufacturers/hitachi/index.md) | 1 — SH72546 (Subaru) |
 
 ---

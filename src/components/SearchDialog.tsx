@@ -139,12 +139,12 @@ export default function SearchDialog() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-2 rounded-md border border-[#333338] bg-[#222226]/60 px-3 py-1.5 text-sm text-neutral-400 transition-colors hover:border-[#4a4a52] hover:text-neutral-200"
+        className="flex items-center gap-2 rounded-md border border-[#3d4145] bg-[#2e3236]/60 px-3 py-1.5 text-sm text-neutral-400 transition-colors hover:border-[#565b60] hover:text-neutral-200"
         aria-label="Search documentation"
       >
         <SearchIcon size={15} />
         <span className="hidden sm:inline">Search</span>
-        <kbd className="hidden rounded border border-[#3d3d43] px-1.5 text-[10px] text-neutral-500 sm:inline">
+        <kbd className="hidden rounded border border-[#45484d] px-1.5 text-[10px] text-neutral-500 sm:inline">
           /
         </kbd>
       </button>
@@ -155,10 +155,10 @@ export default function SearchDialog() {
           onClick={() => setOpen(false)}
         >
           <div
-            className="w-full max-w-xl overflow-hidden rounded-xl border border-[#3d3d43] bg-[#222226] shadow-2xl"
+            className="w-full max-w-xl overflow-hidden rounded-xl border border-[#45484d] bg-[#2e3236] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center gap-3 border-b border-[#333338] px-4 py-3">
+            <div className="flex items-center gap-3 border-b border-[#3d4145] px-4 py-3">
               <SearchIcon size={18} className="text-neutral-500" />
               <input
                 ref={inputRef}
@@ -199,14 +199,14 @@ export default function SearchDialog() {
                   onClick={() => go(r.path)}
                   onMouseEnter={() => setActive(i)}
                   className={`block w-full rounded-lg px-3 py-2.5 text-left transition-colors ${
-                    i === active ? "bg-emerald-500/10" : ""
+                    i === active ? "bg-[#88ccff]/10" : ""
                   }`}
                 >
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-neutral-100">
                       {r.title}
                     </span>
-                    <span className="rounded bg-[#26262b] px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-neutral-500">
+                    <span className="rounded bg-[#2c3035] px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-neutral-500">
                       {r.section}
                     </span>
                   </div>

@@ -21,9 +21,21 @@ OpenRemap ships one decoder per CPU it supports.
 
 | Decoder | CPU | Who makes it | Families it serves |
 |---|---|---|---|
-| **C166** | Infineon C166/ST10 | **our own, in Rust** | ME7 (+variants), ME9, EDC15, EDC16, MS43, PPD1.x, SID801/803, Simtec56, EMS2000 |
-| **TriCore** | Infineon TriCore | capstone (open-source library) | EDC17 / MEDC17 |
-| **SuperH** | Renesas SH-2 / SH-2A | capstone (open-source library) | Denso SH7055/SH7058/SH72531, Hitachi SH72546 |
+| **C166** | Infineon C166/ST10 | **our own, in Rust** | ME7 & ME7.9.x, ME9, EDC15, M5.x, ME1.5.5, MS43, PPD1.x, SID801/803, EMS2000 |
+| **TriCore** | Infineon TriCore | capstone (open-source library) | EDC17/MEDC17/MED17/ME17/MD1 class, EDC16, MED9 |
+| **SuperH** | Renesas SH-2 / SH-2A | capstone (open-source library) | Denso SH7055 / SH7058, Hitachi SH72546 |
+| **MCS-51** | Intel 8051 line | **our own, in Rust** | M2.x, M4.x, MP9, MONO, M1.8, Simtec56, SIMOS |
+| **MCS-96** | Intel 8096 line | **our own, in Rust** | EDC1, EDC3.x |
+| **M680X** | Motorola 68HC11 / 6800 | capstone (open-source library) | M1.x / M1.3 / M1.7, M3.x, MP3/MP7, LH-Jetronic |
+| **68K** | Motorola 68000 / CPU32 | capstone (open-source library) | M1.55, IAW 4LV |
+| **PowerPC** | PowerPC (big-endian) | capstone (open-source library) | MJD 6JF |
+
+The mapping table lives in one place — `core/arch/__init__.py` — and was
+expanded by the 0.7.x architecture census: today **31 of the 38 extractor
+families carry a verified decoder mapping**. The exceptions (no verified
+CPU mapping, so they fall back to the detection cascade below) are GS20,
+Multec / Multec S, IAW 1AV / 1AP, and the Denso 68HC16Y5 + diesel
+families.
 
 Why do we *write* the C166 decoder instead of using a library? Because
 **no open-source disassembler supports C166** — and C166 is the biggest
@@ -77,10 +89,14 @@ The JSON `xrefs` block carries `decoder` ("C166 · Rust decoder") and
 
 ## Coverage & honesty
 
-**15 of 36 extractors** are served by a decoder today (TriCore EDC17 +
-4 SuperH + 10 C166). The C166 decoder is a *focused subset* — instruction
-sizes + memory operands, enough for the signal — not a full disassembler.
-Ghidra is a **dev-machine oracle only**, never a runtime dependency:
-every feature works fully offline with the built-in decoders.
+Detection itself rarely needs a decoder — it is size / magic / string
+based. Decoders power the *code-reference signal* and the CPU-detection
+cascade, and the family→decoder table above (31 of 38 families) is the
+result of a per-family census against the real corpus; it is **not** a
+full disassembler for every CPU. The C166 and MCS-51/MCS-96 decoders are
+focused Rust subsets (instruction sizes + memory operands, enough for the
+signal); capstone covers the rest. Ghidra is a **dev-machine oracle only**,
+never a runtime dependency: every feature works fully offline with the
+built-in decoders.
 
 → [How it works](how-it-works.md) · [Architecture](architecture.md)

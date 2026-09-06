@@ -130,19 +130,27 @@ uv run pytest tests/tuning/manufacturers/test_edc17_extractor.py -v
 ```
 openremap-core/
 ├── openremap/
-│   ├── cli/
-│   │   └── commands/       ← identify.py, scan.py, cook.py, health.py, etc.
+│   ├── api/                   ← programmatic surface: methods + transports
+│   │   ├── commands/          ← atomic methods: identify, scan, checksum, …
+│   │   ├── composite/         ← composed methods: analyze, cook, tune, …
+│   │   ├── workflows/         ← declarative .toml pipelines (identify_cook.toml)
+│   │   └── transport/         ← stdio + JSON-RPC
 │   ├── core/
-│   │   ├── manufacturers/  ← one sub-package per OEM (Bosch, Siemens, …)
+│   │   ├── arch/              ← CPU decoders (c166, …)
+│   │   ├── cli/
+│   │   │   ├── commands/      ← Typer command modules (identify.py, scan.py, …)
+│   │   │   └── main.py        ← CLI entry point
+│   │   ├── manufacturers/     ← one sub-package per OEM (Bosch, Siemens, …)
 │   │   │   └── bosch/
-│   │   │       └── edc17/  ← extractor.py + patterns.py per family
-│   │   └── services/       ← domain folders: identify/, checksums/,
-│   │       │                  maps/, recipes/ (+ entropy.py at root)
+│   │   │       └── edc17/     ← extractor.py + patterns.py per family
+│   │   └── services/          ← domain folders: identify/, checksums/,
+│   │       │                     maps/, recipes/ (+ entropy.py at root)
 │   │       └── …
-│   └── _rs/                ← Rust native extension (mandatory)
-│       └── src/            ← primitives/, identify/, maps/, checksums/, recipes/
-├── tests/                  ← mirrors the package layout
-├── notes/                  ← private dev folder (gitignored — not in the repo)
+│   ├── _rs/                   ← Rust native extension (mandatory)
+│   │   └── src/               ← arch/, primitives/, identify/, maps/, checksums/, recipes/
+│   └── tui/                   ← the terminal UI
+├── tests/                     ← mirrors the package layout
+├── notes/                     ← private dev folder (gitignored — not in the repo)
 ├── pyproject.toml
 └── uv.lock
 ```

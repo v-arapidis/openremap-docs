@@ -46,7 +46,7 @@ Any output produced by this tool — recipes, patched binaries, or identificatio
 
 ## Table of Contents
 
-- [🛡️ Contributor Safety Notice](#️-contributor-safety-notice)
+- [🛡️ Contributor Safety Notice](#contributor-safety-notice)
 - [Ways to Contribute](#ways-to-contribute)
 - [Getting the Project Running Locally](#getting-the-project-running-locally)
 - [The Most Valuable Contribution: Adding a New ECU Extractor](#the-most-valuable-contribution-adding-a-new-ecu-extractor)

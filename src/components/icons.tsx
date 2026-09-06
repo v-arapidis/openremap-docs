@@ -73,8 +73,8 @@ export function GitHubIcon(props: IconProps) {
 export function LogoIcon(props: IconProps) {
   return (
     <svg width={props.size ?? 26} height={props.size ?? 26} viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="3" width="18" height="18" rx="4" fill="#10b981" fillOpacity="0.15" />
-      <path d="M7 8h6M7 12h10M7 16h4" stroke="#10b981" strokeWidth="2" strokeLinecap="round" />
+      <rect x="3" y="3" width="18" height="18" rx="4" fill="#88ccff" fillOpacity="0.15" />
+      <path d="M7 8h6M7 12h10M7 16h4" stroke="#88ccff" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }

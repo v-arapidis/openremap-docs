@@ -1,449 +1,215 @@
 [
   {
     "slug": [
-      "commands",
       "analyze",
-      "advanced"
+      "api"
     ],
-    "filePath": "commands/analyze/advanced.md",
-    "title": "analyze — advanced",
-    "description": "Describe a whole ECU binary — every flag, JSON schema, section order, speed budget.",
-    "tags": [],
+    "filePath": "analyze/api.md",
+    "title": "analyze — API",
+    "description": "The analyze method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "analyze",
+      "api",
+      "rpc"
+    ],
     "related": [],
     "status": "stable"
   },
   {
     "slug": [
-      "commands",
+      "analyze",
+      "cli"
+    ],
+    "filePath": "analyze/cli.md",
+    "title": "analyze — CLI",
+    "description": "The openremap analyze command — every flag, the section order, the JSON report schema, and the speed budget.",
+    "tags": [
+      "analyze",
+      "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
       "analyze"
     ],
-    "filePath": "commands/analyze/index.md",
+    "filePath": "analyze/index.md",
     "title": "analyze",
-    "description": "Describe a whole ECU binary in one pass — identity, VIN, flash layout, maps, code references, coherence, checksums, health verdict.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "audit",
-      "advanced"
+    "description": "One command that tells you everything about an ECU file — identity, layout, maps, checksums, and a health verdict. For beginners first.",
+    "tags": [
+      "analyze",
+      "cli",
+      "api"
     ],
-    "filePath": "commands/audit/advanced.md",
-    "title": "audit — advanced",
-    "description": "The receipt check — do stock, tuned, and recipe belong together?",
-    "tags": [],
     "related": [],
     "status": "stable"
   },
   {
     "slug": [
-      "commands",
-      "audit"
+      "api",
+      "concepts"
     ],
-    "filePath": "commands/audit/index.md",
-    "title": "audit",
-    "description": "The receipt check — do stock, tuned, and recipe belong together?",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "checksum",
-      "advanced"
+    "filePath": "api/concepts.md",
+    "title": "API concepts",
+    "description": "How openremap.api is organised — the method registry, the typed input-schema contract, the three kinds (command / composite / workflow), and the error codes.",
+    "tags": [
+      "api"
     ],
-    "filePath": "commands/checksum/advanced.md",
-    "title": "checksum — advanced",
-    "description": "Verify known checksum schemes — every flag, output fields, examples.",
-    "tags": [],
     "related": [],
     "status": "stable"
   },
   {
     "slug": [
-      "commands",
-      "checksum"
+      "api"
     ],
-    "filePath": "commands/checksum/index.md",
-    "title": "checksum",
-    "description": "Verify known checksum schemes — OK/STALE detection, no correction.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "convert",
-      "advanced"
+    "filePath": "api/index.md",
+    "title": "API",
+    "description": "The openremap.api programmatic surface — what a method is, the three ways to call one (in-process, direct, JSON-RPC), and the pages of this section.",
+    "tags": [
+      "api"
     ],
-    "filePath": "commands/convert/advanced.md",
-    "title": "convert — advanced",
-    "description": "Normalise ECU binary images — every flag, JSON output, format override, gaps and checksums.",
-    "tags": [],
     "related": [],
     "status": "stable"
   },
   {
     "slug": [
-      "commands",
-      "convert"
+      "api",
+      "reference"
     ],
-    "filePath": "commands/convert/index.md",
-    "title": "convert",
-    "description": "Normalise ECU binary images — real Intel HEX and S-Record files become flat raw binaries.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "cook",
-      "advanced"
+    "filePath": "api/reference.md",
+    "title": "API reference",
+    "description": "The complete openremap.api method catalogue — every registered method by kind (command / composite / workflow), its input parameters, and its documentation page.",
+    "tags": [
+      "api",
+      "reference"
     ],
-    "filePath": "commands/cook/advanced.md",
-    "title": "cook — advanced",
-    "description": "Compare stock vs tuned and save a recipe — every flag, output fields, examples.",
-    "tags": [],
     "related": [],
     "status": "stable"
   },
   {
     "slug": [
-      "commands",
-      "cook"
+      "api",
+      "transport"
     ],
-    "filePath": "commands/cook/index.md",
-    "title": "cook",
-    "description": "Compare a stock and a tuned binary and save the difference as a portable .remap recipe.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "cook-volatile",
-      "advanced"
+    "filePath": "api/transport.md",
+    "title": "API transport",
+    "description": "JSON-RPC 2.0 over stdio — the wire protocol, how to run python -m openremap.api.transport.stdio, exact request / response / error lines, and the error mapping.",
+    "tags": [
+      "api",
+      "rpc"
     ],
-    "filePath": "commands/cook-volatile/advanced.md",
-    "title": "cook-volatile — advanced",
-    "description": "Cook a car-portable recipe — every flag, the volatile section, evidence tiers, examples.",
-    "tags": [],
     "related": [],
     "status": "stable"
   },
   {
     "slug": [
-      "commands",
-      "cook-volatile"
+      "api",
+      "workflows"
     ],
-    "filePath": "commands/cook-volatile/index.md",
-    "title": "cook-volatile",
-    "description": "Cook a car-portable recipe — exclude vehicle-specific bytes (VIN, checksum stores) with recorded evidence.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "diff-maps",
-      "advanced"
-    ],
-    "filePath": "commands/diff-maps/advanced.md",
-    "title": "diff-maps — advanced",
-    "description": "Compare two binaries at map level — every flag, grouping, JSON output.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "diff-maps"
-    ],
-    "filePath": "commands/diff-maps/index.md",
-    "title": "diff-maps",
-    "description": "Compare two binaries at map level — match maps by axis fingerprint and diff cell-by-cell.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "families",
-      "advanced"
-    ],
-    "filePath": "commands/families/advanced.md",
-    "title": "families — advanced",
-    "description": "List supported ECU families — every flag, output fields, examples.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "families"
-    ],
-    "filePath": "commands/families/index.md",
-    "title": "families",
-    "description": "List every supported ECU family with era, file size, and notes.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "health",
-      "advanced"
-    ],
-    "filePath": "commands/health/advanced.md",
-    "title": "health — advanced",
-    "description": "One-shot calibration health check — every flag, JSON gate, examples.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "health"
-    ],
-    "filePath": "commands/health/index.md",
-    "title": "health",
-    "description": "One-shot calibration health check — checksums, axis sanity, map counts, erased blocks, VINs. CI-gateable.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "identify",
-      "advanced"
-    ],
-    "filePath": "commands/identify/advanced.md",
-    "title": "identify — advanced",
-    "description": "Identify an ECU binary — every flag, JSON schema, exit codes, examples.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "identify"
-    ],
-    "filePath": "commands/identify/index.md",
-    "title": "identify",
-    "description": "Identify an ECU binary — manufacturer, family, software version, hardware, calibration ID, and confidence.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands"
-    ],
-    "filePath": "commands/index.md",
-    "title": "`openremap commands`",
-    "description": "Print a compact one-line-per-command cheat-sheet of every available command.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "layout",
-      "advanced"
-    ],
-    "filePath": "commands/layout/advanced.md",
-    "title": "layout — advanced",
-    "description": "Flash-layout block map — every flag, JSON output, examples.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "layout"
-    ],
-    "filePath": "commands/layout/index.md",
-    "title": "layout",
-    "description": "Flash-layout block map — where erased pages, code, calibration, and ident blocks start and end.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "merge",
-      "advanced"
-    ],
-    "filePath": "commands/merge/advanced.md",
-    "title": "merge — advanced",
-    "description": "Combine two recipes against a common stock — every flag, conflicts, examples.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "merge"
-    ],
-    "filePath": "commands/merge/index.md",
-    "title": "merge",
-    "description": "Combine two recipes into one, validated against a common stock binary.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "scan",
-      "advanced"
-    ],
-    "filePath": "commands/scan/advanced.md",
-    "title": "scan — advanced",
-    "description": "Batch-classify a folder — every flag, move/organize, reports, examples.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "scan"
-    ],
-    "filePath": "commands/scan/index.md",
-    "title": "scan",
-    "description": "Batch-classify a folder of ECU binaries — preview, move, or organize into a manufacturer/family tree.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "scan-maps",
-      "advanced"
-    ],
-    "filePath": "commands/scan-maps/advanced.md",
-    "title": "scan-maps — advanced",
-    "description": "Structural map scan — every flag, classify, CSV export, examples.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "scan-maps"
-    ],
-    "filePath": "commands/scan-maps/index.md",
-    "title": "scan-maps",
-    "description": "Structural scan — find calibration map axes and 2D tables without identification.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "scan-vins",
-      "advanced"
-    ],
-    "filePath": "commands/scan-vins/advanced.md",
-    "title": "scan-vins — advanced",
-    "description": "Full reference — every flag, the evidence fields, and the JSON output schema.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "scan-vins"
-    ],
-    "filePath": "commands/scan-vins/index.md",
-    "title": "scan-vins",
-    "description": "Locate VIN candidates in an ECU binary and score them — WMI, check digit, year, mirror counts.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "tune",
-      "advanced"
-    ],
-    "filePath": "commands/tune/advanced.md",
-    "title": "tune — advanced",
-    "description": "Validate → apply → verify — every flag, report, examples.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "tune"
-    ],
-    "filePath": "commands/tune/index.md",
-    "title": "tune",
-    "description": "One-shot — validate before, apply the recipe, verify after. Never writes a partial tune.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "validate",
-      "advanced"
-    ],
-    "filePath": "commands/validate/advanced.md",
-    "title": "validate — advanced",
-    "description": "Validation steps before/check/after — every flag, JSON, exit codes.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
-      "validate"
-    ],
-    "filePath": "commands/validate/index.md",
-    "title": "validate",
-    "description": "Individual validation steps — before (pre-flight), check (diagnostic), after (post-tune confirmation).",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "commands",
+    "filePath": "api/workflows.md",
+    "title": "API workflows",
+    "description": "Declarative .toml pipelines in openremap.api — structure, $input / $prev / $as references, the shipped identify_cook example, and how to load your own.",
+    "tags": [
+      "api",
       "workflow"
     ],
-    "filePath": "commands/workflow.md",
-    "title": "`openremap workflow`",
-    "description": "Print a complete step-by-step guide through the entire tuning workflow — plain English, exact commands to type, and what to look for (or do) when something goes wrong.",
-    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "audit",
+      "api"
+    ],
+    "filePath": "audit/api.md",
+    "title": "audit — API",
+    "description": "The audit method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "audit",
+      "api",
+      "rpc",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "audit",
+      "cli"
+    ],
+    "filePath": "audit/cli.md",
+    "title": "audit — CLI",
+    "description": "The openremap audit command — the three-way receipt check; every flag, the three verdicts, example output.",
+    "tags": [
+      "audit",
+      "cli",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "audit"
+    ],
+    "filePath": "audit/index.md",
+    "title": "audit",
+    "description": "The receipt check — do the stock file, the tuned file, and the recipe actually belong together? For beginners first.",
+    "tags": [
+      "audit",
+      "cli",
+      "api",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "checksum",
+      "api"
+    ],
+    "filePath": "checksum/api.md",
+    "title": "checksum — API",
+    "description": "The checksum method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "checksum",
+      "api",
+      "rpc"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "checksum",
+      "cli"
+    ],
+    "filePath": "checksum/cli.md",
+    "title": "checksum — CLI",
+    "description": "The openremap checksum command — every option, the OK/STALE verdicts, family schemes and coverage notes.",
+    "tags": [
+      "checksum",
+      "cli",
+      "safety"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "checksum"
+    ],
+    "filePath": "checksum/index.md",
+    "title": "checksum",
+    "description": "Check whether an ECU file's checksums are still valid — OK or STALE. Detection only, it never fixes them.",
+    "tags": [
+      "checksum",
+      "cli",
+      "safety"
+    ],
     "related": [],
     "status": "stable"
   },
@@ -559,6 +325,196 @@
   },
   {
     "slug": [
+      "convert",
+      "api"
+    ],
+    "filePath": "convert/api.md",
+    "title": "convert — API",
+    "description": "The convert method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "convert",
+      "api",
+      "rpc"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "convert",
+      "cli"
+    ],
+    "filePath": "convert/cli.md",
+    "title": "convert — CLI",
+    "description": "The openremap convert command — format sniffing, flags, JSON summary, exit codes.",
+    "tags": [
+      "convert",
+      "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "convert"
+    ],
+    "filePath": "convert/index.md",
+    "title": "convert",
+    "description": "Turn Intel HEX and S-Record text files into a plain raw binary — the format normaliser. For beginners first.",
+    "tags": [
+      "convert",
+      "cli",
+      "api"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "cook",
+      "api"
+    ],
+    "filePath": "cook/api.md",
+    "title": "cook — API",
+    "description": "The cook method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "cook",
+      "api",
+      "rpc",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "cook",
+      "cli"
+    ],
+    "filePath": "cook/cli.md",
+    "title": "cook — CLI",
+    "description": "The openremap cook command — every flag, the diff it performs, real output, and what to do when cook refuses to build a recipe.",
+    "tags": [
+      "cook",
+      "cli",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "cook"
+    ],
+    "filePath": "cook/index.md",
+    "title": "cook",
+    "description": "Turn a stock and a tuned ECU file into a portable .remap recipe — the tuner's change list, saved once and reusable. For beginners first.",
+    "tags": [
+      "cook",
+      "cli",
+      "api",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "cook-volatile",
+      "api"
+    ],
+    "filePath": "cook-volatile/api.md",
+    "title": "cook-volatile — API",
+    "description": "The cook_volatile method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "cook-volatile",
+      "api",
+      "rpc",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "cook-volatile",
+      "cli"
+    ],
+    "filePath": "cook-volatile/cli.md",
+    "title": "cook-volatile — CLI",
+    "description": "The openremap cook-volatile command — every flag, the volatile recipe section, evidence tiers, and how it differs from cook.",
+    "tags": [
+      "cook-volatile",
+      "cli",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "cook-volatile"
+    ],
+    "filePath": "cook-volatile/index.md",
+    "title": "cook-volatile",
+    "description": "Cook a recipe that works on other cars of the same software — it excludes car-specific bytes (VIN, checksum stores) with recorded evidence. For beginners first.",
+    "tags": [
+      "cook-volatile",
+      "cli",
+      "api",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "diff-maps",
+      "api"
+    ],
+    "filePath": "diff-maps/api.md",
+    "title": "diff-maps — API",
+    "description": "The diff_maps method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "diff-maps",
+      "api",
+      "rpc"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "diff-maps",
+      "cli"
+    ],
+    "filePath": "diff-maps/cli.md",
+    "title": "diff-maps — CLI",
+    "description": "The openremap diff-maps command — every flag, matching pipeline, suspicious flag, recipe cross-reference, JSON output.",
+    "tags": [
+      "diff-maps",
+      "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "diff-maps"
+    ],
+    "filePath": "diff-maps/index.md",
+    "title": "diff-maps",
+    "description": "Compare a stock and a tuned file at the tuning-table level — which maps changed and by how much. For beginners first.",
+    "tags": [
+      "diff-maps",
+      "cli",
+      "api"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
       "getting-started",
       "about"
     ],
@@ -576,8 +532,23 @@
     ],
     "filePath": "getting-started/cli.md",
     "title": "CLI Reference",
-    "description": "The openremap command-line reference — every command with a one-line description, a worked example session, and the deprecated server note.",
+    "description": "The openremap command-line reference — every command with a one-line description, a worked example session, and a note on the legacy server it replaced.",
     "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started",
+      "families"
+    ],
+    "filePath": "getting-started/families.md",
+    "title": "families",
+    "description": "The complete list of ECU families OpenRemap supports — era, file sizes, notes, and detailed info for one family.",
+    "tags": [
+      "families",
+      "cli"
+    ],
     "related": [],
     "status": "stable"
   },
@@ -646,6 +617,22 @@
   {
     "slug": [
       "getting-started",
+      "interfaces"
+    ],
+    "filePath": "getting-started/interfaces.md",
+    "title": "CLI, API & RPC",
+    "description": "The three ways to drive OpenRemap — the terminal CLI, the in-process Python API, and the JSON-RPC protocol over stdio — and when to use which.",
+    "tags": [
+      "cli",
+      "api",
+      "rpc"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "getting-started",
       "quickstart"
     ],
     "filePath": "getting-started/quickstart.md",
@@ -680,11 +667,162 @@
     "status": "stable"
   },
   {
+    "slug": [
+      "getting-started",
+      "workflow"
+    ],
+    "filePath": "getting-started/workflow.md",
+    "title": "`openremap workflow`",
+    "description": "Print a complete step-by-step guide through the entire tuning workflow — plain English, exact commands to type, and what to look for (or do) when something goes wrong.",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "health",
+      "api"
+    ],
+    "filePath": "health/api.md",
+    "title": "health — API",
+    "description": "The health method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "health",
+      "api",
+      "rpc"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "health",
+      "cli"
+    ],
+    "filePath": "health/cli.md",
+    "title": "health — CLI",
+    "description": "The openremap health command — every option, the six checks, JSON output and CI gating.",
+    "tags": [
+      "health",
+      "cli",
+      "safety"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "health"
+    ],
+    "filePath": "health/index.md",
+    "title": "health",
+    "description": "The check-engine light for an ECU file — six safety checks in one go, with a simple healthy / issues verdict.",
+    "tags": [
+      "health",
+      "cli",
+      "safety"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "identify",
+      "api"
+    ],
+    "filePath": "identify/api.md",
+    "title": "identify — API",
+    "description": "The identify method of openremap.api — the input schema, calling it in-process with Python, and calling it over JSON-RPC from any language.",
+    "tags": [
+      "identify",
+      "api",
+      "rpc"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "identify",
+      "cli"
+    ],
+    "filePath": "identify/cli.md",
+    "title": "identify — CLI",
+    "description": "The openremap identify command — every flag, full sample outputs (table, JSON, warnings, VIN), and what each field and confidence signal means.",
+    "tags": [
+      "identify",
+      "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "identify"
+    ],
+    "filePath": "identify/index.md",
+    "title": "identify",
+    "description": "Tell identify what an ECU file is — the maker, the family, the software version inside, and how sure OpenRemap is. For beginners first.",
+    "tags": [
+      "identify",
+      "cli",
+      "api"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
     "slug": [],
     "filePath": "index.md",
     "title": "OpenRemap Documentation",
-    "description": "The wiki home — getting started, concepts, every command (simple + advanced), and manufacturers.",
+    "description": "The wiki home — getting started, concepts, the programmatic API, every command, and manufacturers.",
     "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "layout",
+      "api"
+    ],
+    "filePath": "layout/api.md",
+    "title": "layout — API",
+    "description": "The layout method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "layout",
+      "api",
+      "rpc"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "layout",
+      "cli"
+    ],
+    "filePath": "layout/cli.md",
+    "title": "layout — CLI",
+    "description": "The openremap layout command — flags, region kinds and their signals, JSON output.",
+    "tags": [
+      "layout",
+      "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "layout"
+    ],
+    "filePath": "layout/index.md",
+    "title": "layout",
+    "description": "Show how an ECU file is organised — where the code, calibration area, empty pages and ID blocks are. For beginners first.",
+    "tags": [
+      "layout",
+      "cli",
+      "api"
+    ],
     "related": [],
     "status": "stable"
   },
@@ -760,7 +898,7 @@
     ],
     "filePath": "manufacturers/bosch/index.md",
     "title": "Bosch",
-    "description": "Supported Bosch ECU families — 18 extractors, 1982 to the present.",
+    "description": "Supported Bosch ECU families — 19 extractors, 1982 to the present.",
     "tags": [],
     "related": [],
     "status": "stable"
@@ -798,8 +936,8 @@
       "m1x"
     ],
     "filePath": "manufacturers/bosch/m1x.md",
-    "title": "M1.x / M1.55 / M1.5.5",
-    "description": "The Motronic petrol foundations",
+    "title": "M1.x & M1.55",
+    "description": "The early Motronic petrol foundations — BMW (M1.x) and Alfa Romeo (M1.55)",
     "tags": [],
     "related": [],
     "status": "stable"
@@ -864,7 +1002,7 @@
     ],
     "filePath": "manufacturers/bosch/me155.md",
     "title": "ME1.5.5",
-    "description": "C167-based Opel/Fiat petrol",
+    "description": "C167-based Opel/Vauxhall petrol (512 KB)",
     "tags": [],
     "related": [],
     "status": "stable"
@@ -878,6 +1016,19 @@
     "filePath": "manufacturers/bosch/me7.md",
     "title": "ME7",
     "description": "The 1.8T legend — best-checksummed family",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
+      "bosch",
+      "me79"
+    ],
+    "filePath": "manufacturers/bosch/me79.md",
+    "title": "ME7.9.x",
+    "description": "Bosch ME7.9.10 — Fiat/Alfa/Lancia 1.4 T-Jet and PSA variants (2006+)",
     "tags": [],
     "related": [],
     "status": "stable"
@@ -1001,6 +1152,19 @@
   {
     "slug": [
       "manufacturers",
+      "denso",
+      "hc16y5"
+    ],
+    "filePath": "manufacturers/denso/hc16y5.md",
+    "title": "68HC16Y5",
+    "description": "16-bit Motorola HC16 Subaru, 2001–2004",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
       "denso"
     ],
     "filePath": "manufacturers/denso/index.md",
@@ -1018,7 +1182,7 @@
     ],
     "filePath": "manufacturers/denso/sh7055.md",
     "title": "SH7055",
-    "description": "16-bit Subaru, 2001–2004",
+    "description": "SuperH Subaru, 2004–2007",
     "tags": [],
     "related": [],
     "status": "stable"
@@ -1031,20 +1195,7 @@
     ],
     "filePath": "manufacturers/denso/sh7058.md",
     "title": "SH7058",
-    "description": "32-bit Subaru, 2004–2007",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "manufacturers",
-      "denso",
-      "sh72531"
-    ],
-    "filePath": "manufacturers/denso/sh72531.md",
-    "title": "SH72531",
-    "description": "CAN-era Subaru, 2006–2014",
+    "description": "SuperH CAN Subaru, 2006–2014",
     "tags": [],
     "related": [],
     "status": "stable"
@@ -1165,11 +1316,24 @@
   {
     "slug": [
       "manufacturers",
+      "siemens",
+      "gs20"
+    ],
+    "filePath": "manufacturers/siemens/gs20.md",
+    "title": "GS20",
+    "description": "Siemens GS20 — BMW automatic-gearbox controller (AGS)",
+    "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "manufacturers",
       "siemens"
     ],
     "filePath": "manufacturers/siemens/index.md",
     "title": "Siemens",
-    "description": "Supported Siemens ECU families — Simtec 56 through EMS2000, plus the MS43/GS20/SMG2 checksum coverage.",
+    "description": "Supported Siemens ECU families — Simtec 56 through EMS2000, plus MS43, GS20 and SMG2 checksum coverage.",
     "tags": [],
     "related": [],
     "status": "stable"
@@ -1267,222 +1431,50 @@
   },
   {
     "slug": [
-      "project",
-      "changelog",
-      "0.3.0"
+      "merge",
+      "api"
     ],
-    "filePath": "project/changelog/0.3.0.md",
-    "title": "0.3.0 — 2026-02-14",
-    "description": "Initial public release of the `openremap` core library.",
-    "tags": [],
+    "filePath": "merge/api.md",
+    "title": "merge — API",
+    "description": "The merge method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "merge",
+      "api",
+      "rpc",
+      "recipe"
+    ],
     "related": [],
     "status": "stable"
   },
   {
     "slug": [
-      "project",
-      "changelog",
-      "0.3.1"
+      "merge",
+      "cli"
     ],
-    "filePath": "project/changelog/0.3.1.md",
-    "title": "0.3.1 — 2026-03-27",
-    "description": "Patch release with two main areas of work: extractor correctness for Opel, PSA/Citroën, and Porsche binaries discovered during a corpus audit; and a rework of the CLI commands including two new commands (`commands`, `families`), renamed `validate` sub-commands, and a rebuilt one-shot `tune` workflow.",
-    "tags": [],
+    "filePath": "merge/cli.md",
+    "title": "merge — CLI",
+    "description": "The openremap merge command — every flag, the merge rules, conflicts, strict mode, examples.",
+    "tags": [
+      "merge",
+      "cli",
+      "recipe"
+    ],
     "related": [],
     "status": "stable"
   },
   {
     "slug": [
-      "project",
-      "changelog",
-      "0.4.0"
+      "merge"
     ],
-    "filePath": "project/changelog/0.4.0.md",
-    "title": "0.4.0 — 2026-04-01",
-    "description": "Terminal User Interface, smart entry-point dispatch, scan improvements, new Bosch M4.x / MP9 extractors, and extractor hardening across the board.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.4.1"
+    "filePath": "merge/index.md",
+    "title": "merge",
+    "description": "Combine two recipes (two tuners' changes, two small mods) into one recipe — nothing is guessed, conflicts are shown. For beginners first.",
+    "tags": [
+      "merge",
+      "cli",
+      "api",
+      "recipe"
     ],
-    "filePath": "project/changelog/0.4.1.md",
-    "title": "0.4.1 — 2026-04-02",
-    "description": "Siemens, Delphi, and Magneti Marelli manufacturer support; Bosch ME1.5.5; manufacturer-aware confidence scoring; README rewrite; `.remap` recipe extension; T…",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.4.2"
-    ],
-    "filePath": "project/changelog/0.4.2.md",
-    "title": "0.4.2 — 2026-04-03",
-    "description": "EDC16 hardware-number extraction fix, evidence-based detection system, confidence scoring reframed as identification quality, and documentation consistency pass.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.4.3"
-    ],
-    "filePath": "project/changelog/0.4.3.md",
-    "title": "0.4.3 — 2026-04-07",
-    "description": "Flat package layout, Python 3.10 minimum compatibility, README and docs refresh, TUI syntax fix, and test reliability fix.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.4.4"
-    ],
-    "filePath": "project/changelog/0.4.4.md",
-    "title": "0.4.4 — 2026-05-14",
-    "description": "Recipe safety guards, instruction annotation (VIN detection), patcher collision safety, recipe provenance & fingerprinting, and full CLI/TUI surfacing of all new signals.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.5.0"
-    ],
-    "filePath": "project/changelog/0.5.0.md",
-    "title": "0.5.0 — 2026-08-08",
-    "description": "Recipe format 4.3 — schema restructure, creator simplification, and metadata expansion. Breaking changes from 4.2 are limited to the recipe format itself; th…",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.6.0"
-    ],
-    "filePath": "project/changelog/0.6.0.md",
-    "title": "0.6.0 — 2026-08-09",
-    "description": "Rust native extension with PyO3 + maturin, hybrid dispatch, and automated multi-platform wheel publishing.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.6.1"
-    ],
-    "filePath": "project/changelog/0.6.1.md",
-    "title": "0.6.1 — 2026-08-09",
-    "description": "Rust source directory rename and release pipeline fixes.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.6.2"
-    ],
-    "filePath": "project/changelog/0.6.2.md",
-    "title": "0.6.2 — 2026-08-10",
-    "description": "Rust map hunter — `scan_map_axes` and `scan_map_tables` ported to Rust with 26× speedup, plus a new `scan-maps` CLI command for structural calibration map discovery.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.6.3"
-    ],
-    "filePath": "project/changelog/0.6.3.md",
-    "title": "0.6.3 — 2026-08-11",
-    "description": "Shared-axis detection, scoring refinements, speed-based deduplication of the Rust/Python backends, and musl wheels for Alpine Docker.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.6.4"
-    ],
-    "filePath": "project/changelog/0.6.4.md",
-    "title": "0.6.4 — 2026-08-11",
-    "description": "Speed-based backend deduplication — every function lives in exactly one language, chosen by benchmark.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.7.0"
-    ],
-    "filePath": "project/changelog/0.7.0.md",
-    "title": "0.7.0 — 2026-08-23",
-    "description": "Milestone release — see the summary in `CHANGELOG.md`.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.7.1"
-    ],
-    "filePath": "project/changelog/0.7.1.md",
-    "title": "0.7.1 — unreleased",
-    "description": "0.7.x stabilization — diff-maps robustness + layout consumers + ISSUE-2.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.7.2"
-    ],
-    "filePath": "project/changelog/0.7.2.md",
-    "title": "0.7.2 — 2026-08-25",
-    "description": "The full-picture release — unified `analyze` workflow, real Intel HEX / S-Record input, VIN decoding, fuzzy family lookup, faster recipe parsing, and dead-dependency cleanup.",
-    "tags": [],
-    "related": [],
-    "status": "stable"
-  },
-  {
-    "slug": [
-      "project",
-      "changelog",
-      "0.7.3"
-    ],
-    "filePath": "project/changelog/0.7.3.md",
-    "title": "0.7.3 — 2026-08-28",
-    "description": "The code-reference release — the first third-party integration of the 0.7.x cycle's second goal: capstone-powered disassembly that turns \"is this table actua…",
-    "tags": [],
     "related": [],
     "status": "stable"
   },
@@ -1492,8 +1484,8 @@
       "changelog"
     ],
     "filePath": "project/changelog/index.md",
-    "title": "Changelog",
-    "description": "The at-a-glance changelog index — every OpenRemap version with its date, summary, and a link to the full per-version notes.",
+    "title": "Release notes",
+    "description": "What's new in recent OpenRemap releases, in user terms, with links to the docs that explain each feature — the full history lives on GitHub.",
     "tags": [],
     "related": [],
     "status": "stable"
@@ -1543,6 +1535,286 @@
     "title": "Third-party credits & community ground truth",
     "description": "OpenRemap's checksum and detection knowledge is built on open community work.",
     "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "routine",
+      "api"
+    ],
+    "filePath": "routine/api.md",
+    "title": "routine — API",
+    "description": "The routine method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "routine",
+      "api",
+      "rpc"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "routine",
+      "cli"
+    ],
+    "filePath": "routine/cli.md",
+    "title": "routine — CLI",
+    "description": "The openremap routine command — decoders, offset syntax, flags, output format.",
+    "tags": [
+      "routine",
+      "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "routine"
+    ],
+    "filePath": "routine/index.md",
+    "title": "routine",
+    "description": "Read the code around a file offset as readable one-line pseudo-code — a quick look inside the ECU's program. For beginners first.",
+    "tags": [
+      "routine",
+      "cli",
+      "api"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "scan",
+      "api"
+    ],
+    "filePath": "scan/api.md",
+    "title": "scan — API",
+    "description": "The scan method of openremap.api — input schema, in-process call, JSON-RPC, error codes. The API classifies; it never moves files.",
+    "tags": [
+      "scan",
+      "api",
+      "rpc"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "scan",
+      "cli"
+    ],
+    "filePath": "scan/cli.md",
+    "title": "scan — CLI",
+    "description": "The openremap scan command — every option, the five outcomes, move/organize modes, reports and examples.",
+    "tags": [
+      "scan",
+      "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "scan"
+    ],
+    "filePath": "scan/index.md",
+    "title": "scan",
+    "description": "Sort a whole folder of ECU files in one go — preview first, then move each file into the right group.",
+    "tags": [
+      "scan",
+      "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "scan-maps",
+      "api"
+    ],
+    "filePath": "scan-maps/api.md",
+    "title": "scan-maps — API",
+    "description": "The scan_maps methods of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "scan-maps",
+      "api",
+      "rpc"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "scan-maps",
+      "cli"
+    ],
+    "filePath": "scan-maps/cli.md",
+    "title": "scan-maps — CLI",
+    "description": "The openremap scan-maps command — every flag, regions, classify, code references, CSV export, batch mode, JSON output.",
+    "tags": [
+      "scan-maps",
+      "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "scan-maps"
+    ],
+    "filePath": "scan-maps/index.md",
+    "title": "scan-maps",
+    "description": "Find the tuning tables (maps) inside an ECU file — no need to know the ECU family first. For beginners first.",
+    "tags": [
+      "scan-maps",
+      "cli",
+      "api"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "scan-vins",
+      "api"
+    ],
+    "filePath": "scan-vins/api.md",
+    "title": "scan-vins — API",
+    "description": "The scan_vins method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "scan-vins",
+      "api",
+      "rpc"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "scan-vins",
+      "cli"
+    ],
+    "filePath": "scan-vins/cli.md",
+    "title": "scan-vins — CLI",
+    "description": "The openremap scan-vins command — every option, how candidates are scored, and the JSON output schema.",
+    "tags": [
+      "scan-vins",
+      "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "scan-vins"
+    ],
+    "filePath": "scan-vins/index.md",
+    "title": "scan-vins",
+    "description": "Find car ID numbers (VINs) inside an ECU file, and score how believable each one is.",
+    "tags": [
+      "scan-vins",
+      "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "tune",
+      "api"
+    ],
+    "filePath": "tune/api.md",
+    "title": "tune — API",
+    "description": "The tune method of openremap.api — input schema, in-process call, JSON-RPC, error codes.",
+    "tags": [
+      "tune",
+      "api",
+      "rpc",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "tune",
+      "cli"
+    ],
+    "filePath": "tune/cli.md",
+    "title": "tune — CLI",
+    "description": "The openremap tune command — validate → apply → verify in one shot; every flag, full output, same-file-only guard, examples.",
+    "tags": [
+      "tune",
+      "cli",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "tune"
+    ],
+    "filePath": "tune/index.md",
+    "title": "tune",
+    "description": "Apply a recipe to a file the safe way — check before, apply, verify after — in one command. A partial tune is never written. For beginners first.",
+    "tags": [
+      "tune",
+      "cli",
+      "api",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "validate",
+      "api"
+    ],
+    "filePath": "validate/api.md",
+    "title": "validate — API",
+    "description": "The validate_before, validate_check and validate_after methods of openremap.api — input schemas, in-process calls, JSON-RPC, error codes.",
+    "tags": [
+      "validate",
+      "api",
+      "rpc",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "validate",
+      "cli"
+    ],
+    "filePath": "validate/cli.md",
+    "title": "validate — CLI",
+    "description": "The openremap validate sub-commands — before, check, after — every flag, JSON output, verdicts, deprecated aliases.",
+    "tags": [
+      "validate",
+      "cli",
+      "recipe"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "validate"
+    ],
+    "filePath": "validate/index.md",
+    "title": "validate",
+    "description": "Check a recipe against a file yourself — before tuning, diagnose a failure, or confirm after. The three safety steps, run individually. For beginners first.",
+    "tags": [
+      "validate",
+      "cli",
+      "api",
+      "recipe"
+    ],
     "related": [],
     "status": "stable"
   }

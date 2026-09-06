@@ -1,6 +1,6 @@
 ---
 title: OpenRemap Documentation
-description: The wiki home — getting started, concepts, every command (simple + advanced), and manufacturers.
+description: The wiki home — getting started, concepts, the programmatic API, every command, and manufacturers.
 ---
 
 # OpenRemap Documentation
@@ -34,20 +34,33 @@ then follow the [five-minute path](getting-started/quickstart.md).
 | [Architecture](concepts/architecture.md) | How the pieces connect — domains, extractor registry, Rust core |
 | [Tune format (.orst)](concepts/orst-format.md) | Deprecated — kept for reference |
 
+## API
+
+| Document | Description |
+|---|---|
+| [API — the programmatic surface](api/index.md) | What `openremap.api` is, the three ways to call a method, and the pages of this section |
+| [API concepts](api/concepts.md) | The method registry, input schemas, the three kinds, error codes |
+| [Workflows](api/workflows.md) | Declarative `.toml` pipelines that chain methods |
+| [Transport (JSON-RPC)](api/transport.md) | The wire protocol over stdio — call the API from any language |
+| [Reference](api/reference.md) | The complete method catalogue |
+
 ## Commands
 
-Every command has a **simple** page and an **advanced** reference. See the
-[commands overview](commands/index.md) for the full table.
+Every command has a plain-English **intro**, a **CLI** reference and an
+**API** page — each at its own top-level page (`identify`, `cook`,
+`tune`, …). For the full list see the
+[CLI reference](getting-started/cli.md); new to the three surfaces? See
+[CLI, API & RPC](getting-started/interfaces.md).
 
 ## Manufacturers
 
 | Manufacturer | Families | Internals |
 |---|---|---|
-| [Bosch](manufacturers/bosch/index.md) | 18 extractors — EDC1 through MD1, per-family pages | [Bosch internals](manufacturers/bosch/internals.md) |
-| [Siemens](manufacturers/siemens/index.md) | 7 families — Simtec 56, SIMOS, PPD, SID801/803, EMS2000, MS43 | [Siemens internals](manufacturers/siemens/internals.md) |
+| [Bosch](manufacturers/bosch/index.md) | 19 extractors — EDC1 through MD1 (incl. ME7.9.x), per-family pages | [Bosch internals](manufacturers/bosch/internals.md) |
+| [Siemens](manufacturers/siemens/index.md) | 8 families — Simtec 56, SIMOS, PPD, SID801/803, EMS2000, MS43, GS20 | [Siemens internals](manufacturers/siemens/internals.md) |
 | [Delphi](manufacturers/delphi/index.md) | 2 families — Multec, Multec S | |
 | [Magneti Marelli](manufacturers/marelli/index.md) | 4 families — IAW 1AV/1AP/4LV, MJD 6JF | |
-| [Denso](manufacturers/denso/index.md) | 4 families — SH7055, SH7058, SH72531, EE20 diesel | Subaru applications |
+| [Denso](manufacturers/denso/index.md) | 4 families — 68HC16Y5, SH7055, SH7058, EE20 diesel | Subaru applications |
 | [Hitachi](manufacturers/hitachi/index.md) | 1 family — SH72546 | Subaru applications |
 
 ## Project
@@ -55,7 +68,7 @@ Every command has a **simple** page and an **advanced** reference. See the
 | Document | Description |
 |---|---|
 | [Contributing](../CONTRIBUTING.md) | How to add an extractor, code style, PR process |
-| [Changelog](../CHANGELOG.md) | Version history |
+| [Release notes](../CHANGELOG.md) | What's new in recent versions — full history on GitHub |
 | [Disclaimer](../DISCLAIMER.md) | Legal, safety, and intended use |
 | [Third-party credits](../THIRD_PARTY.md) | Community projects and ground truth behind the checksums |
 | [License](../LICENSE) | MIT License |

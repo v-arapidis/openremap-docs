@@ -282,7 +282,7 @@ An array of patch instructions. Each instruction describes one contiguous block 
 | `ctx_unique` | `boolean \| null` | `true` when the `ctx + ob` pattern is unique in the original binary |
 | `ctx_expanded` | `boolean \| null` | `true` when the context was auto-expanded beyond `min_context_size` |
 | `description` | `string` | Human-readable summary of the instruction |
-| `region` | `string \| null` | *Optional.* Flash-layout region the edit lands in: `calibration` / `code` / `erased` / `mixed` / `unknown` (structural estimate — advisory only, never filters or blocks; see [cook → region tags](../commands/cook/advanced.md)) |
+| `region` | `string \| null` | *Optional.* Flash-layout region the edit lands in: `calibration` / `code` / `erased` / `mixed` / `unknown` (structural estimate — advisory only, never filters or blocks; see [cook → region tags](../cook/cli.md)) |
 | `flags` | `array` | Annotator flags attached to this instruction |
 
 ### Instruction flags
@@ -359,10 +359,10 @@ The anchor search works as follows:
 
 ## See also
 
-- [Cook command](../commands/cook/index.md) — how to create a recipe from two binaries
-- [Cook-volatile command](../commands/cook-volatile/index.md) — car-portable recipes with volatile-byte exclusion (schema 4.5)
-- [Tune command](../commands/tune/index.md) — one-shot validate → apply → verify
-- [Validate command](../commands/validate/index.md) — individual validation steps
+- [Cook command](../cook/index.md) — how to create a recipe from two binaries
+- [Cook-volatile command](../cook-volatile/index.md) — car-portable recipes with volatile-byte exclusion (schema 4.5)
+- [Tune command](../tune/index.md) — one-shot validate → apply → verify
+- [Validate command](../validate/index.md) — individual validation steps
 - [About OpenRemap](../getting-started/about.md) — project overview and use cases
 
 ---
@@ -477,4 +477,4 @@ With `--no-exclude` nothing is removed: all findings are recorded with
 `action: "flagged"` and `summary.excluded_count` is 0.  Metadata flags:
 `metadata.source = "cook_volatile"`, `metadata.excluded_volatile =
 true|false`, `metadata.volatile` mirrors the summary.  See
-[`cook-volatile`](../commands/cook-volatile/index.md).
+[`cook-volatile`](../cook-volatile/index.md).

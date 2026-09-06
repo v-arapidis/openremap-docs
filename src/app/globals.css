@@ -2,14 +2,14 @@
 @source "../**/*.{ts,tsx}";
 
 :root {
-    --color-bg: #1b1b1f;
-    --color-bg-secondary: #222226;
-    --color-text: #e6e6e6;
-    --color-text-muted: #a8a8ad;
-    --color-accent: #10b981;
-    --color-accent-hover: #34d399;
-    --color-border: #333338;
-    --color-code-bg: #26262b;
+    --color-bg: #202326;
+    --color-bg-secondary: #2e3236;
+    --color-text: #dadadc;
+    --color-text-muted: #9aa0a6;
+    --color-accent: #88ccff;
+    --color-accent-hover: #99ddff;
+    --color-border: #3d4145;
+    --color-code-bg: #22252d;
 }
 
 html {
@@ -123,7 +123,7 @@ samp {
 
 .prose code {
     background-color: var(--color-code-bg);
-    color: var(--color-accent);
+    color: #f0b6b0;
     padding: 0.15em 0.4em;
     border-radius: 0.25rem;
     font-size: 0.875em;
@@ -196,7 +196,7 @@ samp {
 }
 
 .prose tbody tr:hover {
-    background-color: rgba(16, 185, 129, 0.04);
+    background-color: rgba(136, 204, 255, 0.05);
 }
 
 .prose img {
@@ -282,14 +282,14 @@ samp {
     background: var(--color-bg);
 }
 ::-webkit-scrollbar-thumb {
-    background: #333;
+    background: #3a3e42;
     border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #444;
+    background: #4a4e53;
 }
 
 ::selection {
-    background-color: rgba(16, 185, 129, 0.3);
+    background-color: rgba(136, 204, 255, 0.3);
     color: #f5f5f5;
 }

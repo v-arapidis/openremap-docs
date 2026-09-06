@@ -1,6 +1,6 @@
 ---
 title: CLI Reference
-description: The openremap command-line reference — every command with a one-line description, a worked example session, and the deprecated server note.
+description: The openremap command-line reference — every command with a one-line description, a worked example session, and a note on the legacy server it replaced.
 ---
 
 # CLI Reference
@@ -23,30 +23,34 @@ anywhere. ([Install](setup.md))
 ## Commands
 
 Every command supports `--help` for a quick reminder of its arguments and
-options. Each command has its own page: a *simple* introduction plus an
-*advanced* reference with every flag and example.
+options. Each command has a plain-English **intro** page, a **CLI**
+reference with every flag and example, and (for programmatic use) an
+**API** page.
 
 | Command | What it does | Reference |
 |---|---|---|
-| `commands` | Compact cheat-sheet — all commands at a glance | [→ commands](../commands/index.md) |
-| `workflow` | Step-by-step guide — start here if you are new | [→ workflow](../commands/workflow.md) |
-| `families` | List every supported ECU family with era, size, and notes | [→ families](../commands/families/index.md) |
-| `identify` | Read an ECU binary and print everything extracted from it | [→ identify](../commands/identify/index.md) |
-| `health` | One-shot calibration health check — CI-gateable | [→ health](../commands/health/index.md) |
-| `checksum` | Verify known checksum schemes (OK/STALE, no correction) | [→ checksum](../commands/checksum/index.md) |
-| `scan` | Classify a folder of ECU files by manufacturer and family | [→ scan](../commands/scan/index.md) |
-| `scan-vins` | Locate VIN candidates and score them | [→ scan-vins](../commands/scan-vins/index.md) |
-| `layout` | Flash-layout block map — erased/code/calibration/ident regions | [→ layout](../commands/layout/index.md) |
-| `scan-maps` | Structural scan — find calibration map axes and 2D tables | [→ scan-maps](../commands/scan-maps/index.md) |
-| `diff-maps` | Compare two binaries at map level — match by axis fingerprint | [→ diff-maps](../commands/diff-maps/index.md) |
-| `cook` | Compare a stock and a tuned binary and save the difference as a recipe | [→ cook](../commands/cook/index.md) |
-| `cook-volatile` | Car-portable recipe — excludes volatile bytes (VIN, checksum stores) with evidence | [→ cook-volatile](../commands/cook-volatile/index.md) |
-| `merge` | Combine two recipes into one, validated against a common stock | [→ merge](../commands/merge/index.md) |
-| `tune` | **One-shot:** validate before → apply → validate after | [→ tune](../commands/tune/index.md) |
-| `validate before` | Pre-flight check — run before tuning (or use `tune`) | [→ validate](../commands/validate/index.md) |
-| `validate check` | Diagnostic — run when `validate before` fails | [→ validate](../commands/validate/index.md) |
-| `validate after` | Post-tune confirmation — run after tuning (or use `tune`) | [→ validate](../commands/validate/index.md) |
-| `audit` | The receipt check — do stock, tuned, and recipe belong together? | [→ audit](../commands/audit/index.md) |
+| `commands` | Compact cheat-sheet — all commands at a glance | [→ this reference](cli.md#commands) |
+| `workflow` | Step-by-step guide — start here if you are new | [→ workflow](workflow.md) |
+| `families` | List every supported ECU family with era, size, and notes | [→ families](families.md) |
+| `identify` | Read an ECU binary and print everything extracted from it | [→ identify](../identify/index.md) |
+| `analyze` | Describe a whole binary — identity, VIN, layout, maps, checksums, health | [→ analyze](../analyze/index.md) |
+| `convert` | Normalise HEX / S-Record images to flat bytes | [→ convert](../convert/index.md) |
+| `health` | One-shot calibration health check — CI-gateable | [→ health](../health/index.md) |
+| `checksum` | Verify known checksum schemes (OK/STALE, no correction) | [→ checksum](../checksum/index.md) |
+| `scan` | Classify a folder of ECU files by manufacturer and family | [→ scan](../scan/index.md) |
+| `scan-vins` | Locate VIN candidates and score them | [→ scan-vins](../scan-vins/index.md) |
+| `layout` | Flash-layout block map — erased/code/calibration/ident regions | [→ layout](../layout/index.md) |
+| `scan-maps` | Structural scan — find calibration map axes and 2D tables | [→ scan-maps](../scan-maps/index.md) |
+| `diff-maps` | Compare two binaries at map level — match by axis fingerprint | [→ diff-maps](../diff-maps/index.md) |
+| `routine` | Read a code routine as readable pseudo-code | [→ routine](../routine/index.md) |
+| `cook` | Compare a stock and a tuned binary and save the difference as a recipe | [→ cook](../cook/index.md) |
+| `cook-volatile` | Car-portable recipe — excludes volatile bytes (VIN, checksum stores) with evidence | [→ cook-volatile](../cook-volatile/index.md) |
+| `merge` | Combine two recipes into one, validated against a common stock | [→ merge](../merge/index.md) |
+| `tune` | **One-shot:** validate before → apply → validate after | [→ tune](../tune/index.md) |
+| `validate before` | Pre-flight check — run before tuning (or use `tune`) | [→ validate](../validate/index.md) |
+| `validate check` | Diagnostic — run when `validate before` fails | [→ validate](../validate/index.md) |
+| `validate after` | Post-tune confirmation — run after tuning (or use `tune`) | [→ validate](../validate/index.md) |
+| `audit` | The receipt check — do stock, tuned, and recipe belong together? | [→ audit](../audit/index.md) |
 
 > **`validate strict` / `validate exists` / `validate tuned`** are
 > deprecated aliases for `validate before` / `validate check` /
@@ -111,33 +115,31 @@ openremap validate check target.bin recipe.remap
 
 ---
 
-## Deprecated: `openremap-server`
+## The old `openremap-server` daemon (replaced)
 
-> **⚠ DEPRECATED — do not build new integrations on this.**
-> `openremap-server` will be replaced by a new API when the time comes.
-> Existing users: it keeps working for now, but expect it to change.
-> The full protocol reference has moved to the internal documentation.
+> **⚠ Historical — do not build new integrations on this.** The legacy
+> `openremap-server` daemon has been **replaced** by the new API transport,
+> and its module (`openremap/server.py`) no longer exists in the package.
 
-`openremap-server` starts a long-running JSON-RPC daemon that non-Python
-applications (desktop editors, IDE plugins, automation tools written in
-Rust, Go, C++, Electron, etc.) can use to call the openremap pipeline
-without cold-starting a Python interpreter on every request.
+`openremap-server` used to start a long-running JSON-RPC daemon that
+non-Python applications (desktop editors, IDE plugins, automation tools
+written in Rust, Go, C++, Electron, etc.) could use to call the openremap
+pipeline without cold-starting a Python interpreter on every request.
 
-```bash
-# Start the server — reads requests from stdin, writes responses to stdout
-openremap-server
+The replacement is the [API transport](../api/transport.md): the same
+JSON-RPC calls, served one request per line over stdin/stdout. See
+[API — the programmatic surface](../api/index.md) and the
+[method reference](../api/reference.md) for what you can call today.
 
-# Equivalent
-python -m openremap.server
+Two things to know if you are porting an old client:
 
-# Quick smoke-test
-echo '{"id":1,"method":"ping","params":{}}' | openremap-server
-# → {"id": 1, "result": {"ok": true}}
-```
-
-The server stays alive until stdin is closed or the process is terminated.
-Pipeline operations: `ping`, `version`, `identify`, `cook`, `tune`,
-`validate`, `scan_maps`, and `scan`.
+- `python -m openremap.server` no longer exists — run
+  `python -m openremap.api.transport.stdio` instead. It stays alive until
+  stdin is closed, exactly like the old daemon.
+- The legacy daemon returned bare error *strings*; the new transport returns
+  JSON-RPC error **objects** — `{"id": <id>, "error": {"code": <int>,
+  "message": "<str>"}}` — so clients can branch on the code instead of
+  parsing prose.
 
 ---
 

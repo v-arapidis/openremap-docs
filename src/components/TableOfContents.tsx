@@ -59,7 +59,7 @@ export default function TableOfContents({
         <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-500">
           On this page
         </h4>
-        <ul className="space-y-1 border-l border-[#333338]">
+        <ul className="space-y-1 border-l border-[#3d4145]">
           {headings.map((h) => (
             <li key={h.id}>
               <a
@@ -68,7 +68,7 @@ export default function TableOfContents({
                   h.level === 3 ? "pl-6" : "pl-3"
                 } ${
                   activeId === h.id
-                    ? "border-emerald-500 text-emerald-400"
+                    ? "border-[#88ccff] text-[#88ccff]"
                     : "border-transparent text-neutral-500 hover:text-neutral-300"
                 }`}
               >

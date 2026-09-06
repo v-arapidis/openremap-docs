@@ -19,6 +19,6 @@ and the one with the **deepest checksum coverage**.
 
 ZZ ident block at 0x10000 + variant string. **Checksums:** the reference
 family — main, multipoint, rolling, multirange, plus the IronFelix ME7.XX
-profiles (subtypes 1/2/3/5/6). See [Checksums command docs](../../commands/checksum/advanced.md).
+profiles (subtypes 1/2/3/5/6). See [Checksums command docs](../../checksum/cli.md).
 
 → [Back to Bosch](index.md)

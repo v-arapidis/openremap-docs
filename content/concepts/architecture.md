@@ -14,13 +14,16 @@ OpenRemap is a service-oriented toolkit for ECU binary identification, diff-base
 
 | Entry point | Command / package | What it provides |
 |---|---|---|
-| **CLI** | `openremap` — Typer app in `cli/main.py` | 10 commands (`identify`, `scan`, `cook`, `tune`, `validate`, `families`, `workflow`, `commands`, `scan-maps`, `diff-maps`) |
-| **TUI** | `openremap-tui` — Textual app in `tui/app.py` | interactive panels covering the same operations |
-| **Server** | JSON-RPC NDJSON daemon in `openremap/server.py` | line-oriented JSON-RPC over stdin/stdout (no HTTP) |
+| **CLI** | `openremap` — Typer app in `openremap/core/cli/` | ~20 commands (`identify`, `analyze`, `cook`, `cook-volatile`, `tune`, `validate`, `scan-maps`, `diff-maps`, `routine`, …) |
+| **TUI** | `openremap` with no arguments — Textual app in `openremap/tui/` | interactive terminal panels over the same operations |
+| **API (JSON-RPC)** | `python -m openremap.api.transport.stdio` | line-oriented JSON-RPC over stdin/stdout (no HTTP) — see [API — transport](../api/transport.md) |
 
-All three entry points call the same service layer — the CLI is a thin
-wrapper; the TUI and server carry minimal orchestration (see `integration.md`
-for the exact wire protocol).
+All entry points call the same service layer: the CLI, TUI, and JSON-RPC
+transport are thin shells over `openremap.api`, whose registry of methods
+(commands, composites, workflows) is the single contract every consumer
+shares. See [CLI, API & RPC](../getting-started/interfaces.md) and the
+[API section](../api/index.md) for the current protocol instead of the old
+`openremap/server.py` daemon, which no longer exists.
 
 ---
 
@@ -136,21 +139,21 @@ Extractors live in `core/manufacturers/`, organised by ECU manufacturer
 ```
 core/manufacturers/
 ├── base.py                  ← BaseManufacturerExtractor (ABC)
-├── bosch/                   ← 18 extractors
+├── bosch/                   ← 19 extractors
 │   ├── __init__.py          ← registers extractors in priority order
 │   ├── edc17/
 │   │   ├── extractor.py     ← EDC17Extractor class
 │   │   └── patterns.py      ← regex patterns + regions
 │   └── …
-├── siemens/                 ← 7 extractors
+├── siemens/                 ← 8 extractors
 ├── delphi/                  ← 2 extractors
 ├── marelli/                 ← 4 extractors
-├── denso/                   ← 4 extractors (Subaru applications: SH7055,
-│                              SH7058, SH72531, EE20 diesel)
+├── denso/                   ← 4 extractors (Subaru applications: 68HC16Y5,
+│                              SH7055, SH7058, EE20 diesel)
 └── hitachi/                 ← 1 extractor (SH72546, Subaru 2013+)
 ```
 
-36 extractors across 6 manufacturers. Each manufacturer's `__init__.py` registers its extractors in priority order (most specific first).
+38 extractors across 6 manufacturers. Each manufacturer's `__init__.py` registers its extractors in priority order (most specific first).
 
 ### The extractor contract
 

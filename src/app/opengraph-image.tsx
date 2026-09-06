@@ -26,7 +26,7 @@ export default function OpenGraphImage() {
               width: 76,
               height: 76,
               borderRadius: 18,
-              background: "#10b981",
+              background: "#88ccff",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -53,7 +53,7 @@ export default function OpenGraphImage() {
             }}
           >
             OpenRemap
-            <span style={{ color: "#10b981" }}> Docs</span>
+            <span style={{ color: "#88ccff" }}> Docs</span>
           </div>
         </div>
         <div

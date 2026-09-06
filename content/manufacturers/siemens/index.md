@@ -1,13 +1,13 @@
 ---
 title: Siemens
-description: Supported Siemens ECU families — Simtec 56 through EMS2000, plus the MS43/GS20/SMG2 checksum coverage.
+description: Supported Siemens ECU families — Simtec 56 through EMS2000, plus MS43, GS20 and SMG2 checksum coverage.
 ---
 
 # Siemens
 
-Seven extractor families.  MS43 has a full identity extractor (see its
-page); the **GS20 / SMG2 TCUs** remain checksum-only (verified, not
-identified).
+Eight extractor families. **GS20** gained a full identity extractor in
+0.7.6; the checksum profiles additionally cover **GS20 / SMG2** TCUs
+(CRC-16/ARC).
 
 | Family | Era | File sizes | Vehicles & applications | Page |
 |---|---|---|---|---|
@@ -18,8 +18,9 @@ identified).
 | **SID 803 / SID 803A** | 2005–2010 | 458 KB–2 MB | Peugeot/Citroën, Ford, Jaguar/Land Rover diesel | [sid803](sid803.md) |
 | **EMS2000** | 1996–2004 | 256 KB | Volvo S40/V40/S60/S70/V70 T4/T5 turbo petrol | [ems2000](ems2000.md) |
 | **MS43** | 2001–2006 | 512 KB | BMW E46 6-cylinder petrol | [ms43](ms43.md) |
+| **GS20** | not stated | 64 KB (program region) | BMW automatic-gearbox controllers (AGS) | [gs20](gs20.md) |
 
-Checksum profiles also cover the Siemens **GS20 / SMG2 TCUs**
-(CRC-16/ARC). See [Checksums command docs](../../commands/checksum/advanced.md).
+Checksum profiles also cover the Siemens **GS20 / SMG2** TCUs
+(CRC-16/ARC). See [Checksums command docs](../../checksum/cli.md).
 
 → [Siemens internals](internals.md) — detection strategies and ident formats

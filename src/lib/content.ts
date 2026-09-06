@@ -353,7 +353,24 @@ export async function getDoc(slug: string[]): Promise<RenderedDoc | null> {
 const SECTION_ORDER = [
   "getting-started",
   "concepts",
-  "commands",
+  "api", // API section: programmatic surface (registry, workflows, transport, reference)
+  "identify", // Phase 1: identify moved out of commands/ to top level
+  "health", // Phase 1: health moved out of commands/ to top level
+  "checksum", // Phase 1: checksum moved out of commands/ to top level
+  "scan", // Phase 1: scan moved out of commands/ to top level
+  "scan-vins", // Phase 1: scan-vins moved out of commands/ to top level
+  "analyze", // Phase 2: moved out of commands/ to top level
+  "convert", // Phase 2: moved out of commands/ to top level
+  "layout", // Phase 2: moved out of commands/ to top level
+  "scan-maps", // Phase 2: moved out of commands/ to top level
+  "diff-maps", // Phase 2: moved out of commands/ to top level
+  "routine", // Phase 2: moved out of commands/ to top level
+  "cook", // Phase 3: moved out of commands/ to top level
+  "cook-volatile", // Phase 3: moved out of commands/ to top level
+  "merge", // Phase 3: moved out of commands/ to top level
+  "tune", // Phase 3: moved out of commands/ to top level
+  "validate", // Phase 3: moved out of commands/ to top level
+  "audit", // Phase 3: moved out of commands/ to top level
   "manufacturers",
   "project",
 ];

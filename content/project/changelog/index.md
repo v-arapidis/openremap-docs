@@ -1,31 +1,44 @@
 ---
-title: Changelog
-description: >-
-  The at-a-glance changelog index — every OpenRemap version with its date,
-  summary, and a link to the full per-version notes.
+title: Release notes
+description: What's new in recent OpenRemap releases, in user terms, with links to the docs that explain each feature — the full history lives on GitHub.
 ---
-# Changelog
 
+# Release notes
 
-Each version has its own file in [`changelog/`](.) — this page is
-the at-a-glance index.
+What changed in the recent releases, explained for users — each item links
+to the docs page that covers it. The complete, technical history lives in
+the repository: [CHANGELOG.md on GitHub](https://github.com/v-arapidis/openremap-core/blob/main/CHANGELOG.md).
 
-| Version | Date | Summary | Detail |
-|---|---|---|---|
-| [0.7.3](0.7.3.md) | 2026-08-26 | **Code-reference signal + C166 decoder** — capstone xref signal (presence-only, data-driven load-base), Rust C166/ST10 decoder (ME7/EDC15/EDC16/MS43/PPD/SID/Simtec/EMS2000), MS43 identity extractor, CPU-detection cascade for unknown families, coherence check (identity/checksum/xref agreement), TriCore a0 + C166 DPP resolution — decoder coverage 5 → 15 families | [changelog/0.7.3.md](0.7.3.md) |
-| [0.7.2](0.7.2.md) | 2026-08-25 | `analyze` command (unified full-picture report), real Intel HEX / S-Record input (content-sniffed, `bincopy`), `convert` command, VIN decoding via `vininfo` (scan-vins/health/identify), fuzzy family lookup via `rapidfuzz`, orjson recipe parsing (loads path), dropped unused `pydantic` | [changelog/0.7.2.md](0.7.2.md) |
-| [0.7.1](0.7.1.md) | unreleased | diff-maps robustness (axis-changed near-match, correlation suspicion, unidentified report), layout consumers (calibration-region default + cook region tags), ISSUE-2 same-file-only tier | [changelog/0.7.1.md](0.7.1.md) |
-| [0.7.0](0.7.0.md) | 2026-08-23 | **Milestone** — `cook-volatile` (car-portable recipes, volatile-byte exclusion, schema 4.5), volatile-aware audit, checksum profiles (IronFelix, NefMoto, MS43, GS20/SMG2, Denso), Denso/Hitachi Subaru support, batch map scanning, health report, Rust migrations, domain restructure, docs wiki | [changelog/0.7.0.md](0.7.0.md) |
-| [0.6.4](0.6.4.md) | 2026-08-11 | Rust-only entropy (36–75× faster), CI/CD | [changelog/0.6.4.md](0.6.4.md) |
-| [0.6.3](0.6.3.md) | 2026-08-11 | Shared-axis map detection, scoring & defaults, dual-backend elimination | [changelog/0.6.3.md](0.6.3.md) |
-| [0.6.2](0.6.2.md) | 2026-08-10 | Rust map hunter (scan_map_axes 26×), CLI, scanner improvements | [changelog/0.6.2.md](0.6.2.md) |
-| [0.6.1](0.6.1.md) | 2026-08-09 | `_rust/` → `_rs/` rename | [changelog/0.6.1.md](0.6.1.md) |
-| [0.6.0](0.6.0.md) | 2026-08-09 | PyO3 + maturin build | [changelog/0.6.0.md](0.6.0.md) |
-| [0.5.0](0.5.0.md) | 2026-08-08 | Recipe envelope dropped — top-level `type` / `schema_version` | [changelog/0.5.0.md](0.5.0.md) |
-| [0.4.4](0.4.4.md) | 2026-05-14 | Size-match guard (hard error) | [changelog/0.4.4.md](0.4.4.md) |
-| [0.4.3](0.4.3.md) | 2026-04-07 | Flat package layout | [changelog/0.4.3.md](0.4.3.md) |
-| [0.4.2](0.4.2.md) | 2026-04-03 | Hardware number extraction | [changelog/0.4.2.md](0.4.2.md) |
-| [0.4.1](0.4.1.md) | 2026-04-02 | Siemens extractors (6 families) | [changelog/0.4.1.md](0.4.1.md) |
-| [0.4.0](0.4.0.md) | 2026-04-01 | Full Textual-based terminal UI (seven panels) | [changelog/0.4.0.md](0.4.0.md) |
-| [0.3.1](0.3.1.md) | 2026-03-27 | Full test-suite green after audit fixes | [changelog/0.3.1.md](0.3.1.md) |
-| [0.3.0](0.3.0.md) | 2026-02-14 | ECU binary identifier (`identify_ecu`) + extractor registry | [changelog/0.3.0.md](0.3.0.md) |
+## 0.7.6 — 2026-09-06
+
+- **Two new ECU families** gained full support: Bosch **ME7.9.x** (ME7.9.10,
+  Fiat/Alfa/Lancia 1.4 T-Jet + PSA) and Siemens **GS20** (BMW automatic
+  gearbox). See the [ME7.9.x](../../manufacturers/bosch/me79.md) and
+  [GS20](../../manufacturers/siemens/gs20.md) pages.
+- **`analyze --xref-mode v2`** — an opt-in, stricter code-reference mode
+  (a table earns the confirmation bonus only when it is already
+  high-confidence *and* referenced by code).
+- **Fixes to VAG part-number detection** across the EDC15/16/17/3.x
+  extractors.
+- **Docs:** Denso family labels corrected to the real CPUs, and the
+  decoder-coverage picture updated (see [Decoders](../../concepts/decoders.md)).
+
+## 0.7.5 — 2026-08-30
+
+- **New [`routine`](../../routine/index.md) command** — read a code routine as
+  readable pseudo-code, no Ghidra needed.
+- **Much wider CPU coverage for the code-reference signal**: the decoder
+  census now maps 31 of 38 families, adding Rust decoders for the
+  8051/MCS-51 and MCS-96 families that had none before
+  (see [Decoders](../../concepts/decoders.md)).
+- Every family's CPU was audited, so it is clear what is covered and what
+  still needs work.
+- Security: the Rust↔Python bridge (PyO3) was upgraded to close two
+  vulnerability advisories.
+
+## 0.7.4 — 2026-08-28
+
+- The documentation release: the wiki and README brought in line with the
+  0.7.3 decoder work (new [Decoders](../../concepts/decoders.md) page, MS43
+  promoted to a full extractor entry, corrected extractor counts).
+- No runtime-code changes.

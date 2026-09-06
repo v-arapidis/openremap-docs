@@ -18,6 +18,6 @@ variants.
 ## Detection
 
 Reversed-digit ident + size gate. **Checksums:** the IronFelix **M3.x-5.x**
-profile verifies M3.8-class files. See [Checksums command docs](../../commands/checksum/advanced.md).
+profile verifies M3.8-class files. See [Checksums command docs](../../checksum/cli.md).
 
 → [Back to Bosch](index.md)

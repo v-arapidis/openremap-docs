@@ -108,5 +108,5 @@ openremap validate before target.bin recipe.remap
 | Interactive terminal UI | Run `openremap` with no arguments, or `openremap-tui` |
 | Confidence scoring explained | [Confidence scoring](../concepts/confidence.md) |
 | Recipe file spec | [Recipe format](../concepts/recipe-format.md) |
-| Supported ECU families | Run `openremap families` — 36 extractors across 6 manufacturers |
+| Supported ECU families | Run `openremap families` — 38 extractors across 6 manufacturers |
 | Guided walkthrough | Run `openremap workflow` for a step-by-step guide in your terminal |
