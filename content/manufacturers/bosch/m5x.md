@@ -11,7 +11,7 @@ ME7 era.
 | | |
 |---|---|
 | Era | 1997–2004 |
-| File sizes | 128–256 KB |
+| File sizes | 128 KB, 256 KB or 512 KB |
 | Variants | M3.8/M3.82/M3.83/M3.8.3, M3.8.1 (VR6), M5.x |
 | Vehicles | VW/Audi 1.8T |
 

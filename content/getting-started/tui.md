@@ -198,8 +198,12 @@ installation. Displays a `DataTable` with columns:
 | Family | Family name (e.g. EDC17, MED17, Simtec 56) |
 | # Sub-variants | Number of sub-variants registered for this family |
 
-The table is sorted by manufacturer and family. This is the same information
-printed by the `openremap families` CLI command.
+The table is sorted by manufacturer and family. It comes from the **extractor
+registry** — every `supported_families` key each extractor declares — so it is
+considerably longer than the `openremap families` CLI output, which only covers
+the 15-row built-in catalogue (Bosch). The `# Sub-variants` column is the number
+of family keys that row's extractor declares, so it repeats for every row of
+that extractor.
 
 ---
 

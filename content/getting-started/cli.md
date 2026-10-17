@@ -51,6 +51,8 @@ reference with every flag and example, and (for programmatic use) an
 | `validate check` | Diagnostic — run when `validate before` fails | [→ validate](../validate/index.md) |
 | `validate after` | Post-tune confirmation — run after tuning (or use `tune`) | [→ validate](../validate/index.md) |
 | `audit` | The receipt check — do stock, tuned, and recipe belong together? | [→ audit](../audit/index.md) |
+| `synth` | Generate a synthetic ECU-like binary from scratch — no ECU data needed | [→ synth](../synth/index.md) |
+| `contribute` | Measure your own dump and generate the files for a new-family PR | [→ contribute](../contribute/index.md) |
 
 > **`validate strict` / `validate exists` / `validate tuned`** are
 > deprecated aliases for `validate before` / `validate check` /
@@ -105,6 +107,9 @@ openremap tune target.bin recipe.remap
 
 # (Optional) Receipt check — do stock, tuned, and recipe belong together?
 openremap audit stock.bin stage1.bin recipe.remap
+
+# (Optional) Generate a synthetic ECU-like file — no ECU or dump needed
+openremap synth --output demo.bin
 
 # If tune fails at Phase 1 — diagnose why
 openremap validate check target.bin recipe.remap

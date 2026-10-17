@@ -365,12 +365,14 @@ const SECTION_ORDER = [
   "scan-maps", // Phase 2: moved out of commands/ to top level
   "diff-maps", // Phase 2: moved out of commands/ to top level
   "routine", // Phase 2: moved out of commands/ to top level
+  "synth", // fixtures: generate an ECU-like file to feed the tooling above
   "cook", // Phase 3: moved out of commands/ to top level
   "cook-volatile", // Phase 3: moved out of commands/ to top level
   "merge", // Phase 3: moved out of commands/ to top level
   "tune", // Phase 3: moved out of commands/ to top level
   "validate", // Phase 3: moved out of commands/ to top level
   "audit", // Phase 3: moved out of commands/ to top level
+  "contribute", // contribution path: add support for a new ECU family
   "manufacturers",
   "project",
 ];

@@ -80,7 +80,7 @@ Binary A + Binary B
   └────────┬────────┘
            │
            ▼
-       .remap recipe (JSON, schema 4.2)
+       .remap recipe (JSON, schema 4.3+)
 
 Target binary + Recipe
         │
@@ -189,7 +189,7 @@ Every extractor subclasses `BaseManufacturerExtractor` and must implement:
 5. `entropy.find_unique_context()` — per-instruction geometric context expansion (32→512 bytes) until anchor is unique and high-entropy
 6. Guard 3: non-unique anchor check — `ValueError` (default) or `cook_warnings` (Force Save)
 7. `annotator.py` — runs `VINScanner` and `LowEntropyScanner` over every instruction, attaches flags
-8. Produces a `.remap` recipe — JSON schema 4.2 with `ctx_entropy`, `ctx_unique`, `ctx_expanded`, `flags`, `cook_warnings`
+8. Produces a `.remap` recipe — JSON schema 4.3 (4.4 once the `maps` layer is attached) with `ctx_entropy`, `ctx_unique`, `ctx_expanded`, `flags`, `cook_warnings`
 
 ### Tune (`openremap tune`)
 
@@ -201,7 +201,8 @@ Every extractor subclasses `BaseManufacturerExtractor` and must implement:
 ### Data model
 
 Plain dicts built by `recipe_builder.py` and consumed by `patcher.py` — the
-`.remap` JSON schema (4.3) is the only data contract. There are no Pydantic
+`.remap` JSON schema is the only data contract (4.3 lean, 4.4 with the `maps`
+layer, 4.5 with the `volatile` section). There are no Pydantic
 models (removed 2026-08-13). See [Recipe format](recipe-format.md) for the
 file spec.
 

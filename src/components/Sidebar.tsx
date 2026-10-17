@@ -22,12 +22,14 @@ const ACTIONS: readonly string[] = [
   "scan-maps",
   "diff-maps",
   "routine",
+  "synth",
   "cook",
   "cook-volatile",
   "merge",
   "tune",
   "validate",
   "audit",
+  "contribute",
 ];
 const ACTION_SET: ReadonlySet<string> = new Set(ACTIONS);
 

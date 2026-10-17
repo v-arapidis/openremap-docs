@@ -74,43 +74,34 @@ openremap families -f lh-jetronic
 
 ### Full table
 
+`openremap families` prints the families in its **built-in catalogue** — 15
+rows, all Bosch. The Siemens, Delphi, Magneti Marelli, Denso and Hitachi
+families are recognised by `identify` and `scan` but are not in this catalogue
+yet; see [Manufacturers](../manufacturers/index.md) for the full picture.
+
+The notes column is trimmed here to fit the page.
+
 ```
   Supported ECU Families
 
   ─────────────────────────────────────────────────────────────────────────────
   FAMILY                  ERA             SIZE              NOTES
   ─────────────────────────────────────────────────────────────────────────────
-  EDC1 / EDC2             1990–1997       32–64 KB          Audi 80 / A6 TDI, early diesel ROMs.
-  EDC 3.x                 1993–2000       128–512 KB        VAG TDI, BMW diesel, Opel diesel. Three ident formats.
-  EDC15                   1997–2004       512 KB            TSW/C3-fill. VAG/Fiat/Volvo/BMW diesel.
-  EDC16                   2003–2008       256 KB–2 MB       DECAFE magic. VAG PD, BMW, Opel CDTI.
-  EDC17 / MEDC17 / …      2008–present    2–8 MB            Modern platform. PSA/VAG/BMW/Mercedes.
-  ME7 / ME7.x             1997–2008       64 KB–1 MB        VAG 1.8T, Porsche, Ferrari, Opel Corsa D.
-  ME9                     2001–2006       2 MB              VW/Audi 1.8T 20v full flash.
-  MED9 / MED9.x           2002–2008       512 KB–2 MB       VAG FSI/TFSI direct injection.
-  M1.x                    1987–1996       32–64 KB          BMW E28/E30/E34/E36, Opel petrol.
-  M1.55 / M1.5.5          1994–2002       128 KB            Alfa Romeo (M1.55) / Opel Corsa C (M1.5.5).
-  M2.x                    1993–1999       32–128 KB         VW/Audi M2.9, Porsche M2.3, Opel M2.7/8/81.
-  M3.x                    1989–1999       32–256 KB         BMW M3.1/M3.3, PSA/Citroën MP3.2/MP7.2.
-  M5.x / M3.8x            1997–2004       128–256 KB        VW/Audi 1.8T AGU/AUM/APX.
-  LH-Jetronic             1982–1995       8–64 KB           Volvo, BMW, Mercedes fuel injection.
-  Motronic Legacy         various         2–32 KB           DME-3.2, M1.x-early, KE-Jetronic, EZK.
-  ─────────────────────────────────────────────────────────────────────────────
-  Simtec 56               1995–2002       128 KB            Opel/Vauxhall Vectra B, Astra, Omega B. Siemens.
-  SIMOS                   1998–2006       128–512 KB        VAG 1.4–1.6L petrol. Siemens.
-  PPD1.x                  2003–2008       250 KB–2 MB       VAG 2.0 TDI Pumpe-Düse diesel. Siemens.
-  SID 801 / SID 801A      2001–2006       512 KB            PSA 2.0/2.2 HDi diesel. Siemens.
-  SID 803 / SID 803A      2005–2010       458 KB–2 MB       PSA/Ford/JLR HDi diesel. Siemens.
-  EMS2000                 1996–2004       256 KB            Volvo S40/V40/S60/S70 T4/T5 turbo. Siemens.
-  MS43                    2001–2006       512 KB            BMW E46 6-cylinder petrol. Siemens.
-  ─────────────────────────────────────────────────────────────────────────────
-  Multec                  1998–2006       208–256 KB        Opel/Vauxhall 1.7 DTI/TD diesel. Delphi.
-  Multec S                1996–2003       128 KB            Opel/Vauxhall Astra G, Corsa B/C petrol. Delphi.
-  ─────────────────────────────────────────────────────────────────────────────
-  IAW 1AV                 1996–2003       64 KB             VAG 1.0–1.6L NA petrol. Magneti Marelli.
-  IAW 1AP                 1996–2002       64 KB             PSA Peugeot 106/206, Citroën Saxo/C3. Magneti Marelli.
-  IAW 4LV                 2000s           512 KB            VAG Skoda Fabia 1.4 16V. Magneti Marelli.
-  MJD 6JF                 2006–2015       448–452 KB        Opel Corsa D/E 1.3 CDTI diesel. Magneti Marelli.
+  EDC1 / EDC2             1990–1997       32–64 KB          Audi 80 / A6 TDI, BMW 525 TDS, early diesel ROMs.
+  EDC 3.x                 1993–2000       128–512 KB        VAG TDI, BMW diesel, Opel diesel bridge generation. …
+  EDC15                   1997–2004       512 KB            Two sub-formats: Format A (TSW header) and Format B (C3-fill).
+  EDC16                   2003–2008       256 KB / 1 MB / 2 MB   DECAFE magic at fixed offsets. VAG PD TDI, BMW diesel, Opel CDTI.
+  EDC17 / MEDC17 / MED17 / ME17   2008–present   2–8 MB    The dominant modern platform. PSA, VAG, BMW, Mercedes — diesel and petrol.
+  ME7 / ME7.x             1997–2008       64 KB–1 MB        VAG 1.8T, Porsche, Ferrari, Opel Corsa D. ZZ ident block at 0x10000.
+  ME9                     2001–2006       2 MB              VW / Audi 1.8T 20v full flash. Identified by RamLoader anchor.
+  MED9 / MED9.x           2002–2008       512 KB–2 MB       VAG FSI and TFSI petrol direct injection.
+  M1.x                    1987–1996       32–64 KB          BMW E28/E30/E34/E36, Opel petrol. Header magic or reversed-digit ident.
+  M1.55 / M1.5.5          1994–2002       128 KB            Alfa Romeo (M1.55) and Opel Corsa C / Astra G (M1.5.5) petrol.
+  M2.x                    1993–1999       32–128 KB         VW/Audi M2.9, Porsche 964 (M2.3), Opel M2.7/M2.8/M2.81.
+  M3.x                    1989–1999       32–256 KB         BMW M3.1/M3.3 and PSA/Citroën MP3.2/MP3.x-PSA/MP7.2. Reversed-digit ident.
+  M5.x / M3.8x            1997–2004       128–256 KB        VW / Audi 1.8T (AGU, AUM, APX). Overlaps with ME7 era.
+  LH-Jetronic             1982–1995       8–64 KB           Volvo, early BMW and Mercedes fuel injection. No 1037 SW.
+  Motronic Legacy         various         2–32 KB           DME-3.2, M1.x-early, KE-Jetronic, EZK. No ASCII SW in most variants.
   ─────────────────────────────────────────────────────────────────────────────
 
   openremap families --family <NAME>   show full detail for one family
@@ -170,7 +161,8 @@ openremap families -f lh-jetronic
 ## Supported family names and aliases
 
 The `--family` option accepts the canonical name or any of the listed aliases
-(case-insensitive, dashes and dots are flexible):
+(case-insensitive, dashes and dots are flexible). Only the families in the
+built-in catalogue have entries here:
 
 | Canonical name | Accepted aliases |
 |---|---|
@@ -188,27 +180,20 @@ The `--family` option accepts the canonical name or any of the listed aliases
 | M3.x | `m3x`, `m3.x`, `m3.1`, `m3.3`, `mp3.2`, `mp7.2` |
 | M5.x / M3.8x | `m5x`, `m5.x`, `m3.8x`, `m3.8` |
 | LH-Jetronic | `lh`, `lh-jetronic`, `lhjetronic` |
-| Motronic Legacy | `motronic`, `motronic_legacy`, `ke-jetronic`, `ezk`, `dme` |
-| Simtec 56 | `simtec56`, `simtec` |
-| SIMOS | `simos`, `simos2`, `simos3` |
-| PPD1.x | `ppd`, `ppd1`, `ppd1.1`, `ppd1.2`, `ppd1.5` |
-| SID 801 / SID 801A | `sid801`, `sid801a` |
-| SID 803 / SID 803A | `sid803`, `sid803a` |
-| EMS2000 | `ems2000`, `ems`, `fenix5` |
-| Multec | `multec` |
-| Multec S | `multecs`, `multec-s`, `multec_s` |
-| IAW 1AV | `iaw1av`, `1av` |
-| IAW 1AP | `iaw1ap`, `1ap` |
-| IAW 4LV | `iaw4lv`, `4lv` |
-| MJD 6JF | `mjd6jf`, `6jf`, `mjd` |
+| Motronic Legacy | `motronic`, `motronic_legacy`, `motroniclegacy`, `ke-jetronic`, `ezk`, `dme` |
 
 ---
 
 ## Notes
 
-- `openremap families` shows the same families that `openremap identify`
-  recognises. If a binary is classified as `unknown`, its ECU family is not
-  yet supported — see [CONTRIBUTING](../../CONTRIBUTING.md) to add support.
+- `openremap families` lists the **built-in catalogue**, which currently covers
+  Bosch (15 rows). It is **not** a list of everything `identify` recognises —
+  that registry spans 38 extractors across six manufacturers. See
+  [Manufacturers](../manufacturers/index.md) for the complete picture.
+- If `identify` reports a binary as `unknown`, the family is not supported yet.
+  Own a dump of it? `openremap contribute extractor my.bin --measure-only` tells
+  you what the engine makes of the file — no clone and no family name needed.
+  See [Contributing](../../CONTRIBUTING.md).
 - **Fuzzy lookup:** when `--family` matches no name or alias exactly, the
   five closest names are suggested with scores (rapidfuzz, MIT) — e.g.
   `families --family edc16c` → `EDC16 — 91%, EDC1 / EDC2 — 90%, …`.  The

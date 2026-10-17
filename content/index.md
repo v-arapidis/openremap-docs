@@ -29,7 +29,7 @@ then follow the [five-minute path](getting-started/quickstart.md).
 | [How it works](concepts/how-it-works.md) | The full pipeline, step by step — identify → health → checksum → cook → merge → tune → validate → audit |
 | [Confidence scoring](concepts/confidence.md) | How identification confidence tiers, signals, and warnings work |
 | [Evidence](concepts/evidence.md) | How OpenRemap explains its results — detection tags, signals, labels, provenance |
-| [Recipe format](concepts/recipe-format.md) | The `.remap` file spec (schema 4.4) — fields, structure, maps layer |
+| [Recipe format](concepts/recipe-format.md) | The `.remap` file spec (schema 4.5) — fields, structure, maps and volatile layers |
 | [Decoders](concepts/decoders.md) | The CPU decoders — code references, the detection cascade, the decoder tag |
 | [Architecture](concepts/architecture.md) | How the pieces connect — domains, extractor registry, Rust core |
 | [Tune format (.orst)](concepts/orst-format.md) | Deprecated — kept for reference |

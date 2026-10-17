@@ -10,6 +10,8 @@ truth for OpenRemap documentation.
 
 ## Quick start
 
+Requires **Node 20.9 or newer** (`package.json` `engines`; `.nvmrc` pins 20).
+
 ```bash
 npm install
 npm run dev        # http://localhost:3000 — edits to content/*.md show on refresh
@@ -23,9 +25,9 @@ All wiki pages are plain Markdown under [`content/`](content/). The folder tree
 - `content/index.md` — the wiki home (`/`)
 - `content/getting-started/` — guides, install, CLI, TUI
 - `content/concepts/` — how it works, confidence, evidence, recipe format, …
-- `content/commands/<name>/` — one `index.md` (simple) + `advanced.md` (flags)
+- `content/<command>/` — one `index.md` (intro) + `cli.md` (flags) + `api.md` (the API face)
 - `content/manufacturers/<oem>/` — per-family pages + `internals.md`
-- `content/project/` — contributing, disclaimer, license, changelog
+- `content/project/` — contributing, disclaimer, license, third-party, changelog
 
 ### Frontmatter
 

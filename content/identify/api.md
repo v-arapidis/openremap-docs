@@ -26,9 +26,11 @@ other params, no hidden pipeline.
 }
 ```
 
-Defaults and validation live **in the schema**, in the registry — not in the
-CLI or any client. Every consumer (CLI, GUI, RPC) reads the same contract via
-`list_methods`, so a call that validates here validates everywhere.
+The schema is the authoritative contract for API callers: it declares each
+parameter's type, default and bounds, and the registry validates every call
+against it, so a call that validates here validates for every API consumer.
+The CLI declares its own `--flags`, so a schema change reaches the terminal
+only when the CLI is updated too — check the live schema with `list_methods`.
 
 ## Calling it in-process (Python)
 

@@ -30,8 +30,10 @@ looks like one call — the composition happens inside.
 }
 ```
 
-Defaults and validation live **in the schema**, in the registry — not in
-the CLI or any client. Every consumer reads the same contract via
+The schema is the authoritative contract for API callers: it declares each
+parameter's type, default and bounds, and the registry validates every call
+against it. The CLI declares its own `--flags`, so a schema change reaches the
+terminal only when the CLI is updated too — check the live schema with
 `list_methods`.
 
 Note the naming: the API parameter is `require_unique` (default `True`), the
@@ -43,21 +45,37 @@ to reproduce `--allow-non-unique`.
 ```python
 import openremap.api as api
 
-recipe = api.call(
+result = api.call(
     "cook",
     {
         "original_path": "stock.bin",
         "modified_path": "stage1.bin",
     },
 )
-# result is a plain JSON-serialisable dict — the recipe plus a summary
 
-print(recipe["ecu"]["match_key"])       # "EDC17::08001505827522B"
+# The result is a plain JSON-serialisable dict. The recipe itself sits under
+# "recipe" — the other keys are the summary that travels with it.
+print(result.keys())
+# dict_keys(['recipe', 'warnings', 'map_count', 'region_summary'])
+
+recipe = result["recipe"]
+print(recipe["ecu"]["match_key"])             # "EDC17::08001505827522B"
 print(recipe["statistics"]["total_changes"])  # 277
-print(recipe["schema_version"])         # "4.4"
+print(recipe["schema_version"])               # "4.4" with maps, "4.3" without
 ```
 
-Skip the map layer for the lean format:
+`result["recipe"]` is the `.remap` recipe — the same structure `cook` writes to
+the file, documented in the [recipe format](../concepts/recipe-format.md). The
+other three keys are the summary that comes with it:
+
+| Key | What it holds |
+|---|---|
+| `warnings` | the cook warnings — non-unique anchors, ident differences, … |
+| `map_count` | how many maps were annotated (`None` when `annotate_maps=False`) |
+| `region_summary` | `{"tagged", "risky", "by_region"}` — how the changed bytes split across the flash regions |
+
+Skip the map layer for the lean format — the result's `map_count` is then
+`None` and the recipe stays on schema 4.3 instead of 4.4:
 
 ```python
 lean = api.call(
@@ -68,6 +86,9 @@ lean = api.call(
         "annotate_maps": False,
     },
 )
+
+print(lean["map_count"])                 # None
+print(lean["recipe"]["schema_version"])  # "4.3"
 ```
 
 ## Calling it over JSON-RPC

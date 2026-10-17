@@ -28,7 +28,7 @@ openremap identify ecu.bin
 ```
 
 It scans the file through a registry of manufacturer-specific extractors
-(36 across 6 OEMs: Bosch, Siemens, Delphi, Magneti Marelli, Denso,
+(38 across 6 OEMs: Bosch, Siemens, Delphi, Magneti Marelli, Denso,
 Hitachi) and pulls out everything it can find: ECU family, software
 version, hardware number, calibration ID. From those it builds a
 **match key** — a compact identity string that uniquely represents this
@@ -49,18 +49,20 @@ just what it guessed.
 ### Decoders & the code-reference signal
 
 Beyond identification, OpenRemap also *reads the code*. The built-in
-**decoders** — C166 written in Rust, TriCore and SuperH via the capstone
-library — disassemble a binary's code regions so `analyze` and
-`scan-maps --xrefs` can tell which calibration tables are **actually read
-by the engine's code**. A table referenced by code gets a small score
-bonus + evidence ("referenced by code at 0x…"); the signal is
-presence-only, so a table with no detected reference is never penalised.
+**decoders** — C166/ST10, 8051 (MCS-51) and MCS-96 written in Rust, and
+TriCore, SuperH, x86, M680X, 68K and PowerPC via the capstone library —
+disassemble a binary's code regions so `analyze` and `scan-maps --xrefs` can
+tell which calibration tables are **actually read by the engine's code**. A
+table referenced by code gets a small score bonus + evidence ("referenced by
+code at 0x…"); the signal is presence-only, so a table with no detected
+reference is never penalised.
 
-For families with no declared CPU, a **detection cascade** trial-decodes
-each decoder and keeps the first whose references land in real tables.
-The `analyze` report tags which decoder served the file (e.g.
-`[C166 · Rust decoder]`, with `· cascade-detected` when the cascade found
-it).
+For families with no declared CPU, a **detection cascade** trial-decodes the
+binary with four candidate decoders (TriCore, SuperH SH-2, SH-2A, C166) and
+keeps the first whose references land in real tables; C166 runs last and is
+additionally gated on a boot DPP init. The `analyze` report tags which decoder
+served the file (e.g. `[C166 · Rust decoder]`, with `· cascade-detected` when
+the cascade found it).
 
 → [Decoders — full concept](decoders.md)
 
@@ -103,12 +105,15 @@ anchor (`ctx`) used during patching.
 
 The output is a `.remap` JSON recipe — human-readable,
 version-controllable, self-contained, with the ECU identity embedded.
-Today's format is **schema 4.4**: alongside the byte-level instructions,
-cook annotates *which calibration maps* each instruction touches (the
+`cook` emits **schema 4.4** by default: alongside the byte-level instructions,
+it annotates *which calibration maps* each instruction touches (the
 `maps` layer — structural descriptors with axis values and probabilistic
 labels). A git review of a tune reads "fuel base map +20%, 3 cells"
 instead of hex soup — and the patcher still operates purely on
 `instructions`, so a 4.4 recipe patches byte-identically to a 4.3 one.
+With `--no-annotate-maps` the output stays on the lean **4.3**; `cook-volatile`
+emits **4.5**, which adds the `volatile` section. The current format version
+is therefore **4.5**.
 
 → [Recipe format — full spec](recipe-format.md)
 

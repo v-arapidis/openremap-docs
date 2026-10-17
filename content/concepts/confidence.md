@@ -40,11 +40,10 @@ fields, filename heuristics, and map-structure analysis.
 ```
   ── Confidence ─────────────────────────────────────
   Tier   HIGH
-  Score  75
-  Signal  +15  STRONG detection (6-phase cascade)
-  Signal  +30  canonical SW version (1037-prefixed, Bosch)
-  Signal  +20  hardware number present (0261209352)
-  Signal  +10  ECU variant identified (EDC17C66)
+  Signal  +  detection evidence (5 tags: MAGIC_MATCH, IDENT_BLOCK, SIZE_MATCH, FAMILY_STRING…)
+  Signal  +  canonical SW version
+  Signal  +  hardware number present (0261209352)
+  Signal  +  ECU variant identified (EDC17C66)
 ```
 
 ### HIGH — Delphi Multec S, all identifiers present
@@ -52,10 +51,9 @@ fields, filename heuristics, and map-structure analysis.
 ```
   ── Confidence ─────────────────────────────────────
   Tier   HIGH
-  Score  65
-  Signal  +15  STRONG detection (4-phase cascade)
-  Signal  +30  canonical SW version (12345678, Delphi 8-digit GM-style)
-  Signal  +20  hardware number present (09391237)
+  Signal  +  detection evidence (5 tags: SIZE_MATCH, BOOT_BLOCK, POINTER_TABLE, FAMILY_STRING…)
+  Signal  +  canonical SW version
+  Signal  +  hardware number present (09391237)
 ```
 
 ### SUSPICIOUS — stop and check
@@ -63,13 +61,19 @@ fields, filename heuristics, and map-structure analysis.
 ```
   ── Confidence ─────────────────────────────────────
   Tier   SUSPICIOUS
-  Score  -20
-  Signal   +5  WEAK detection (minimal checks)
-  Signal  -15  SW ident absent — no match key produced
-  Signal  -25  tuning/modification keywords in filename
+  Signal  +  detection evidence (2 tags: SIZE_MATCH, EXCLUSION_CLEAR)
+  Signal  -  SW ident absent — no match key produced
+  Signal  -  tuning/modification keywords in filename
   ⚠  IDENT BLOCK MISSING
   ⚠  TUNING KEYWORDS IN FILENAME
 ```
+
+> [!NOTE]
+> The terminal prints only the **sign** of each delta. The numeric score and the
+> per-signal values live in the JSON output (`confidence.score`), and the table
+> row above the section carries a one-line summary of the three strongest
+> signals *with* their numbers — e.g. `canonical SW version (+30), hardware
+> number present (0261209352) (+20), detection evidence (5 tags: …) (+15)`.
 
 ---
 
@@ -80,33 +84,65 @@ confidence; a `-` prefix lowered it.
 
 ### Detection quality baseline
 
-The rigour of the extractor's `can_handle()` method sets a baseline score
-before any identity fields are examined.
+The extractor's `can_handle()` collects **evidence tags** as it checks the
+binary — `MAGIC_MATCH`, `IDENT_BLOCK`, `SIZE_MATCH`, and so on. Each tag is
+worth 2–4 points and the total is capped, so the baseline reflects how much the
+extractor could actually prove:
 
-| Detection quality | Delta | Criteria |
+| Evidence | Delta | Tags |
 |---|---|---|
-| STRONG | +15 | 4+ phase detection cascade with unique byte signatures (e.g. Multec S, IAW 1AV) |
-| MODERATE | +10 | 2–3 phase detection (e.g. ME7.x, EDC15) |
-| WEAK | +5 | Minimal checks or broad heuristic match (e.g. M3.x, PPD) |
+| Structural | +4 each | `MAGIC_MATCH`, `HEADER_MATCH`, `POINTER_TABLE`, `LAYOUT_FINGERPRINT`, `IDENT_BLOCK`, `BOOT_BLOCK`, `FAMILY_ANCHOR` |
+| Identity / detection | +3 each | `FAMILY_STRING`, `DETECTION_SIGNATURE`, `SYNC_MARKER`, `MANUFACTURER_CONFIRM` |
+| Soft | +2 each | `SIZE_MATCH`, `EXCLUSION_CLEAR`, `FILL_PATTERN` |
+| Family-specific | +2 each | any free-form tag an extractor defines |
+| **Cap** | **+20** | a long tag list cannot inflate the score |
+
+The signal reads `detection evidence (N tags: …)`, listing at most the first
+four tags. An extractor that runs four or more structural checks reaches the cap.
+
+> [!NOTE]
+> An extractor can also declare a static `detection_strength`
+> (`strong` +15 / `moderate` +10 / `weak` +5). That attribute is
+> **deprecated** — it is only a fallback for an extractor that has not been
+> migrated to evidence tags, and all of them have been, so in practice you
+> will only ever see the evidence signal.
 
 ### Software version
 
 | Signal | Delta | Notes |
 |---|---|---|
-| Canonical SW version present | +30 | Manufacturer-aware format check (see below) |
-| Non-canonical SW version present | +15 | SW found but does not match expected format |
-| SW absent, expected by family profile, no match_key | -15 | Family normally stores SW and no fallback matched |
-| SW absent, expected by family profile, match_key from fallback | -10 | Family normally stores SW but a fallback key was produced |
-| SW absent, NOT expected by family profile | 0 | Family architecturally omits SW — no penalty |
+| `canonical SW version` | +30 | Matches the manufacturer's format (see below) |
+| `SW version present (…)` | +15 | A SW number was found but does not match the expected format |
+| `SW ident absent — no match key produced` | -15 | The family normally stores SW and no fallback matched (also raises the ident-block warning) |
+| `SW version absent (match key from fallback field)` | -10 | The family normally stores SW, but a fallback key was produced |
+| *(no signal)* | 0 | The family's profile does not expect a SW version — no penalty |
 
 ### Other identity fields
 
 | Signal | Delta |
 |---|---|
-| Hardware number present | +20 |
-| OEM part number present | +5 |
-| ECU variant identified | +10 |
-| Calibration ID present | +10 |
+| `hardware number present (…)` | +20 |
+| `ECU variant identified (…)` | +10 |
+| `calibration ID present (…)` | +10 |
+| `OEM part number present (…)` | +5 |
+
+The variant bonus is skipped when the reported variant is just the family name.
+
+### Cross-checks against the binary
+
+Two more bonuses come from checking the extracted identity against the binary
+itself:
+
+| Signal | Delta | Notes |
+|---|---|---|
+| `identity field(s) located in ident block (n/m)` | +5 per field, cap +10 | The extracted SW / HW / calibration strings really do sit inside a declared ident block |
+| `cross-signal agreement (identity/checksum/arch)` | +10 | **`analyze` only** |
+| `conflicting identity/checksum/arch signals` | -15 | adds the `⚠  SIGNAL CONFLICT` warning — **`analyze` only** |
+
+The coherence pair needs a cross-check report that only `openremap analyze`
+builds, so `identify`, `scan` and `health` never add or subtract these points.
+A third coherence case — a stale checksum on a tuned file — changes no points
+and only raises `⚠  CHECKSUM STALE (tuned file)`.
 
 ### Filename signals
 
@@ -116,8 +152,11 @@ have been modified or provide no identifying context.
 
 | Signal | Delta |
 |---|---|
-| Tuning keywords in filename (`stage`, `remap`, `tuned`, `disable`, …) | -25 |
-| Generic numbered filename (`1.bin`, `42.bin`, …) | -15 |
+| `tuning/modification keywords in filename` (`stage`, `remap`, `tuned`, `disable`, …) | -25 |
+| `generic numbered filename` (`1.bin`, `42.bin`, …) | -15 |
+
+Only one of the two applies: the tuning-keyword check runs first and, on a
+match, the generic-filename check is skipped.
 
 ---
 
@@ -127,9 +166,11 @@ Warnings flag specific concerns, independent of the tier score:
 
 | Warning | What it means |
 |---|---|
-| `⚠ IDENT BLOCK MISSING` | SW version absent for a family that always stores one — the ident block may be wiped or unreadable |
-| `⚠ TUNING KEYWORDS IN FILENAME` | Filename contains words associated with modified files (`stage`, `remap`, `tuned`, `evc`, `disable`, …) |
-| `⚠ GENERIC FILENAME` | Bare numbered filename (`1.bin`, `42.bin`) provides no identifying context |
+| `⚠  IDENT BLOCK MISSING` | SW version absent for a family that always stores one — the ident block may be wiped or unreadable |
+| `⚠  TUNING KEYWORDS IN FILENAME` | Filename contains words associated with modified files (`stage`, `remap`, `tuned`, `evc`, `disable`, …) |
+| `⚠  GENERIC FILENAME` | Bare numbered filename (`1.bin`, `42.bin`) provides no identifying context |
+| `⚠  SIGNAL CONFLICT` | Identity, checksum and disassembly disagree — **`analyze` only** |
+| `⚠  CHECKSUM STALE (tuned file)` | The checksum does not match, which is expected on a modified file — **`analyze` only** |
 
 ---
 
@@ -147,13 +188,15 @@ raw numeric score, which is then mapped to a tier:
 | no extractor matched | UNKNOWN |
 
 The raw score is available in JSON output (`openremap identify --json`) under
-`confidence.score`, alongside the `tier` string and the full `signals` array.
+`confidence.score`, alongside the `tier` string and the full `signals` array —
+each entry carrying its own `delta` and `label`. The terminal prints the tier
+upper-case (`HIGH`); the JSON value is title-case (`"High"`).
 
 ---
 
 ## Family field profiles
 
-Each ECU family declares a **field profile** — the set of identity fields that
+An ECU family can declare a **field profile** — the set of identity fields that
 the ECU architecturally stores in its binary. Fields not in the profile are
 never penalized when absent.
 
@@ -164,28 +207,37 @@ tier down unfairly. With field profiles, the absence of SW and HW for IAW 1AP
 scores **0** instead of a penalty, allowing these families to reach their
 natural tier based on the fields they *do* provide.
 
-Families like Bosch EDC17 or ME7 declare SW, HW, variant, and calibration
-in their profile — so all four are expected and scored accordingly. A family
-like EMS2000 that only stores a variant and calibration will not be penalized
-for missing SW or HW.
+Families like Bosch EDC17 declare SW, HW, variant and calibration, so all four
+are expected and scored accordingly. Bosch ME7 declares SW, HW and calibration
+but **not** variant — a missing variant is never held against it. Siemens
+EMS2000 declares an **empty** profile, so no field is ever expected from it and
+none of the absence penalties apply.
+
+A family with **no** profile registered is treated conservatively: every field
+is assumed to be expected, so an absent SW is flagged rather than silently
+ignored.
 
 ---
 
 ## Detection quality
 
-The extractor's `can_handle()` method varies in rigour across families. A
-6-phase detection cascade that checks magic bytes, block boundaries, address
-maps, and internal checksums provides much stronger evidence of a correct match
-than a 2-phase heuristic that only checks file size and a single byte pattern.
+The extractor's `can_handle()` varies in rigour across families. One that
+checks magic bytes, block boundaries, address maps and internal checksums
+collects many evidence tags; a shallow heuristic that only compares the file
+size and one byte pattern collects few.
 
-The detection quality baseline reflects this difference:
+That difference is what the baseline measures — a tag sum, not a label:
 
-- **STRONG** (+15): Extractors like Multec S and IAW 1AV run 4+ independent
-  checks with unique byte signatures. A match is very likely correct.
-- **MODERATE** (+10): Extractors like ME7.x and EDC15 use 2–3 checks — solid
-  but not exhaustive.
-- **WEAK** (+5): Extractors like M3.x and PPD rely on minimal or broad
-  heuristics. A match is plausible but less certain.
+- **Many structural tags** (a deep, multi-check cascade such as Multec S or
+  IAW 1AV): reaches the +20 cap. A match is very likely correct.
+- **Several mixed tags** (a family that checks size, a marker string and an
+  ident block): lands in the +10–16 range. Solid but not exhaustive.
+- **One or two soft tags** (a size match plus an exclusion check): +4 or less.
+  Plausible, less certain.
+
+The [Detection quality baseline](#detection-quality-baseline) above has the
+per-tag weights, and its note explains the deprecated static
+`detection_strength`.
 
 ---
 
@@ -200,10 +252,16 @@ binaries contain the expected identifiers.
 
 | Manufacturer | Canonical format | Examples |
 |---|---|---|
-| **Bosch** | Prefixed with `1037`, `1039`, `1267`, `1277`, `2227`, or `2537` | `1037374218`, `1039S65581` |
+| **Bosch** | Prefix `1037`, `1039`, `1267`, `1277`, `2227` or `2537`, then six digits | `1037374218`, `1267355678` |
 | **Delphi** | 8-digit GM-style SW number | `12345678`, `09391237` |
 | **Siemens** | 9-digit serial or `5WK9`-prefixed | `5WK91234A`, `123456789` |
 | **Magneti Marelli** | Family-specific short formats | varies by ECU family |
+
+> [!NOTE]
+> The Bosch check is a prefix **plus six digits**: a suffix letter is not
+> accepted, so a SW number such as `1039S65581` falls into the non-canonical
+> bucket (+15) rather than the canonical one (+30). That is the current
+> behaviour, not a typo in the table above.
 
 Any SW version that matches its manufacturer's canonical format earns +30.
 A SW version that is present but does not match the expected format earns +15.

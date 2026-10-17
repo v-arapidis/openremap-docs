@@ -35,9 +35,11 @@ The method is a `command`: one cohesive operation in one domain (atomic).
 ```
 
 Note the difference from most other methods: the input is a **directory**
-(not a file `path`), and an optional `recursive` flag. Defaults and
-validation live **in the schema**, in the registry — every consumer reads
-the same contract via `list_methods`.
+(not a file `path`), and an optional `recursive` flag. The schema is the
+authoritative contract for API callers: it declares each parameter's type,
+default and bounds, and the registry validates every call against it. The CLI
+declares its own `--flags`, so a schema change reaches the terminal only when
+the CLI is updated too — check the live schema with `list_methods`.
 
 ## Result shape
 

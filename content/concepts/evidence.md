@@ -32,14 +32,28 @@ it records *why* as evidence tags:
 |---|---|
 | `SIZE_MATCH` | File size matches a known family size |
 | `MAGIC_MATCH` | Header / descriptor magic bytes match |
+| `HEADER_MATCH` | A known header magic matches |
+| `POINTER_TABLE` | A pointer table with plausible targets was found |
+| `LAYOUT_FINGERPRINT` | The block layout matches the family |
+| `BOOT_BLOCK` | The boot block carries the expected shape |
 | `IDENT_BLOCK` | Identity block found at the expected offset |
 | `FAMILY_STRING` | Family-specific ASCII string found (e.g. `Copr.DENSO`) |
-| `POINTER_TABLE` / `LAYOUT_FINGERPRINT` / `BOOT_BLOCK` | Structural layout evidence |
+| `FAMILY_ANCHOR` | A family-specific anchor string was found |
+| `DETECTION_SIGNATURE` | A declared detection signature matched |
+| `SYNC_MARKER` | A known sync-marker sequence was found |
+| `MANUFACTURER_CONFIRM` | The manufacturer's own string confirms the file |
 | `EXCLUSION_CLEAR` | No conflicting family signatures found |
+| `FILL_PATTERN` | The fill-byte ratio matches the family's fill style |
 
-Tags are weighted — structural ones (magic, ident block) are worth more
-than soft ones (size match). The confidence scorer uses the tag list to
-compute a dynamic detection-quality bonus.
+An extractor may also emit **free-form tags of its own** (for example
+`MOTRONIC_M2_LABEL` or `TSW_STRING`); those carry the default weight.
+
+Tags are weighted — structural ones (magic bytes, pointer tables, layout
+fingerprints, ident blocks) are worth **4**; identity/detection tags
+(`FAMILY_STRING`, `SYNC_MARKER`, …) **3**; soft ones (`SIZE_MATCH`,
+`EXCLUSION_CLEAR`, `FILL_PATTERN`) **2**; any free-form tag **2**. The total is
+capped at **+20**, so a long tag list cannot inflate the score. See
+[Confidence scoring](confidence.md#detection-quality-baseline) for the table.
 
 ## Confidence signals
 
@@ -49,11 +63,15 @@ contributing factor is a **signal** with a point delta:
 
 ```
   Tier   MEDIUM
-  Signal  +13  detection evidence (4 tags: SIZE_MATCH, MAGIC_MATCH, …)
-  Signal  +30  canonical SW version
-  Signal  +10  calibration ID present (86CAU_AT)
-  Signal  -25  tuning/modification keywords in filename
+  Signal  +  detection evidence (4 tags: SIZE_MATCH, MAGIC_MATCH, POINTER_TABLE, BOOT_BLOCK)
+  Signal  +  canonical SW version
+  Signal  +  calibration ID present (86CAU_AT)
+  Signal  -  tuning/modification keywords in filename
 ```
+
+The terminal prints the **sign** only; the point values are in the JSON output
+and in the one-line summary above the section (see
+[Confidence scoring](confidence.md#example-output)).
 
 Negative signals matter as much as positive ones — a filename saying
 `sport` or `stage1` costs points, and the warning is shown.

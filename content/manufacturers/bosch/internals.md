@@ -13,9 +13,9 @@ extractor structure. For the user-facing family reference, see [Supported Bosch 
 
 ## Extractor directory structure
 
-Each Bosch family lives in its own package under `src/openremap/tuning/manufacturers/bosch/<family>/`:
+Each Bosch family lives in its own package under `openremap/core/manufacturers/bosch/<family>/`:
 
-```/dev/null/directory-tree.txt#L1-17
+```text
 bosch/
 ├── edc1/          — EDC1 / EDC2
 ├── edc15/         — EDC15 (Format A + B + C / Volvo EDC15C3)
@@ -47,16 +47,23 @@ The registry in `bosch/__init__.py` lists all extractors in priority order — m
 
 The `+30` canonical SW bonus is awarded when `software_version` matches a manufacturer-aware canonical SW regex:
 
-```/dev/null/confidence-rules.txt#L1-2
+```text
 +30  software_version matches canonical SW pattern             (EDC15, EDC16, EDC17, ME7, ME9, …)
 +15  software_version present but non-canonical                (M2.x uses 1267/2227; M3.x uses 1267/2227; EDC3x uses cal numbers)
 ```
 
 The `1039` prefix is used by PSA/Peugeot-Citroën EDC16C34 variants (e.g. Peugeot 3008 1.6 HDI, SW `1039398238`). The `1277` prefix is used by Italian-market ME7.3 variants (e.g. Ferrari 360, SW `1277356302`). Both are treated as equally canonical as `1037`.
 
-M2.x, M3.x, and EDC 3.x families always produce the `+15` signal — their SW versions never begin with `1037`/`1039`/`1277` and that is expected, not a defect.
+A number that begins with `1267` or `2227` — which is what M2.x and M3.x
+normally carry — is **just as canonical** as `1037`, because the pattern accepts
+all six prefixes. Those families therefore earn the full `+30`. EDC 3.x is the
+one that lands on `+15`: it carries calibration-style numbers instead of a
+`1037`-class software version.
 
-> **Note:** The confidence system now uses manufacturer-aware canonical SW recognition and detection strength baselines — see [confidence.md](../../concepts/confidence.md) for full details.
+> **Note:** The confidence system uses manufacturer-aware canonical SW
+> recognition and evidence-based detection — a tag sum, not the old fixed
+> STRONG/MODERATE/WEAK label. See [confidence.md](../../concepts/confidence.md)
+> for full details.
 
 ### Hardware number bonus
 
@@ -176,7 +183,7 @@ M4.x uses **sequential (direct) digit order** — the opposite of M1.x and M3.x 
 
 M4.x bins contain a DAMOS slash-delimited descriptor string:
 
-```/dev/null/damos-descriptor.txt#L1-2
+```text
 44/1/M4.3/09/5033/DAMOS0C03//040398/
 47/1/M4.4/05/5044/DAMOS0C04//150699/
 ```

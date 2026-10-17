@@ -1,17 +1,16 @@
 ---
 title: Tune Format (.orst)
 description: >-
-  > **⚠ DEPRECATED.** The `.orst` saved-tune format is being phased out. > New
-  work should use the portable [`.remap` recipe format](recipe-format.md) >
-  (schem…
+  Deprecated .orst saved-tune format — spec and field reference. New work
+  should use the portable .remap recipe format.
 ---
 # Tune Format (.orst)
 
 > **⚠ DEPRECATED.** The `.orst` saved-tune format is being phased out.
 > New work should use the portable [`.remap` recipe format](recipe-format.md)
-> (schema 4.4), which now covers the saved-tune use case with the
-> calibration-map annotation layer. Existing `.orst` files remain
-> readable, but the format will not receive new features.
+> (schema 4.5), which now covers the saved-tune use case with the
+> calibration-map annotation and volatile-byte layers. Existing `.orst` files
+> remain readable, but the format will not receive new features.
 
 The `.orst` (OpenRemap Saved Tune) format is the workspace-native file that
 stores a saved tune. It carries the same instruction shape as a `.remap`

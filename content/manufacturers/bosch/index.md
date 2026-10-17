@@ -13,20 +13,20 @@ that powers most modern diesels.
 
 | Family | Era | File sizes | Vehicles & applications | Page |
 |---|---|---|---|---|
-| **EDC1 / EDC2** | 1990–1997 | 32–64 KB | Audi 80/A6 TDI, early common-rail diesel | [edc1](edc1.md) |
+| **EDC1 / EDC2** | 1990–1997 | 32 or 64 KB | Audi 80/A6 TDI, early common-rail diesel | [edc1](edc1.md) |
 | **EDC 3.x** | 1993–2000 | 128–512 KB | VAG TDI, BMW diesel, Opel diesel | [edc3x](edc3x.md) |
-| **EDC15** | 1997–2004 | 512 KB | VAG, Fiat, Volvo, BMW diesel | [edc15](edc15.md) |
+| **EDC15** | 1997–2004 | 512 KB–1 MB | VAG, Fiat, Volvo, BMW diesel | [edc15](edc15.md) |
 | **EDC16** | 2003–2008 | 256 KB–2 MB | VAG PD/CR TDI, BMW diesel, Opel/GM diesel | [edc16](edc16.md) |
 | **EDC17 / MEDC17 / MED17 / ME17 / MD1** | 2008–present | 2–8 MB | VAG, BMW, Mercedes, PSA diesel and petrol | [edc17](edc17.md) |
 | **MED9** | 2002–2008 | 512 KB–2 MB | VAG FSI/TFSI petrol direct injection | [med9](med9.md) |
 | **ME7** | 1997–2008 | 64 KB–1 MB | VAG 1.8T, Porsche, Ferrari, Opel | [me7](me7.md) |
 | **ME7.9.x (ME7.9.10)** | 2006+ | 832 KB | Fiat/Alfa/Lancia 1.4 T-Jet, PSA variants | [me79](me79.md) |
 | **ME9** | 2001–2006 | 2 MB | VW/Audi 1.8T 20v full flash | [me9](me9.md) |
-| **M1.x / M1.55** | 1987–2002 | 32–128 KB | BMW E28–E36 (M1.3/M1.7), Alfa Romeo (M1.55) petrol | [m1x](m1x.md) |
-| **M2.x** | 1993–1999 | 32–128 KB | VW/Audi, Porsche 964, Opel | [m2x](m2x.md) |
+| **M1.x / M1.8 / M1.55** | 1987–2002 | 32 KB (M1.x, M1.8), 128 KB (M1.55) | BMW E28–E36 (M1.3/M1.7), Volvo 960/940/240 (M1.8), Alfa Romeo (M1.55) petrol | [m1x](m1x.md) |
+| **M2.x** | 1993–1999 | 32 or 64 KB | VW/Audi, Porsche 964, Opel | [m2x](m2x.md) |
 | **M3.x / MP3.x / MP7.x** | 1989–1999 | 32–256 KB | BMW E30/E36, PSA/Citroën petrol | [m3x](m3x.md) |
-| **M4.x** | 1994–2002 | 64–128 KB | Volvo 850/960/S70/V70/S80 petrol | [m4x](m4x.md) |
-| **M5.x / M3.8x** | 1997–2004 | 128–256 KB | VW/Audi 1.8T (AGU, AUM, APX) | [m5x](m5x.md) |
+| **M4.x** | 1994–2002 | 64 or 128 KB | Volvo 850/960/S70/V70/S80 petrol | [m4x](m4x.md) |
+| **M5.x / M3.8x** | 1997–2004 | 128, 256 or 512 KB | VW/Audi 1.8T (AGU, AUM, APX) | [m5x](m5x.md) |
 | **ME1.5.5** | 1999–2005 | 512 KB | Opel/Vauxhall petrol (Astra-G Z20LET, Corsa-C) | [me155](me155.md) |
 | **MP9** | 1996–2002 | 64 KB | VW/Seat/Skoda 1.0–1.6L petrol | [mp9](mp9.md) |
 | **Mono-Motronic** | 1989–1997 | 32–64 KB | VW/Audi/Seat single-point injection | [mono](mono.md) |

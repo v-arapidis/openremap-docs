@@ -9,6 +9,31 @@ What changed in the recent releases, explained for users — each item links
 to the docs page that covers it. The complete, technical history lives in
 the repository: [CHANGELOG.md on GitHub](https://github.com/v-arapidis/openremap-core/blob/main/CHANGELOG.md).
 
+## 0.7.7 — 2026-10-17
+
+- **New [`synth`](../../synth/index.md) command** — build an ECU-*like* binary
+  from scratch, with no ECU file involved. It is deterministic (same settings
+  and seed → byte-identical file), so it works as a demo, a test fixture, or a
+  reproducible case in a bug report. Generated files identify as `Unknown` by
+  design: they carry no manufacturer fingerprints.
+- **New [`contribute`](../../contribute/index.md) command — the contribution
+  wizard.** Own a dump of an ECU family the engine does not recognise? It
+  measures your dump for a byte pattern that is stable in that family and absent
+  from every family already supported, then (with `--write`) writes the fixture,
+  an extractor skeleton, a test and a PR report. **Your dump never leaves your
+  machine** — only a few hundred bytes of fixture recipe travel. `--measure-only`
+  gives a first look that needs neither a clone nor the family name.
+- **Fixtures instead of ROMs** — an 89-file mimic corpus (`_dev/contrib/`) that
+  the wizard checks candidate signatures against, and a golden corpus
+  (`tests/corpus/`) built on synthetic dumps that runs in CI with no ECU data.
+- **Correctness fixes**, two of which change results on real binaries:
+  the VAG part-number scan no longer stops at an all-digit lookalike (some
+  EDC15/16/17/EDC3.x dumps now report the part number they always had), and the
+  cached two-stage map scan no longer returns a previous call's tables when the
+  thresholds change.
+- **HEX / S-Record input** now decodes in the two-stage map scan, as it already
+  did everywhere else, and `list_methods` honours its `kind` filter.
+
 ## 0.7.6 — 2026-09-06
 
 - **Two new ECU families** gained full support: Bosch **ME7.9.x** (ME7.9.10,

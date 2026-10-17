@@ -32,8 +32,10 @@ All three are `command` kind (atomic). They share the same input schema.
 }
 ```
 
-Defaults and validation live **in the schema**, in the registry — not in
-the CLI or any client. Every consumer reads the same contract via
+The schema is the authoritative contract for API callers: it declares each
+parameter's type, default and bounds, and the registry validates every call
+against it. The CLI declares its own `--flags`, so a schema change reaches the
+terminal only when the CLI is updated too — check the live schema with
 `list_methods`.
 
 ## Calling it in-process (Python)
@@ -49,7 +51,10 @@ before = api.call(
     "validate_before",
     {"path": "target.bin", "recipe": recipe, "recipe_name": "recipe.remap"},
 )
-print(before["summary"]["safe_to_patch"])  # True / False
+
+# The validator's report sits under "report"; the two warnings travel beside it.
+print(before["report"]["summary"]["safe_to_patch"])  # True / False
+print(before["size_warn"])                           # None when the sizes match
 ```
 
 Diagnose a failed pre-flight with `validate_check`, then confirm a tune
@@ -57,18 +62,37 @@ with `validate_after`:
 
 ```python
 diag = api.call("validate_check", {"path": "target.bin", "recipe": recipe})
-print(diag["summary"]["verdict"])  # e.g. "SHIFTED RECOVERABLE"
+print(diag["report"]["summary"]["verdict"])  # e.g. "shifted_recoverable"
 
 after = api.call(
     "validate_after",
     {"path": "target_tuned.bin", "recipe": recipe, "recipe_name": "recipe.remap"},
 )
-print(after["summary"]["patch_confirmed"])  # True / False
+print(after["report"]["summary"]["patch_confirmed"])  # True / False
 ```
 
-Each report is a JSON-safe dict with a `summary` object plus the
-per-instruction `results`/`failures`/`all_results` list. Read the exact
-shape you need from a live call or `list_methods`.
+All three wrap their report the same way:
+
+| Key | What it holds |
+|---|---|
+| `report` | the validator's report — `summary` plus the per-instruction list |
+| `size_warn` | the size warning (`None` when the sizes match) |
+| `match_key_warn` | the match-key warning (`None` when they agree) |
+
+The verdict key and the per-instruction list differ per method:
+
+| Method | Verdict key | Per-instruction list |
+|---|---|---|
+| `validate_before` | `summary.safe_to_patch` | `failures` + `all_results` |
+| `validate_check` | `summary.verdict` | `results` |
+| `validate_after` | `summary.patch_confirmed` | `failures` + `all_results` |
+
+`validate_check`'s `verdict` is one of four lowercase strings: `safe_exact`,
+`shifted_recoverable`, `missing_unrecoverable`, `invalid_recipe`.
+
+`validate_before` additionally adds a `report.same_file_only` block recording
+the portability gate (`stamped`, `allowed`, `note`). For the exact shape, read
+a live call or `list_methods`.
 
 ## Calling it over JSON-RPC
 
@@ -89,8 +113,9 @@ echo '{"id": 1, "method": "validate_before", "params": {"path": "target.bin", "r
 | `-32000` | Guard rejection (business rule, not a bug) | empty or undecodable file |
 | `-32603` | Unexpected internal failure | — |
 
-A failed validation is **not** an error — it is a normal result (`safe:
-False`, `verdict: MISSING UNRECOVERABLE`, `confirmed: False`). Only bad
+A failed validation is **not** an error — it is a normal result
+(`report.summary.safe_to_patch: false`, `report.summary.verdict:
+"missing_unrecoverable"`, `report.summary.patch_confirmed: false`). Only bad
 input or unreadable files raise errors.
 
 ## Discovery — `list_methods`

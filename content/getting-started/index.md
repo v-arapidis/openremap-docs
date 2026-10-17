@@ -52,6 +52,7 @@ intro / CLI / API pages.
 | Command | What it does |
 |---|---|
 | `identify` | Read one binary — manufacturer, family, software, confidence |
+| `analyze` | Describe a whole binary — identity, VIN, layout, maps, checksums, health |
 | `health` | One-shot safety check — checksums, axes, map counts, VINs |
 | `scan` | Batch-classify a folder of binaries |
 | `checksum` | Verify known checksum schemes (detection only, no correction) |
@@ -59,11 +60,16 @@ intro / CLI / API pages.
 | `diff-maps` | Compare two binaries at map level |
 | `scan-vins` | Locate and score VIN candidates |
 | `layout` | Flash-layout block map — code/calibration/erased/ident regions |
+| `routine` | Read a code routine as readable pseudo-code |
+| `convert` | Normalise HEX / S-Record images to flat bytes |
 | `cook` | Diff stock vs tuned → `.remap` recipe |
+| `cook-volatile` | Car-portable recipe — excludes volatile bytes with evidence |
 | `merge` | Combine two recipes, validated against a common stock |
 | `tune` | Validate → apply → verify, one shot |
 | `validate` | Individual validation steps (before / check / after) |
 | `audit` | The receipt check — do stock, tuned, recipe belong together? |
+| `synth` | Generate a synthetic ECU-like binary — no ECU data needed |
+| `contribute` | Measure your own dump and generate files for a new-family PR |
 | `families` | List supported ECU families |
 | `commands` | Cheat-sheet — one line per command |
 | `workflow` | In-terminal step-by-step guide |

@@ -1,6 +1,6 @@
 ---
 title: API concepts
-description: How openremap.api is organised — the method registry, the typed input-schema contract, the three kinds (command / composite / workflow), and the error codes.
+description: How openremap.api is organised — the method registry, the input-schema contract, the three kinds (command / composite / workflow), and the error codes.
 tags: [api]
 status: stable
 ---
@@ -25,7 +25,7 @@ Each method carries:
     "name": "identify",          # the name you call it by
     "kind": "command",           # command | composite | workflow
     "description": "Identify an ECU binary — manufacturer, family, confidence, VIN.",
-    "input_schema": {...},       # the typed parameter contract (below)
+    "input_schema": {...},       # the parameter contract (below)
     "steps": [...],              # composites/workflows only: what they run
 }
 ```
@@ -46,15 +46,19 @@ The important functions:
 Every method declares its parameters in its `input_schema`. Each parameter
 spec can carry:
 
-- **`type`** — `str`, `int`, `float`, `bool`, `bytes`, `dict`, `list`
+- **`type`** — `str`, `int`, `float`, `bool`, `bytes`, `dict`, `list`. Declared
+  by `command` and `composite` methods; a `workflow` declares only which inputs
+  are required, because its schema is collected from a `.toml` data file
 - **`required`** — bool; a required param with no value and no default is an error
 - **`default`** — applied when the caller omits the param
 - **`min` / `max`** — numeric bounds, enforced
 - **`description`** — what the parameter means
 
-Defaults and validation live **here**, in the schema — not in the CLI or any
-client. The CLI, a GUI and an RPC client all read the same contract, so a
-call that validates in one place validates everywhere.
+Defaults and validation live **here**, in the schema. The Python API, an RPC
+client and a GUI all read this same contract, so a call that validates in one
+place validates for every API consumer. The **CLI is the exception** — each
+command declares its own `--flags` rather than reading this schema, so a schema
+change reaches the terminal only when the CLI is updated too.
 
 > [!TIP]
 > Run `list_methods` to see the *live* schema of every method — the

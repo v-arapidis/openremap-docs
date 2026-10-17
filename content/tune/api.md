@@ -30,8 +30,10 @@ each phase.
 }
 ```
 
-Defaults and validation live **in the schema**, in the registry — not in
-the CLI or any client. Every consumer reads the same contract via
+The schema is the authoritative contract for API callers: it declares each
+parameter's type, default and bounds, and the registry validates every call
+against it. The CLI declares its own `--flags`, so a schema change reaches the
+terminal only when the CLI is updated too — check the live schema with
 `list_methods`.
 
 ## Calling it in-process (Python)
@@ -40,6 +42,7 @@ Load a recipe (for example from the `cook` method, or straight from a
 `.remap` file) and apply it:
 
 ```python
+import base64
 import json
 import openremap.api as api
 
@@ -54,12 +57,35 @@ report = api.call(
         "recipe_name": "recipe.remap",
     },
 )
-# result is a plain JSON-serialisable dict — the combined three-phase report
-# (phase_1_validate_before, phase_2_apply, phase_3_validate_after, success)
 
-print(report["success"])          # True
-print(report["phase_2_apply"])    # e.g. {"applied": ..., "shifted": ...}
+# The result is a plain JSON-serialisable dict. The three-phase report sits
+# under "combined"; "all_ok" is the same verdict lifted to the top level.
+print(report["all_ok"])                     # True
+print(report["combined"]["success"])        # True
+print(report["combined"]["phase_2_apply"])  # the patcher report
+
+# The patched binary itself comes back in the reply, base64-encoded —
+# None when a phase failed.
+patched = base64.b64decode(report["tuned_b64"])
 ```
+
+The wrapper keys:
+
+| Key | What it holds |
+|---|---|
+| `combined` | the three-phase report: `phase_1_validate_before`, `phase_2_apply`, `phase_3_validate_after`, `success` |
+| `all_ok` | `true` only when every phase that ran passed — the same verdict as `combined.success` |
+| `tuned_b64` | the patched binary, base64-encoded (`None` when phase 2 never ran) |
+| `target_md5` / `tuned_md5` | md5 of the target and of the patched result |
+| `gate_msg` | the same-file-only gate's message |
+| `p1_size_warn` / `p1_match_key_warn` | phase 1's size and match-key warnings |
+| `apply_error` | the apply step's error, when there is one |
+
+`phase_2_apply` is the **patcher report**:
+`{"target_file", "recipe_file", "target_md5", "summary", "results"}`. The
+verdict is inside `summary` — `patch_applied` (`true` when nothing failed),
+`score_pct`, and the counts `total` / `success` / `failed` / `shifted` /
+`ambiguous`, plus `patched_md5`.
 
 ## Calling it over JSON-RPC
 
@@ -77,11 +103,16 @@ echo '{"id": 1, "method": "tune", "params": {"path": "target.bin", "recipe": {..
 |---|---|---|
 | `-32602` | Invalid params (schema validation) | `tune: missing required param 'recipe'` |
 | `-32601` | Method not registered | `Unknown method: 'tunex'` |
-| `-32000` | Guard rejection (business rule, not a bug) | same-file-only refusal, phase-1 mismatch, empty/undecodable file |
+| `-32000` | Guard rejection (business rule, not a bug) | same-file-only refusal, empty or undecodable file |
 | `-32603` | Unexpected internal failure | — |
 
-Failed phases and policy rejections come back as guard errors (`-32000`) —
-the API never writes a partial tune, exactly like the CLI.
+**A failed phase is not an error.** Only the same-file-only gate refuses the
+call (`-32000`). When phase 1 finds the recipe does not match the target, the
+call *succeeds* and returns `all_ok: false`, `combined.success: false` and
+`tuned_b64: null` — so branch on the result, not on the error channel.
+
+Nothing is written either way: the patched bytes come back in the reply
+(`tuned_b64`), never to disk, so a caller decides what to do with them.
 
 ## Discovery — `list_methods`
 

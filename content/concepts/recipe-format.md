@@ -39,7 +39,7 @@ Version history:
 {
   "type": "recipe",
   "schema_version": "4.5",
-  "source": "full_cook" | "cook_volatile" | "tune_export",
+  "source": "full_cook",
   "application": "openremap-core" | "openremap-studio",
   "creator": { },
   "fingerprint": "",
@@ -55,7 +55,7 @@ Version history:
 |---|---|---|
 | `type` | `string` | Always `"recipe"` |
 | `schema_version` | `string` | Format version — currently `"4.5"` |
-| `source` | `string` | How the recipe was produced: `"full_cook"` (binary diff), `"cook_volatile"` (volatile-aware cook), `"tune_export"` (exported from a saved tune), or `"recipe_merge"` (merged from two recipes) |
+| `source` | `string` | How the recipe was produced. `openremap-core` writes `"full_cook"` (a binary diff — this includes `cook-volatile`) or `"recipe_merge"` (merged from two recipes). `"tune_export"` is reserved for a recipe exported from a saved tune by the desktop app |
 | `application` | `string` | Which application produced the file: `"openremap-core"` (CLI / TUI) or `"openremap-studio"` (desktop app) |
 | `creator` | `object` | Human author identity — see below |
 | `fingerprint` | `string` | SHA-256 of instruction content for dedup and corruption detection |
@@ -65,6 +65,12 @@ Version history:
 | `instructions` | `array` | Per-byte-block change instructions |
 | `maps` | `array` | *Optional (4.4)* — calibration-map annotation layer, see below |
 | `volatile` | `object` | *Optional (4.5)* — volatile-region classification, see below |
+
+> [!NOTE]
+> `cook-volatile` keeps the top-level `source` at `"full_cook"` and records its
+> own provenance one level down, in `metadata.source = "cook_volatile"`. So a
+> `cook-volatile` recipe is identified by its top-level `volatile` section
+> (schema 4.5) plus `metadata.source` — not by the top-level `source`.
 
 ---
 
@@ -118,7 +124,7 @@ Information about the files the recipe was built from.
 | `modified_file` | `string` | Filename of the tuned binary, or tune display label for `tune_export` |
 | `original_size` | `integer` | Size of the original binary in bytes |
 | `modified_size` | `integer` | Size of the modified binary in bytes |
-| `tune_id` | `string \| null` | Source tune ID (`orst_<32hex>`) for `tune_export`. `null` for `full_cook` |
+| `tune_id` | `string \| null` | Source tune ID (`orst_<32hex>`) when the recipe was exported from a saved tune. `openremap-core` always writes `null` — it has no tune store |
 | `portability` | `string \| null` | *Optional.* `"same_file_only"` when the recipe contains non-unique context anchors (`cook --allow-non-unique`): `tune`/`validate` refuse it on any binary whose sha256 differs from `ecu.sha256` unless `tune --force` is passed (the mechanical validation phases still run). Absent for portable recipes |
 
 ```json
@@ -201,7 +207,7 @@ If the target binary's `match_key` does not match the recipe's `match_key`, the 
 
 ### `cook_warnings`
 
-Non-fatal issues detected during cooking (`full_cook` only; always empty for `tune_export`):
+Non-fatal issues detected during cooking (a `full_cook` field; empty in a `tune_export` recipe):
 - Identity mismatches between original and modified binaries
 - Non-unique context anchors (when Force Save bypasses the uniqueness guard)
 - Low-entropy context regions
@@ -282,7 +288,7 @@ An array of patch instructions. Each instruction describes one contiguous block 
 | `ctx_unique` | `boolean \| null` | `true` when the `ctx + ob` pattern is unique in the original binary |
 | `ctx_expanded` | `boolean \| null` | `true` when the context was auto-expanded beyond `min_context_size` |
 | `description` | `string` | Human-readable summary of the instruction |
-| `region` | `string \| null` | *Optional.* Flash-layout region the edit lands in: `calibration` / `code` / `erased` / `mixed` / `unknown` (structural estimate — advisory only, never filters or blocks; see [cook → region tags](../cook/cli.md)) |
+| `region` | `string \| null` | Flash-layout region the edit lands in: `calibration` / `code` / `erased` / `mixed` / `unknown` (structural estimate — advisory only, never filters or blocks; see [cook → region tags](../cook/cli.md)). Both cook paths tag every instruction, so it is normally always present and `null` only on `.orst` instructions |
 | `flags` | `array` | Annotator flags attached to this instruction |
 
 ### Instruction flags
@@ -291,15 +297,17 @@ Each flag is an object with:
 
 | Field | Type | Description |
 |---|---|---|
-| `kind` | `string` | Flag type: `VIN_SUSPECT`, `CHECKSUM_SUSPECT`, `LOW_ENTROPY_CTX`, `CODE_AREA` |
+| `kind` | `string` | Flag type: `VIN_SUSPECT`, `WEAK_ANCHOR`, `LOW_ENTROPY_CTX`, `CODE_AREA` |
 | `reason` | `string` | Human-readable explanation of why this instruction was flagged |
 | `confidence` | `float` | Confidence score 0.0–1.0 (was string `HIGH`/`MEDIUM`/`LOW` in 4.2) |
-| `action` | `string` | `WARN`, `SKIP`, or `REVIEW` |
+| `action` | `string` | Always `"REVIEW"` — the annotator never removes an instruction automatically |
 
-`CODE_AREA` (confidence 1.0) marks an edit outside a calibration region
+`WEAK_ANCHOR` marks an instruction whose context anchor is not unique, which is
+the same situation Force Save (`cook --allow-non-unique`) accepts. `CODE_AREA`
+(confidence 1.0) marks an edit outside a calibration region
 (code/erased/mixed flash area) — a portability signal, since code differs
-across ECU revisions.  It is advisory: the recipe patches identically with
-or without it.
+across ECU revisions. Both are advisory: the recipe patches identically with
+or without them.
 
 ### `ob` and `mb`
 
@@ -336,6 +344,11 @@ The anchor search works as follows:
 ---
 
 ## `source` — full_cook vs tune_export
+
+`openremap-core` only ever produces the `full_cook` profile (and
+`recipe_merge`); the `tune_export` column describes a recipe exported from a
+saved `.orst` tune by the desktop app, which is why the core always writes
+`metadata.tune_id: null`.
 
 | Field | `full_cook` | `tune_export` |
 |---|---|---|

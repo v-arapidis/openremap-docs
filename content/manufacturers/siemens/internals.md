@@ -13,9 +13,9 @@ extractor structure. For the user-facing family reference, see [Supported Siemen
 
 ## Extractor directory structure
 
-Each Siemens family lives in its own package under `src/openremap/tuning/manufacturers/siemens/<family>/`:
+Each Siemens family lives in its own package under `openremap/core/manufacturers/siemens/<family>/`:
 
-```/dev/null/directory-tree.txt#L1-8
+```text
 siemens/
 ├── simtec56/   — Simtec 56 (Opel/Vauxhall X18XE, X20XEV petrol)
 ├── simos/      — SIMOS / SIMOS2 / SIMOS3 (VAG 1.4–1.6L petrol)
@@ -73,7 +73,7 @@ Opel/Vauxhall petrol ECUs (1995–2002) for X18XE and X20XEV engines. Vehicles i
 
 The RS/RT ident record is the single most reliable identifier. Format:
 
-```/dev/null/simtec56-ident-format.txt#L1-5
+```text
 R[ST]<8-digit GM part> <12-16 digit serial>[a-z]5WK9<4-6 digits>
 
 Example: RS90506365 0106577255425b5WK907302
@@ -183,7 +183,7 @@ No file-size gate is applied — detection is purely signature-based (after excl
 
 ### Ident record format
 
-```/dev/null/ppd-ident-format.txt#L1-7
+```text
 <serial>--    111SN<project>111SN<project>111SN<project>CASN<cal>.DAT    <VAG part> R4 <disp> PPD1.<ver>
 
 Example:
@@ -238,7 +238,7 @@ PSA (Peugeot/Citroën) and Ford HDi diesel ECUs (DW10/DW12 engines, 2.0 HDi and 
 
 ### Ident record format (Type B only)
 
-```/dev/null/sid801-ident-format.txt#L1-5
+```text
 5WS4xxxxX-T <9-digit serial> <date+serial>S2<version>
 
 Example: 5WS40145A-T 244177913   04020028014941S220040001C0
@@ -301,7 +301,7 @@ PSA (Peugeot/Citroën), Ford, and Jaguar/Land Rover diesel ECUs from the mid-200
 
 ### SID801 vs SID803 — the PM3/PO discriminator
 
-```/dev/null/sid-discriminator.txt#L1-4
+```text
 PM3 present → always SID801, never SID803
 PO  present → always SID803, never SID801
 
@@ -310,7 +310,7 @@ SID801 excludes SID803; SID803 excludes PM3. The two are fully disjoint.
 
 ### Ident record format (SID803A, 2 MB files only)
 
-```/dev/null/sid803a-ident-format.txt#L1-3
+```text
 5WS4xxxxX-T  <14-17 digit serial>
 
 Example: 5WS40262B-T  00012345678901234

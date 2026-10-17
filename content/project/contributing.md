@@ -1,12 +1,24 @@
 ---
 title: Contributing to OpenRemap
-description: 'First off, thank you for taking the time to contribute.'
+description: How to contribute — the rules that apply to everything, the per-domain guides, and how to add an ECU family without sharing your dump.
+tags: [contributing, development]
 ---
 # Contributing to OpenRemap
 
-First off, thank you for taking the time to contribute. This project is designed from the ground up to be extended — especially by people who have hands-on experience with ECU families that are not yet supported.
+First off, thank you for taking the time to contribute. This project is designed
+from the ground up to be extended — especially by people who have hands-on
+experience with ECU families that are not yet supported.
 
-Every part of the codebase that matters for contributors is covered below.
+This page holds the rules that apply to **everything** you might contribute.
+Each area of the code has its own conventions and its own review bar, so the
+guides are split by domain — see [Ways to contribute](#ways-to-contribute).
+
+> [!TIP]
+> **Adding an ECU family? Start with the wizard, not the code.**
+> `openremap contribute` measures your own dump for a byte pattern that is
+> stable in that family and absent from every family already supported, then
+> writes the fixture, an extractor skeleton, a test and a PR report. It never
+> asks for your dump. See [contribute](../contribute/index.md).
 
 ---
 
@@ -44,214 +56,258 @@ Any output produced by this tool — recipes, patched binaries, or identificatio
 
 ---
 
-## Table of Contents
+## Ways to contribute
 
-- [🛡️ Contributor Safety Notice](#contributor-safety-notice)
-- [Ways to Contribute](#ways-to-contribute)
-- [Getting the Project Running Locally](#getting-the-project-running-locally)
-- [The Most Valuable Contribution: Adding a New ECU Extractor](#the-most-valuable-contribution-adding-a-new-ecu-extractor)
-- [Other Contributions](#other-contributions)
-- [Code Style](#code-style)
-- [Submitting a Pull Request](#submitting-a-pull-request)
-- [Reporting a Bug or Wrong Identification](#reporting-a-bug-or-wrong-identification)
-- [A Note on ECU Binary Files](#a-note-on-ecu-binary-files)
+| Type | Guide | Examples |
+|---|---|---|
+| **New ECU family** | [contribute](../contribute/index.md) → `contributing/extractors.md` | A family `identify` reports as `Unknown` |
+| **Checksum profile** | `contributing/checksums.md` | A family whose stored checksum cannot be verified yet |
+| **CPU / arch decoder** | `contributing/decoders.md` | A CPU capstone does not cover, or better coverage of one it does |
+| **Map hunting / scoring** | `contributing/map-scoring.md` | Fewer false positives, better axis pairing, faster scans |
+| **Instruction scanner** | `contributing/scanners.md` | A new advisory flag on changed instructions |
+| **Tests** | `contributing/tests.md` | Coverage for any extractor or service — no ECU dump needed |
+| **Bug fix** | — | A crash, a wrong identification, a validation logic error |
+| **Documentation** | — | This wiki, the README, docstrings |
 
----
-
-## Ways to Contribute
-
-| Type | Examples |
-|---|---|
-| **New extractor** | Add support for Siemens SID, Delphi DCM, Marelli MJD, Denso, Continental |
-| **Improve an existing extractor** | Fix a wrong pattern, handle an edge-case variant, improve the match key |
-| **Bug fix** | Fix a crash, a wrong identification result, a validation logic error |
-| **Tests** | Write `pytest` tests for any extractor or service |
-| **Documentation** | Improve the README, add docstrings, fix typos |
-| **Recipe format** | Propose and implement improvements to the recipe JSON structure |
+The per-domain guides live in the engine repository under `contributing/`;
+`CONTRIBUTING.md` there is their index.
 
 ---
 
-## Getting the Project Running Locally
+## Getting the project running locally
 
 ### Prerequisites
 
 - Python 3.10+
 - [uv](https://github.com/astral-sh/uv)
+- git
 
 ### Steps
 
 ```bash
-# 1. Fork the repo on GitHub, then clone your fork
-git clone https://github.com/your-username/openremap.git
-cd openremap
+# 1. Fork the repository on GitHub, then clone your fork
+git clone https://github.com/your-username/openremap-core.git
+cd openremap-core
 
 # 2. Install all dependencies
 uv sync
 
-# 3. Run the test suite to confirm everything works
+# 3. Build the mandatory Rust extension
+uv run --with maturin maturin develop --release
+
+# 4. Run the test suite to confirm everything works
 uv run pytest
 ```
 
-That's all that is needed to work on the engine and CLI. No server, no database, no environment file required.
+That is all that is needed to work on the engine and CLI. No server, no
+database, no environment file required.
+
+`maturin` is a *build* tool, not a project dependency, which is why `--with
+maturin` is there: it makes uv fetch it for the command without adding it to the
+lockfile. **Rebuild the extension whenever you change anything under
+`openremap/_rs/`** — otherwise you are testing the previous binary.
 
 ---
 
-## The Most Valuable Contribution: Adding a New ECU Extractor
+## Adding a new ECU family
 
-This is the single most impactful thing you can contribute. The entire pipeline — identification, recipe building, validation, patching — is manufacturer-agnostic. Adding a new extractor makes all of it work for a new family automatically.
+This is the single most impactful contribution. The whole pipeline —
+identification, scanning, recipes, validation, patching — is
+manufacturer-agnostic, so teaching the engine one new family makes all of it
+work for that family.
 
-### How the extractor system works
+### Step 1 — measure, don't guess
 
-Every extractor lives in `src/openremap/tuning/manufacturers/<brand>/<family>/extractor.py` and subclasses `BaseManufacturerExtractor`. When a binary is submitted, the registry calls `can_handle()` on each extractor in priority order and delegates all extraction to the first one that returns `True`.
-
-The base class (`src/openremap/tuning/manufacturers/base.py`) is well-documented. Read it before you start — it explains `can_handle()`, `extract()`, `build_match_key()`, and the opt-in fallback mechanism in detail.
-
-### Step-by-step guide
-
-**1. Create the package directory**
-
-```
-src/openremap/tuning/manufacturers/<brand>/<family>/
-├── __init__.py      (empty)
-├── extractor.py     (your implementation)
-└── patterns.py      (regex patterns and search regions — optional but recommended)
+```bash
+openremap contribute extractor my_dump.bin --also my_second_dump.bin \
+    --brand Acme --family AC3000 --write
 ```
 
-For example, a Siemens SID206 extractor would live at:
+Two dumps are how *stability* is actually proven; with one file the run can only
+report what looks stable. The wizard writes the four files a PR needs and
+prints the manual steps that remain — because **position is behaviour**: the
+registry calls `can_handle()` in order and the **first** extractor that returns
+`True` wins.
+
+See [contribute](../contribute/index.md) for what it measures and why the
+collision check needs a checkout.
+
+### Step 2 — where an extractor lives
+
 ```
-src/openremap/tuning/manufacturers/siemens/sid206/extractor.py
+openremap/core/manufacturers/
+├── base.py                      ← BaseManufacturerExtractor (ABC)
+├── __init__.py                  ← BUILTIN_EXTRACTORS: the brand order
+└── <brand>/
+    ├── __init__.py              ← EXTRACTORS: the intra-brand order
+    └── <family>/
+        ├── __init__.py          ← empty
+        ├── extractor.py         ← can_handle() + extract()
+        └── patterns.py          ← regex patterns and search regions (recommended)
 ```
 
-**2. Implement the extractor**
+For example, a Siemens SID206 extractor lives at
+`openremap/core/manufacturers/siemens/sid206/extractor.py`.
+
+### Step 3 — implement it
 
 ```python
-from openremap.tuning.manufacturers.base import BaseManufacturerExtractor
+from openremap.core.manufacturers.base import BaseManufacturerExtractor
+from openremap.core.manufacturers.base import FAMILY_STRING, SIZE_MATCH
 from typing import Dict, List
 
-class SiemensSID206Extractor(BaseManufacturerExtractor):
+class AcmeAC3000Extractor(BaseManufacturerExtractor):
 
     @property
     def name(self) -> str:
-        return "Siemens"
+        return "Acme"
 
     @property
     def supported_families(self) -> List[str]:
-        return ["SID206"]
+        return ["AC3000"]
 
     def can_handle(self, data: bytes) -> bool:
-        # Fast, bounded check only — this is called on every binary.
-        # Scan only the first few KB unless you have a strong reason not to.
-        # Return True if you are confident this binary belongs to your family.
-        return b"SID206" in data[:0x10000]
+        evidence: list[str] = []
+
+        # Fast, bounded check only — this runs on every binary, for every extractor.
+        if len(data) != 0x40000:
+            self._set_evidence()          # a miss clears the evidence
+            return False
+        evidence.append(SIZE_MATCH)
+
+        if b"AC3000" not in data[:0x10000]:
+            self._set_evidence()
+            return False
+        evidence.append(FAMILY_STRING)
+
+        self._set_evidence(evidence)      # a hit records *why*
+        return True
 
     def extract(self, data: bytes, filename: str = "unknown.bin") -> Dict:
-        # Return a dict compatible with ECUIdentitySchema.
-        # Required: file_size, md5, sha256_first_64kb
-        # Optional but valuable: manufacturer, ecu_family, ecu_variant,
-        #   software_version, hardware_number, calibration_id, match_key
-        import hashlib
-        return {
-            "manufacturer": self.name,
-            "file_size": len(data),
-            "md5": hashlib.md5(data).hexdigest(),
-            "sha256_first_64kb": hashlib.sha256(data[:0x10000]).hexdigest(),
-            "ecu_family": "SID206",
-            "ecu_variant": None,
-            "software_version": None,   # extract from binary
-            "hardware_number": None,    # extract from binary
-            "calibration_id": None,     # extract from binary
-            "match_key": self.build_match_key(
-                ecu_family="SID206",
-                software_version=None,  # pass what you extracted
-            ),
-        }
+        ...   # see below
 ```
 
-**3. Register your extractor in the brand `__init__.py`**
+### Step 4 — the evidence-tag contract
 
-If the brand already exists (e.g. Bosch), open `src/openremap/tuning/manufacturers/bosch/__init__.py` and add your extractor to the `EXTRACTORS` list in the correct priority position (most specific first).
+The confidence scorer does not read a self-declared quality label. It reads the
+**evidence tags** your `can_handle()` collected. Two rules, both enforced by the
+review bar:
 
-If it is a new brand, create `src/openremap/tuning/manufacturers/<brand>/__init__.py`:
+1. **On every `return True`**, call `self._set_evidence(evidence)` with the tags
+   that justified the match.
+2. **On every `return False`**, call `self._set_evidence()` with nothing — a
+   rejected binary must not leave stale evidence behind.
+
+The standard tags are module-level constants in
+`openremap/core/manufacturers/base.py`: `SIZE_MATCH`, `MAGIC_MATCH`,
+`HEADER_MATCH`, `POINTER_TABLE`, `LAYOUT_FINGERPRINT`, `BOOT_BLOCK`,
+`IDENT_BLOCK`, `FAMILY_STRING`, `FAMILY_ANCHOR`, `DETECTION_SIGNATURE`,
+`SYNC_MARKER`, `MANUFACTURER_CONFIRM`, `EXCLUSION_CLEAR`, `FILL_PATTERN`. You may
+also emit free-form tags of your own for family-specific checks. Structural tags
+are worth more than soft ones — see
+[Confidence scoring](../concepts/confidence.md#detection-quality-baseline).
+
+`detection_strength` still exists but is **deprecated**: it is only a fallback
+for an extractor that has not been migrated.
+
+### Step 5 — register it (the human decision)
+
+If the brand already exists, add your extractor to
+`openremap/core/manufacturers/<brand>/__init__.py` in the right position:
 
 ```python
-from openremap.tuning.manufacturers.siemens.sid206.extractor import SiemensSID206Extractor
-from openremap.tuning.manufacturers.base import BaseManufacturerExtractor
-
-EXTRACTORS: list[BaseManufacturerExtractor] = [
-    SiemensSID206Extractor(),
+EXTRACTORS = [
+    ...,
+    AcmeAC3000Extractor(),   # after X — it must not outrank the family it overlaps
 ]
 ```
 
-**4. Register the brand in the top-level registry**
+If it is a **new brand**, you need three edits, in this order:
 
-Open `src/openremap/tuning/manufacturers/__init__.py` and add your brand:
+1. create `openremap/core/manufacturers/<brand>/__init__.py` with an `EXTRACTORS` list;
+2. import the brand and unpack it into `BUILTIN_EXTRACTORS` in
+   `openremap/core/manufacturers/__init__.py`;
+3. only then add the extractor itself.
 
 ```python
-from openremap.tuning.manufacturers import bosch, siemens  # add your brand here
-
-EXTRACTORS: list[BaseManufacturerExtractor] = [
+# openremap/core/manufacturers/__init__.py
+BUILTIN_EXTRACTORS: list[BaseManufacturerExtractor] = [
     *bosch.EXTRACTORS,
-    *siemens.EXTRACTORS,   # add your brand here
+    *siemens.EXTRACTORS,
+    *acme.EXTRACTORS,     # add your brand here
 ]
 ```
 
-**5. Verify it works**
+Leave a comment on the line explaining **why** that position — what it could
+overlap. The reviewer will ask.
 
-Run the CLI against a binary of the target family and confirm the correct `manufacturer`, `ecu_family`, and `match_key` come back:
-
-```bash
-uv run openremap identify your_binary.bin
-```
-
-Then cook a recipe from a stock and a modified binary to verify the `ecu` block is populated correctly:
+### Step 6 — verify
 
 ```bash
-uv run openremap cook stock.bin modified.bin --output recipe.remap
+openremap contribute check openremap/core/manufacturers/acme/ac3000/extractor.py
+uv run pytest tests/tuning/manufacturers/test_ac3000_extractor.py
 ```
 
-### Tips for writing a good `can_handle()`
+`contribute check` is the same review bar a reviewer runs: it compiles, claims
+its own fixture, steals no other family's, clears evidence on a miss, declares
+the family it reports, and is reachable from the registry.
 
-- **Keep it fast.** `can_handle()` is called on every uploaded binary for every registered extractor. Scan bounded regions (`data[:0x10000]`) rather than the full file where possible.
-- **Be exclusive, not just inclusive.** If your family shares signatures with another (e.g. both have a `b"Bosch"` string), add explicit guards to reject the other family's binaries. Look at `BoschExtractor.can_handle()` for a worked example of layered exclusion guards.
-- **File size is a strong discriminator.** Many older ECU families have a fixed, known file size (32 KB, 64 KB, 256 KB, etc.). Use it as a fast pre-filter.
+### Tips for a good `can_handle()`
 
-### Tips for writing a good `extract()`
+- **Keep it fast.** It runs on every binary, for every registered extractor.
+  Scan bounded regions (`data[:0x10000]`) rather than the whole file.
+- **Be exclusive, not just inclusive.** If your family shares a signature with
+  another, add explicit guards. The wizard harvests them for you from the
+  colliding family's own ident token.
+- **File size is a strong discriminator.** Many older families have a fixed
+  size (32 KB, 64 KB, 256 KB…). Use it as a cheap pre-filter — but check whether
+  the extractor you are copying actually has a size gate before you claim one.
 
-- **Extract `software_version` if at all possible.** It is the primary component of `match_key`. Without it, recipe matching relies on the fallback field, which is less reliable.
-- **Use `_run_all_patterns()` and `_search()` from the base class.** They handle region slicing, regex iteration, error suppression, and deduplication for you.
-- **Separate patterns into `patterns.py`.** Keeping regex byte patterns in a dedicated file makes the extractor logic easier to read and the patterns easier to update independently.
-- **Use `build_match_key()` from the base class.** Don't construct the key string manually — the base method normalises whitespace and handles the `ecu_variant` vs `ecu_family` priority for you.
+### Tips for a good `extract()`
+
+- **Extract `software_version` if at all possible** — it is the primary
+  component of the match key.
+- **Use `_run_all_patterns()` and `_search()` from the base class.** They handle
+  region slicing, regex iteration, error suppression and deduplication.
+- **Use `build_match_key()`.** Do not build the key string by hand: the base
+  method normalises whitespace and handles the `ecu_variant` vs `ecu_family`
+  priority.
+- **Keep patterns in `patterns.py`** so the logic stays readable and the
+  patterns can be updated independently.
 
 ---
 
-## Other Contributions
+## Other contributions
 
 ### Fixing an existing extractor
 
-If an extractor identifies a binary incorrectly (wrong family, wrong software version, wrong match key), please open an issue first describing the binary (file size, any visible ASCII strings near offset 0) and what the extractor returns vs. what it should return. If you can share the binary privately, that will speed things up significantly.
+If a family is identified incorrectly (wrong family, wrong software version,
+wrong match key), open an issue first describing the file — its size, and any
+readable ASCII strings near the offset 0. That is usually enough to diagnose the
+problem without the binary itself.
 
 ### Writing tests
 
-Tests live in `tests/` and are run with `uv run pytest`. Good test targets:
-
-- `ECUStrictValidator` — feed it a recipe and a matching vs. non-matching binary and assert the warnings and summary.
-- `ECUDiffAnalyzer` — feed it two known binaries and assert the instruction count and a few specific offsets.
-- Individual extractor `can_handle()` — assert it returns `True` for correct family bytes and `False` for bytes from other families.
-
-New test files belong under:
+Tests live under `tests/`, and the extractor ones are flat files:
 
 ```
-tests/
-├── conftest.py
-├── tuning/
-│   ├── test_validate_strict.py
-│   ├── test_recipe_builder.py
-│   └── manufacturers/
-│       └── bosch/
-│           └── test_edc17_extractor.py
+tests/tuning/manufacturers/
+├── test_edc17_extractor.py
+├── test_sid801_extractor.py
+└── test_declared_families.py     ← bookkeeping: every declared family is reportable
 ```
 
-Run tests with:
+You do not need an ECU dump to write one. Generate a fixture instead:
+
+```bash
+uv run openremap synth --output demo.bin --maps 4
+```
+
+Or ask the wizard for the extracted fixture recipe — the 89-file mimic corpus in
+`_dev/contrib/` exists exactly so detection can be tested without real ROMs. See
+[`synth`](../synth/index.md).
+
+Run the suite with:
 
 ```bash
 uv run pytest
@@ -259,7 +315,7 @@ uv run pytest
 
 ---
 
-## Code Style
+## Code style
 
 - **Python 3.10+ type hints everywhere.** Use `str | None` rather than `Optional[str]` for new code.
 - **Docstrings on all public methods.** Follow the style already present in `base.py` and the validator services — short summary line, then `Args:` / `Returns:` blocks where the function is non-trivial.
@@ -269,42 +325,53 @@ uv run pytest
 
 ---
 
-## Submitting a Pull Request
+## Submitting a pull request
 
-1. **Fork** the repository and create a branch from `master`:
+1. **Fork** the repository and create a branch from `main`:
    ```bash
-   git checkout -b feat/siemens-sid206-extractor
+   git checkout -b feat/acme-ac3000-extractor
    ```
 
-2. **Make your changes.** Keep each PR focused on one thing — one extractor, one bug fix, one feature. Mixed PRs are harder to review and slower to merge.
+2. **Make your changes.** Keep each PR focused on one thing — one extractor, one
+   bug fix, one feature. Mixed PRs are harder to review and slower to merge.
 
-3. **Test your changes** manually against at least one real binary of the target family, or write automated tests if you can.
+3. **Test your changes** — an automated test, or a manual run against at least
+   one real file of the target family.
 
-4. **Write a clear PR description** that answers:
-   - What does this PR do?
-   - Which ECU families / binaries does it affect?
-   - How did you test it?
-   - Any known limitations or edge cases?
+4. **Use the pull request template.** It carries the review bar this repository
+   already applies to itself: the registry position and why, evidence cleared on
+   every `False`, the fixture recipe included and the corpus in sync, and a
+   **Not verified** section saying what you could not check.
 
-5. **Open the PR** against the `master` branch.
+5. **Open the PR** against the `main` branch.
 
----
+For an extractor PR, this should be green before you push:
 
-## Reporting a Bug or Wrong Identification
-
-Open a GitHub Issue and include:
-
-- The CLI command you ran or the endpoint you called
-- The output you got
-- What you expected instead
-- The file size of the binary (do **not** attach the binary itself — see below)
-- Any printable ASCII strings visible near the start of the file, if you are comfortable sharing them
-
-For identification bugs, the file size and the first few readable strings from the binary header are usually enough to diagnose the problem without needing the file.
+```bash
+openremap contribute check openremap/core/manufacturers/acme/ac3000/extractor.py
+```
 
 ---
 
-## A Note on ECU Binary Files
+## Reporting a bug or a wrong identification
+
+Open a GitHub issue with the command you ran, the output you got, what you
+expected, and the file size — **do not attach the binary** (see below).
+
+The issue forms ask for exactly that:
+
+| Form | Use it for |
+|---|---|
+| **Bug report** | A crash, a wrong result, a regression — including which *kind* of file was involved, with an explicit "describe it, do not attach it" option for real-car dumps |
+| **New ECU family request** | "Please support my ECU" — it asks for the output of `openremap contribute extractor --measure-only`, the vehicle, and how many dumps you have |
+
+That one command is all a family request needs at first: it works from a plain
+install, needs no checkout and no family name, and tells the maintainer what the
+engine currently makes of your file.
+
+---
+
+## A note on ECU binary files
 
 **Do not attach ECU binary files to issues or pull requests.**
 
@@ -312,4 +379,17 @@ ECU firmware is proprietary. The binaries contain intellectual property belongin
 
 If you need to share a binary to reproduce a bug, do so privately (e.g. via a direct message to a maintainer) and only after confirming you are the legal owner of the data.
 
-There are no binary files in this repository. All tests use synthetic in-memory data generated by the test helpers in `tests/conftest.py`.
+There are no binary files in this repository. Most tests use synthetic in-memory
+data from the helpers in `tests/conftest.py`; a few behavioural tests
+additionally use real dumps when a local (git-ignored) `tests/data/` corpus is
+present, and skip cleanly when it is not.
+
+No ECU dump of your own? Generate one — it needs no ECU data at all:
+
+```bash
+uv run openremap synth --output demo.bin --size 262144 --maps 6 --seed 42
+```
+
+Generated files are deterministic (same settings and seed ⇒ same bytes), so they
+are safe to commit and to attach to an issue. They carry no manufacturer
+fingerprints, so `identify` reports `Unknown` for them — by design.

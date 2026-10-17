@@ -8,8 +8,10 @@ status: stable
 # CLI, API & RPC — the three interfaces
 
 OpenRemap is one engine with **three surfaces**. They are not three different
-products: they expose the **same methods, the same input schema, and the same
-JSON-safe results** — only the way you reach them differs.
+products: they run the **same methods and return the same JSON-safe results** —
+only the way you reach them differs. The **CLI** is the one surface that is not
+a client of the method registry: each command declares its own `--flags`
+instead (see [How they relate](#how-they-relate)).
 
 | Surface | Who it is for | What it looks like |
 |---|---|---|
@@ -40,17 +42,23 @@ The engine is organised in layers:
 - `openremap.core.*` — the internal engine: extractors, services (identify,
   maps, checksums, recipes), the Rust core.
 - `openremap.api.*` — the **canonical public surface**: a registry of
-  *methods* with typed input schemas. Methods come in three kinds —
-  `command` (atomic), `composite` (orchestrated), `workflow` (declarative
-  TOML pipeline).
+  *methods* with input schemas (`command` and `composite` methods declare
+  parameter types; a `workflow` declares only which inputs are required).
+  Methods come in three kinds — `command` (atomic), `composite` (orchestrated),
+  `workflow` (declarative TOML pipeline).
 - The **CLI**, the **TUI**, and future apps (Studio, Harness) are shells on
   top: they call the same engine, so behaviour and results never drift
   between surfaces.
 
-One consequence worth remembering: **defaults and validation live in the
-method schema, not in the client.** A method that requires `path` rejects a
-call without it no matter which surface you used — ask the registry what it
-expects via `list_methods`.
+One consequence worth remembering: **an API method's defaults and validation
+live in its schema, not in the client.** A method that requires `path` rejects a
+call without it over the Python API or JSON-RPC, and `list_methods` tells you
+what it expects.
+
+The **CLI is not a client of that schema**: each command declares its own
+`--flags`, so a schema change reaches the terminal only when the CLI is updated
+too. `synth` and `contribute` are the two exceptions — they call the registry
+like any other API client.
 
 ## Which one should I use?
 

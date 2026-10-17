@@ -52,7 +52,7 @@
     ],
     "filePath": "api/concepts.md",
     "title": "API concepts",
-    "description": "How openremap.api is organised — the method registry, the typed input-schema contract, the three kinds (command / composite / workflow), and the error codes.",
+    "description": "How openremap.api is organised — the method registry, the input-schema contract, the three kinds (command / composite / workflow), and the error codes.",
     "tags": [
       "api"
     ],
@@ -306,7 +306,7 @@
     ],
     "filePath": "concepts/orst-format.md",
     "title": "Tune Format (.orst)",
-    "description": "> **⚠ DEPRECATED.** The `.orst` saved-tune format is being phased out. > New work should use the portable [`.remap` recipe format](recipe-format.md) > (schem…",
+    "description": "Deprecated .orst saved-tune format — spec and field reference. New work should use the portable .remap recipe format.",
     "tags": [],
     "related": [],
     "status": "stable"
@@ -320,6 +320,54 @@
     "title": "Recipe Format",
     "description": "A recipe is a JSON file with the `.remap` extension that captures every byte-level change between an original and a modified ECU binary. It is the central da…",
     "tags": [],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "contribute",
+      "api"
+    ],
+    "filePath": "contribute/api.md",
+    "title": "contribute — API",
+    "description": "The contribute_extractor and contribute_check methods of openremap.api — input schemas, the two modes, the result shape, and error codes.",
+    "tags": [
+      "contribute",
+      "api",
+      "rpc",
+      "contribution"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "contribute",
+      "cli"
+    ],
+    "filePath": "contribute/cli.md",
+    "title": "contribute — CLI",
+    "description": "The openremap contribute command — both verbs, every flag, the two modes, what --write produces, and the exit codes.",
+    "tags": [
+      "contribute",
+      "cli",
+      "contribution"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "contribute"
+    ],
+    "filePath": "contribute/index.md",
+    "title": "contribute",
+    "description": "Add support for an ECU family the toolkit does not recognise — measure your own dump for a usable signature, without ever sharing the dump.",
+    "tags": [
+      "contribute",
+      "cli",
+      "contribution"
+    ],
     "related": [],
     "status": "stable"
   },
@@ -936,8 +984,8 @@
       "m1x"
     ],
     "filePath": "manufacturers/bosch/m1x.md",
-    "title": "M1.x & M1.55",
-    "description": "The early Motronic petrol foundations — BMW (M1.x) and Alfa Romeo (M1.55)",
+    "title": "M1.x / M1.8 / M1.55",
+    "description": "The early Motronic petrol foundations — BMW (M1.x), Volvo (M1.8) and Alfa Romeo (M1.55)",
     "tags": [],
     "related": [],
     "status": "stable"
@@ -950,7 +998,7 @@
     ],
     "filePath": "manufacturers/bosch/m2x.md",
     "title": "M2.x",
-    "description": "Motorola-based Motronic",
+    "description": "8051-based Motronic — VW/Audi M2.9, Porsche 964, Opel",
     "tags": [],
     "related": [],
     "status": "stable"
@@ -1497,8 +1545,11 @@
     ],
     "filePath": "project/contributing.md",
     "title": "Contributing to OpenRemap",
-    "description": "First off, thank you for taking the time to contribute.",
-    "tags": [],
+    "description": "How to contribute — the rules that apply to everything, the per-domain guides, and how to add an ECU family without sharing your dump.",
+    "tags": [
+      "contributing",
+      "development"
+    ],
     "related": [],
     "status": "stable"
   },
@@ -1716,6 +1767,54 @@
     "tags": [
       "scan-vins",
       "cli"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "synth",
+      "api"
+    ],
+    "filePath": "synth/api.md",
+    "title": "synth — API",
+    "description": "The generate_dump method of openremap.api — input schema, the base64 payload, the planted ground truth, and error codes.",
+    "tags": [
+      "synth",
+      "api",
+      "rpc",
+      "fixtures"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "synth",
+      "cli"
+    ],
+    "filePath": "synth/cli.md",
+    "title": "synth — CLI",
+    "description": "The openremap synth command — every flag, the sector layout kinds, the deterministic seed, and the JSON ground truth.",
+    "tags": [
+      "synth",
+      "cli",
+      "fixtures"
+    ],
+    "related": [],
+    "status": "stable"
+  },
+  {
+    "slug": [
+      "synth"
+    ],
+    "filePath": "synth/index.md",
+    "title": "synth",
+    "description": "Generate an ECU-like file from scratch — no ECU and no dump needed — so you can try the toolkit, build a test, or file a reproducible bug report.",
+    "tags": [
+      "synth",
+      "cli",
+      "fixtures"
     ],
     "related": [],
     "status": "stable"

@@ -23,12 +23,13 @@ OpenRemap is built in layers, and the API is the seam in the middle:
 | Layer | What it is |
 |---|---|
 | `openremap.core.*` | The engine — extractors, services (identify, maps, checksums, recipes), the Rust core |
-| **`openremap.api.*`** | The **canonical public surface** — a *registry* of methods with typed input schemas |
+| **`openremap.api.*`** | The **canonical public surface** — a *registry* of methods with input schemas. `command` and `composite` methods declare parameter types; `workflow` methods declare only which inputs are required |
 | Consumers | The CLI, the TUI, and future apps (Studio, Harness) — all shells over the same engine |
 
-The point of the middle layer: the CLI and a GUI never re-implement rules.
-Defaults and validation live **once**, in each method's schema, and every
-consumer reads them from the registry.
+The point of the middle layer: a GUI never re-implements rules. Defaults and
+validation live **once**, in each method's schema, and every API consumer reads
+them from the registry. The CLI is the exception — it declares its own
+`--flags`.
 
 ## What a method is
 

@@ -7,8 +7,8 @@ status: stable
 
 # API reference — the method catalogue
 
-Every method registered with `openremap.api`, grouped by `kind`. **27
-methods**: 20 `command`, 6 `composite`, 1 `workflow`.
+Every method registered with `openremap.api`, grouped by `kind`. **30
+methods**: 23 `command`, 6 `composite`, 1 `workflow`.
 
 This page mirrors the registry at the time of writing. The registry is the
 live source of truth — run `list_methods` (see [concepts](concepts.md)) to
@@ -25,7 +25,7 @@ Parameter shorthand below: `name: type` + **(required)** means no default;
 
 ---
 
-## Atomic commands (`kind="command"`) — 20
+## Atomic commands (`kind="command"`) — 23
 
 Each is one cohesive operation in one domain.
 
@@ -55,7 +55,7 @@ Each is one cohesive operation in one domain.
 - **`scan_map_axes`** — stage 1 of the two-stage scan: detect axes only (cached).
   `path: str` **(required)** · `min_axis_length: int = 4` · `max_axis_length: int = 32` · `min_step: int = 1` · `max_step: int = 10000`
 - **`scan_map_tables`** — stage 2 of the two-stage scan: pair axes into tables (cached).
-  `path: str` **(required)** · `min_table_score: float = 0.55` · `max_series_tables: int = 16`
+  `path: str` **(required)** · `min_table_score: float = 0.55` · `max_series_tables: int = 16` · `min_axis_length: int = 4` · `max_axis_length: int = 32` · `min_step: int = 1` · `max_step: int = 10000`
 
 > The last three are the building blocks composites compose
 > (`analyze`, `diff_maps` and `health` list them in their `steps`). They have
@@ -79,11 +79,26 @@ Each is one cohesive operation in one domain.
 > `patch` has no dedicated wiki page yet. The safe three-phase `tune`
 > composite (below) wraps exactly this apply step between its validations.
 
+**Fixtures & contribution**
+
+- **`generate_dump`** — build a deterministic synthetic ECU-like dump from scratch (no OEM data).
+  `size: int = 262144 (≥4096)` · `maps: int = 1 (0–64)` · `seed: int = 7` · `cell_width: int = 2 (1–2)` · `byte_order: str = "little"` · `layout: list = ["code","calibration","erased","code"]` → [synth — API](../synth/api.md)
+- **`contribute_extractor`** — measure your own dump(s) and render the files a new-family PR needs.
+  `paths: list` **(required)** · `brand: str` · `family: str` · `marker: str` · `marker_hex: str` · `measure_only: bool = False` → [contribute — API](../contribute/api.md)
+- **`contribute_check`** — run the contribution review bar over an existing extractor file.
+  `path: str` **(required)** → [contribute — API](../contribute/api.md)
+
+> `brand` and `family` are required unless `measure_only` is set: a first look at
+> an unsupported dump should not need the family name it is trying to produce.
+> `measure_only` is also the half that works without a checkout (no collision
+> check, no recommended marker, no artifacts).
+
 **Meta**
 
 - **`ping`** — liveness check, always returns `{"ok": True}`. No params. → [API index](index.md#the-same-call-on-each-surface)
 - **`version`** — API/library version and the active native backend. No params. → [API index](index.md)
-- **`list_methods`** — the live catalogue: every method's name, kind, description, schema and steps. No params. → [concepts](concepts.md#list-methods-output-shape)
+- **`list_methods`** — the live catalogue: every method's name, kind, description, schema and steps.
+  `kind: str` (optional — `command` \| `composite` \| `workflow`) → [concepts](concepts.md#list-methods-output-shape)
 
 ---
 
@@ -118,8 +133,12 @@ methods it composes in its `steps`.
 
 Declarative `.toml` pipelines (no code) — see [workflows](workflows.md).
 
+Workflow inputs are **untyped**: the schema is collected from the `.toml`, so
+the registry reports `{"required": true}` for each `$input.*` and no type at
+all. That is why the shorthand below shows no `: type` for this kind.
+
 - **`identify_cook`** — identify both binaries, then cook a recipe in one call.
-  inputs: `original_path: str` **(required)** · `modified_path: str` **(required)**
+  inputs: `original_path` **(required)** · `modified_path` **(required)**
   steps: `identify (as original_id) → identify (as modified_id) → cook` → [workflows](workflows.md#the-shipped-example-identify-cook)
 
 ---
@@ -138,6 +157,10 @@ Every command's API face lives next to its CLI page at
   [getting-started](../getting-started/index.md).
 - `scan_maps` is the CLI `scan-maps` method; the three `validate_*` methods
   are exposed to the terminal as `openremap validate before|check|after`.
+- **`synth` and `contribute` are the two CLI commands that dispatch *through*
+  the registry**, like any other API client (`generate_dump`,
+  `contribute_extractor`, `contribute_check`). Every other CLI command calls the
+  engine services directly and declares its own `--flags`.
 
 ## See also
 

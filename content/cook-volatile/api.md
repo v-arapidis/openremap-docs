@@ -32,8 +32,10 @@ the exclusion filter.
 }
 ```
 
-Defaults and validation live **in the schema**, in the registry — not in
-the CLI or any client. Every consumer reads the same contract via
+The schema is the authoritative contract for API callers: it declares each
+parameter's type, default and bounds, and the registry validates every call
+against it. The CLI declares its own `--flags`, so a schema change reaches the
+terminal only when the CLI is updated too — check the live schema with
 `list_methods`.
 
 Note the API has no `accept_volatile` parameter — that CLI flag only
@@ -51,11 +53,25 @@ portable = api.call(
         "modified_path": "stage1.bin",
     },
 )
-# result is a plain JSON-serialisable dict — the recipe plus a summary
 
-print(portable["schema_version"])                # "4.5"
-print(portable["volatile"]["summary"])           # {"excluded_count": ..., "flagged_count": ..., "bytes_excluded": ...}
+# The result is a plain JSON-serialisable dict. As with `cook`, the recipe
+# itself sits under "recipe"; the other keys are the summary beside it.
+recipe = portable["recipe"]
+
+print(recipe["schema_version"])       # "4.5"
+print(recipe["volatile"]["summary"])  # {"excluded_count": …, "flagged_count": …, "bytes_excluded": …}
 ```
+
+The wrapper keys:
+
+| Key | What it holds |
+|---|---|
+| `recipe` | the `.remap` recipe — a `cook` recipe plus the `volatile` section |
+| `excluded_findings` | one entry per instruction excluded as volatile (`[]` with `no_exclude=True`) |
+| `flagged_findings` | one entry per instruction flagged but kept |
+| `region_summary` | `{"tagged", "risky", "by_region"}` — how the kept changes split across the flash regions |
+| `map_count` | how many maps were annotated (`None` when `annotate_maps=False`) |
+| `warnings` | the cook warnings |
 
 Keep every instruction (max safety, zero portability):
 
@@ -68,6 +84,9 @@ safe = api.call(
         "no_exclude": True,
     },
 )
+
+# Nothing is dropped: every finding moves into flagged_findings.
+print(safe["excluded_findings"])  # []
 ```
 
 ## Calling it over JSON-RPC

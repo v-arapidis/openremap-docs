@@ -51,6 +51,12 @@ Per file:
   resolved per call), and optional **`as`** to bind the result for later
   steps.
 
+> [!TIP]
+> Keep `params` on **one** line when you write it inline: TOML does not allow
+> a line break inside `{ … }`, so the wrapped form is a parse error. When a
+> step has several parameters — or you want a comment next to one of them —
+> use a `[steps.params]` sub-table instead, as the last example below does.
+
 The registered input schema of the workflow is derived automatically: every
 `$input.<key>` referenced anywhere becomes a **required** parameter of the
 workflow call.
@@ -77,8 +83,7 @@ as = "modified_id"
 
 [[steps]]
 call = "cook"
-params = { original_path = "$input.original_path",
-           modified_path = "$input.modified_path" }
+params = { original_path = "$input.original_path", modified_path = "$input.modified_path" }
 ```
 
 Walking through it:
@@ -93,8 +98,11 @@ the cooked recipe. The two `as` bindings are there to demonstrate plumbing;
 this workflow doesn't use them downstream, but a real one would (e.g. feed
 `$original_id.match_key` into a later step).
 
-Its effective input schema is `{original_path: str (required),
-modified_path: str (required)}` — collected from the `$input.*` references.
+Both `original_path` and `modified_path` become **required** inputs, collected
+from the `$input.*` references. No type is declared: a workflow's schema comes
+from a data file, so the registry reports `{"required": true}` for each input
+and nothing more. What each value must be is decided by the step that consumes
+it.
 
 ### Running it
 
@@ -134,8 +142,12 @@ Two resolution modes:
 ```toml
 [[steps]]
 call = "cook"
-params = { original_path = "$input.original_path",   # whole-string → keeps its type
-           label = "sw $input.sw_version" }          # embedded → text substitution
+
+# whole-string → keeps its type (a number stays a number)
+# embedded → substituted into the surrounding text
+[steps.params]
+original_path = "$input.original_path"
+label = "sw $input.sw_version"
 ```
 
 `as` names that would shadow the special sources are reserved — you cannot
