@@ -225,9 +225,9 @@ function resolveContentPath(targetPath: string, fromFilePath: string): string {
 
 const PROJECT_FILES: Record<string, string> = {
   CONTRIBUTING: "/project/contributing",
-  DISCLAIMER: "/project/disclaimer",
+  DISCLAIMER: "/introduction/disclaimer",
   "THIRD_PARTY": "/project/third-party",
-  LICENSE: "/project/license",
+  LICENSE: "/introduction/license",
   CHANGELOG: "/project/changelog",
   README: "/",
   INDEX: "/",
@@ -351,6 +351,14 @@ export async function getDoc(slug: string[]): Promise<RenderedDoc | null> {
 }
 
 const SECTION_ORDER = [
+  "introduction", // Section 1: what this is, the vocabulary, and the index
+  "install", // Section 2: how to get the tool - CLI now, Harness with 1.0.0
+  "recipe", // Section 3: the .remap format - what it is and why it matters
+  "architecture", // Section 4: how the codebase is built
+  "tui", // Section 4: one page per screen
+  "cli", // Section 5: every command, in plain words
+  "api", // Section 6: the programmatic surface
+  "harness", // Section 7: the desktop app, coming soon
   "getting-started",
   "concepts",
   "api", // API section: programmatic surface (registry, workflows, transport, reference)
@@ -377,12 +385,76 @@ const SECTION_ORDER = [
   "project",
 ];
 
-function sortKey(seg: string): string {
-  if (seg === "advanced" || seg === "internals") return `zzz_${seg}`;
+// The reading order of a section whose pages are a sequence rather than a set:
+// the TUI screens are walked in the order a session walks them.
+const SECTION_RANK: Record<string, string[]> = {
+  api: ["methods", "calling", "composites", "workflows", "reference"],
+  architecture: [
+    "packages",
+    "extractors",
+    "decoders",
+    "rust-engine",
+    "api-gate",
+    "services",
+    "stack",
+    "testing",
+    "manufacturers",
+  ],
+  recipe: ["anatomy", "why", "sharing", "schema"],
+  cli: [
+    "getting-oriented",
+    "look-at-a-file",
+    "convert-and-routine",
+    "maps",
+    "cook",
+    "apply",
+    "verify",
+    "batch-and-fixtures",
+    "contribute",
+  ],
+  tui: [
+    "boot",
+    "home",
+    "identify",
+    "inspect",
+    "maps",
+    "cook",
+    "diff",
+    "apply",
+    "batch",
+    "contribute",
+    "help",
+    "picker",
+  ],
+};
+
+// Leaves that belong after the ordinary pages of their section, in this order:
+// the technical layer (`api`) follows the beginner and practical ones, then the
+// section-wide index, then the legal pages that close a section.
+// Pages whose product order is not alphabetical: the recommended path first.
+const SECTION_HEAD = ["package"];
+
+const SECTION_TAIL = [
+  "advanced",
+  "internals",
+  "api",
+  "all-pages",
+  "license",
+  "disclaimer",
+];
+
+function sortKey(seg: string, section = ""): string {
+  const ranked = SECTION_RANK[section]?.indexOf(seg) ?? -1;
+  if (ranked !== -1) return `aab-${String(ranked).padStart(2, "0")}-${seg}`;
+  const head = SECTION_HEAD.indexOf(seg);
+  if (head !== -1) return `aaa-${String(head).padStart(2, "0")}-${seg}`;
+  const tail = SECTION_TAIL.indexOf(seg);
+  if (tail !== -1) return `zzz-${String(tail).padStart(2, "0")}-${seg}`;
   return seg.toLowerCase();
 }
 
-function sortTree(node: TreeNode, depth = 0): void {
+function sortTree(node: TreeNode, depth = 0, section = ""): void {
+  const here = depth === 0 ? "" : section || node.segment;
   node.children.sort((a, b) => {
     if (depth === 0) {
       const ia = SECTION_ORDER.indexOf(a.segment);
@@ -391,9 +463,11 @@ function sortTree(node: TreeNode, depth = 0): void {
       const kb = ib === -1 ? SECTION_ORDER.length : ib;
       if (ka !== kb) return ka - kb;
     }
-    return sortKey(a.segment).localeCompare(sortKey(b.segment));
+    return sortKey(a.segment, here).localeCompare(sortKey(b.segment, here));
   });
-  for (const child of node.children) sortTree(child, depth + 1);
+  for (const child of node.children) {
+    sortTree(child, depth + 1, depth === 0 ? child.segment : section);
+  }
 }
 
 function buildTree(entries: DocEntry[]): TreeNode[] {
@@ -466,16 +540,39 @@ export async function getRelated(entry: DocEntry): Promise<DocEntry[]> {
 export async function getPrevNext(
   entry: DocEntry,
 ): Promise<{ prev: DocEntry | null; next: DocEntry | null }> {
-  const entries = await getEntries();
-  const section = entry.slug[0] ?? "";
-  const siblings = entries.filter((e) => (e.slug[0] ?? "") === section);
-  const idx = siblings.findIndex(
-    (e) => e.slug.join("/") === entry.slug.join("/"),
-  );
-  return {
-    prev: idx > 0 ? siblings[idx - 1] : null,
-    next: idx >= 0 && idx < siblings.length - 1 ? siblings[idx + 1] : null,
+  // Reading order is sidebar order, not filename order: the tree is what the
+  // reader sees, and `api.md` sorting before `cli.md` (or `index.md` last)
+  // would make "next" disagree with the list on the left.
+  const flat: DocEntry[] = [];
+  const walk = (nodes: TreeNode[]) => {
+    for (const node of nodes) {
+      if (node.entry) flat.push(node.entry);
+      if (node.children.length) walk(node.children);
+    }
   };
+  walk(await getTree());
+
+  const section = entry.slug[0] ?? "";
+  const key = entry.slug.join("/");
+  const index = flat.findIndex((e) => e.slug.join("/") === key);
+  if (index === -1) return { prev: null, next: null };
+
+  const sameSection = (e: DocEntry) => (e.slug[0] ?? "") === section;
+  let prev: DocEntry | null = null;
+  let next: DocEntry | null = null;
+  for (let i = index - 1; i >= 0; i--) {
+    if (sameSection(flat[i])) {
+      prev = flat[i];
+      break;
+    }
+  }
+  for (let i = index + 1; i < flat.length; i++) {
+    if (sameSection(flat[i])) {
+      next = flat[i];
+      break;
+    }
+  }
+  return { prev, next };
 }
 
 export { extractFirstHeading };

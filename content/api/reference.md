@@ -1,170 +1,421 @@
 ---
-title: API reference
-description: The complete openremap.api method catalogue — every registered method by kind (command / composite / workflow), its input parameters, and its documentation page.
+title: Reference
+description: >-
+  Every one of the 41 API methods with its kind, its steps and its exact input
+  schema — generated from the live registry, not transcribed by hand.
 tags: [api, reference]
 status: stable
 ---
 
-# API reference — the method catalogue
+# Reference
 
-Every method registered with `openremap.api`, grouped by `kind`. **30
-methods**: 23 `command`, 6 `composite`, 1 `workflow`.
+All **41 methods** registered in `openremap.api`, grouped by `kind`. `kind` is not
+decoration: `command` is one cohesive operation, `composite` is several steps that
+must return one report, `workflow` is a `.toml` pipeline.
 
-This page mirrors the registry at the time of writing. The registry is the
-live source of truth — run `list_methods` (see [concepts](concepts.md)) to
-see the current catalogue, schemas and descriptions:
+This page was produced by walking the registry, so it matches the installed
+version. Regenerate it after an upgrade with:
 
 ```python
+import json
 import openremap.api as api
-for m in api.call("list_methods", {})["methods"]:
-    print(m["name"], m["kind"])
+
+print(json.dumps(api.list_methods(), indent=1, default=str))
 ```
 
-Parameter shorthand below: `name: type` + **(required)** means no default;
-`= default` shows the default; ranges like `(8–128)` are numeric bounds.
+Type shorthand below: `str`, `int`, `float`, `bool`, `dict`, `list`, `bytes`.
+`**required**` means the call fails with `-32602` if it is missing; `default` is
+applied by the registry before your handler runs.
+
+> [!NOTE]
+> Parameter descriptions are shown where the registry carries one. Methods whose
+> description is empty in the registry are documented by their CLI page instead —
+> the registry is the source of truth, and it is not always chatty.
+
 
 ---
 
-## Atomic commands (`kind="command"`) — 23
+## Commands — one operation each (31)
 
-Each is one cohesive operation in one domain.
+### `audit`
 
-**Identity & inspection**
+Verify that a stock binary, tuned binary, and recipe belong together.
 
-- **`identify`** — identify an ECU binary: manufacturer, family, confidence, VIN.
-  `path: str` **(required)** → [identify — API](../identify/api.md)
-- **`checksum`** — detect which checksum schemes a binary satisfies and their OK/STALE status.
-  `path: str` **(required)** → [checksum — API](../checksum/api.md)
-- **`layout`** — segment a binary into its flash-layout blocks.
-  `path: str` **(required)** · `min_run: int = 64 (≥1)` → [layout — API](../layout/api.md)
-- **`scan_vins`** — locate VIN candidates in a binary and score them.
-  `path: str` **(required)** · `min_confidence: float = 0.4 (0–1)` → [scan-vins — API](../scan-vins/api.md)
-- **`routine`** — read a code routine around an offset as readable pseudo-code.
-  `path: str` **(required)** · `offset: int` **(required)** · `arch: str` (c166\|tricore\|sh\|x86\|m680x\|m68k\|ppc) · `before: int = 8` · `after: int = 60` → [routine — API](../routine/api.md)
+| | |
+|---|---|
+| kind | `command` |
+| params | `stock_path`: `str` · **required**<br>`tuned_path`: `str` · **required**<br>`recipe`: `dict` · **required**<br>`recipe_name`: `str` |
 
-**Files & scanning**
+### `checksum`
 
-- **`convert`** — normalise an ECU image (Intel HEX / S-Record / raw) to flat bytes.
-  `path: str` **(required)** · `format: str = "auto"` (auto\|ihex\|srec\|bin) → [convert — API](../convert/api.md)
-- **`scan`** — batch-classify every file in a directory (never moves files).
-  `directory: str` **(required)** · `recursive: bool = False` → [scan — API](../scan/api.md)
-- **`scan_maps`** — one-shot scan for calibration map axes and 2D tables (CLI-shaped).
-  `path: str` **(required)** · `region_start/region_end: int` · `min_score: float = 0.85 (0–1)` · `max_series_tables: int = 16` · `whole_file: bool = False` · `top: int = 20` · `classify: bool = False` · `xrefs: bool = False` → [scan-maps — API](../scan-maps/api.md)
-- **`scan_classify`** — scan and annotate tables with probabilistic content labels.
-  `path: str` **(required)** · `min_score = 0.85` · `max_series_tables = 16` · `whole_file = False` · `top = 20`
-- **`scan_map_axes`** — stage 1 of the two-stage scan: detect axes only (cached).
-  `path: str` **(required)** · `min_axis_length: int = 4` · `max_axis_length: int = 32` · `min_step: int = 1` · `max_step: int = 10000`
-- **`scan_map_tables`** — stage 2 of the two-stage scan: pair axes into tables (cached).
-  `path: str` **(required)** · `min_table_score: float = 0.55` · `max_series_tables: int = 16` · `min_axis_length: int = 4` · `max_axis_length: int = 32` · `min_step: int = 1` · `max_step: int = 10000`
+Detect which checksum schemes a binary satisfies and their OK/STALE status.
 
-> The last three are the building blocks composites compose
-> (`analyze`, `diff_maps` and `health` list them in their `steps`). They have
-> no dedicated wiki page yet; their schemas are above.
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required** |
 
-**Recipes**
+### `classify_file`
 
-- **`validate_before`** — pre-flight strict check that the recipe's original bytes are at the recorded offsets.
-  `path: str` **(required)** · `recipe: dict` **(required)** · `recipe_name: str` → [validate — API](../validate/api.md)
-- **`validate_check`** — diagnostic: search the whole binary for the recipe's original bytes.
-  `path: str` **(required)** · `recipe: dict` **(required)** · `recipe_name: str` → [validate — API](../validate/api.md)
-- **`validate_after`** — post-tune confirmation that the modified bytes were written correctly.
-  `path: str` **(required)** · `recipe: dict` **(required)** · `recipe_name: str` → [validate — API](../validate/api.md)
-- **`audit`** — verify that a stock binary, tuned binary and recipe belong together.
-  `stock_path: str` **(required)** · `tuned_path: str` **(required)** · `recipe: dict` **(required)** · `recipe_name: str` → [audit — API](../audit/api.md)
-- **`merge`** — merge two recipes built from the same family of originals into one.
-  `recipe_a: dict` **(required)** · `recipe_b: dict` **(required)** · `name_a: str` · `name_b: str` · `stock_path: str` · `strict: bool = False` → [merge — API](../merge/api.md)
-- **`patch`** — atomically apply a recipe to a target binary (no validation phases).
-  `path: str` **(required)** · `recipe: dict` **(required)** · `recipe_name: str` · `skip_validation: bool = False`
+Classify one binary with every registered extractor (a batch step).
 
-> `patch` has no dedicated wiki page yet. The safe three-phase `tune`
-> composite (below) wraps exactly this apply step between its validations.
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required** |
 
-**Fixtures & contribution**
+### `contribute_check`
 
-- **`generate_dump`** — build a deterministic synthetic ECU-like dump from scratch (no OEM data).
-  `size: int = 262144 (≥4096)` · `maps: int = 1 (0–64)` · `seed: int = 7` · `cell_width: int = 2 (1–2)` · `byte_order: str = "little"` · `layout: list = ["code","calibration","erased","code"]` → [synth — API](../synth/api.md)
-- **`contribute_extractor`** — measure your own dump(s) and render the files a new-family PR needs.
-  `paths: list` **(required)** · `brand: str` · `family: str` · `marker: str` · `marker_hex: str` · `measure_only: bool = False` → [contribute — API](../contribute/api.md)
-- **`contribute_check`** — run the contribution review bar over an existing extractor file.
-  `path: str` **(required)** → [contribute — API](../contribute/api.md)
+Run the contribution review bar over an existing extractor source file: does it still claim its own fixture, does it steal another family's, does it clear evidence on a miss, does it declare what it reports.
 
-> `brand` and `family` are required unless `measure_only` is set: a first look at
-> an unsupported dump should not need the family name it is trying to produce.
-> `measure_only` is also the half that works without a checkout (no collision
-> check, no recommended marker, no artifacts).
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required** |
 
-**Meta**
+### `contribute_extractor`
 
-- **`ping`** — liveness check, always returns `{"ok": True}`. No params. → [API index](index.md#the-same-call-on-each-surface)
-- **`version`** — API/library version and the active native backend. No params. → [API index](index.md)
-- **`list_methods`** — the live catalogue: every method's name, kind, description, schema and steps.
-  `kind: str` (optional — `command` \| `composite` \| `workflow`) → [concepts](concepts.md#list-methods-output-shape)
+Measure one or more of your own ECU dumps for a new family and render the artifacts a pull request needs: a committable fixture recipe, an extractor skeleton, a test, and a report. Runs the rendered skeleton against every known-family fixture and refuses to call it verified if it steals one.
 
----
+| | |
+|---|---|
+| kind | `command` |
+| params | `paths`: `list` · **required**<br>`brand`: `str`<br>`family`: `str`<br>`marker`: `str`<br>`marker_hex`: `str`<br>`measure_only`: `bool` · default `false` |
 
-## Composites (`kind="composite"`) — 6
+### `convert`
 
-Hand-written orchestrations of independent operations/domains, with control
-flow or coherence that a declarative workflow cannot express. Each lists the
-methods it composes in its `steps`.
+Normalise an ECU binary image (Intel HEX / S-Record / raw) to flat bytes.
 
-- **`analyze`** — describe a whole binary: identity, VIN, layout, maps, checksums, health.
-  `path: str` **(required)** · `fast: bool = False` · `skip_maps: bool = False` · `xref_mode: str = "v1"` ("v1"\|"v2")
-  steps: `identify → scan_map_axes → scan_map_tables → check_coherence → health` → [analyze — API](../analyze/api.md)
-- **`health`** — one-shot calibration health check.
-  `path: str` **(required)**
-  steps: `identify → checksums → scan_map_tables → segment → scan_vins` → [health — API](../health/api.md)
-- **`cook`** — diff an original and a modified binary into a `.remap` recipe.
-  `original_path: str` **(required)** · `modified_path: str` **(required)** · `context_size: int = 32 (8–128)` · `require_unique: bool = True` · `annotate_maps: bool = True` · `description: str`
-  steps: `diff → scan_map_tables → attach_maps → tag_instruction_regions` → [cook — API](../cook/api.md)
-- **`cook_volatile`** — cook a car-portable recipe (volatile instructions classified + excluded).
-  `original_path: str` **(required)** · `modified_path: str` **(required)** · `context_size: int = 32 (8–128)` · `require_unique: bool = True` · `no_exclude: bool = False` · `exclude_uncertain: bool = False` · `annotate_maps: bool = True`
-  steps: `diff → classify_volatile → scan_map_tables → attach_maps → tag_instruction_regions` → [cook-volatile — API](../cook-volatile/api.md)
-- **`diff_maps`** — find matching calibration maps between two binaries and diff them cell-by-cell.
-  `stock_path: str` **(required)** · `tuned_path: str` **(required)** · `region_start/region_end: int` · `min_score: float = 0.55` · `threshold: float = 0.0` · `top: int = 50` · `whole_file: bool = False` · `max_series_tables: int = 16` · `recipe: dict`
-  steps: `scan_map_axes → scan_map_tables → match_by_axis → diff_cells` → [diff-maps — API](../diff-maps/api.md)
-- **`tune`** — the safe three-phase tune: validate before → apply → validate after.
-  `path: str` **(required)** · `recipe: dict` **(required)** · `recipe_name: str` · `skip_validation: bool = False` · `force: bool = False`
-  steps: `validate_before → patch → validate_after` → [tune — API](../tune/api.md)
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`format`: `str` · default `"auto"` |
 
----
+### `families`
 
-## Workflows (`kind="workflow"`) — 1
+List the supported ECU families as a reference (era, typical size, vehicles, identifier). Optionally one family by name or alias.
 
-Declarative `.toml` pipelines (no code) — see [workflows](workflows.md).
+| | |
+|---|---|
+| kind | `command` |
+| params | `name`: `str` |
 
-Workflow inputs are **untyped**: the schema is collected from the `.toml`, so
-the registry reports `{"required": true}` for each `$input.*` and no type at
-all. That is why the shorthand below shows no `: type` for this kind.
+### `generate_dump`
 
-- **`identify_cook`** — identify both binaries, then cook a recipe in one call.
-  inputs: `original_path` **(required)** · `modified_path` **(required)**
-  steps: `identify (as original_id) → identify (as modified_id) → cook` → [workflows](workflows.md#the-shipped-example-identify-cook)
+Generate a deterministic synthetic ECU-like dump from scratch (no OEM data).  Returns the bytes as base64 plus the planted ground truth. Generated files have no manufacturer fingerprints, so identify reports Unknown for them — by design.
 
----
+| | |
+|---|---|
+| kind | `command` |
+| params | `size`: `int` · default `262144` · range 4096…∞<br>`maps`: `int` · default `1` · range 0…64<br>`seed`: `int` · default `7`<br>`cell_width`: `int` · default `2` · range 1…2<br>`byte_order`: `str` · default `"little"`<br>`layout`: `list` · default `["code", "calibration", "erased", "code"]` |
 
-## Method pages and surface coverage
+### `hex_region`
 
-Every command's API face lives next to its CLI page at
-`content/<cmd>/api.md`; the catalogue above links them. Points worth noting:
+Return a byte range of a binary as lowercase hex.
 
-- **API-only methods (no CLI command of the same name):** the meta trio
-  `ping` / `version` / `list_methods`, the atomic `patch`, the staged map
-  methods `scan_classify` / `scan_map_axes` / `scan_map_tables`, and the
-  `identify_cook` workflow.
-- **CLI-only commands (no API method):** `families`, the `workflow` terminal
-  guide and the `commands` cheat-sheet — see
-  [getting-started](../getting-started/index.md).
-- `scan_maps` is the CLI `scan-maps` method; the three `validate_*` methods
-  are exposed to the terminal as `openremap validate before|check|after`.
-- **`synth` and `contribute` are the two CLI commands that dispatch *through*
-  the registry**, like any other API client (`generate_dump`,
-  `contribute_extractor`, `contribute_check`). Every other CLI command calls the
-  engine services directly and declares its own `--flags`.
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`offset`: `int` · **required** · range 0…∞<br>`length`: `int` · **required** · range 1…16384 |
 
-## See also
+### `identify`
 
-- [API concepts](concepts.md) — registry, schema contract, kinds, errors
-- [API index](index.md) — how to call any of these methods
-- [Workflows](workflows.md) — writing your own declarative pipelines
-- [Transport (JSON-RPC)](transport.md) — the same catalogue over stdio
+Identify an ECU binary — manufacturer, family, confidence, VIN.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required** |
+
+### `layout`
+
+Segment an ECU binary into its flash-layout blocks.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`min_run`: `int` · default `64` · range 1…∞ |
+
+### `list_methods`
+
+List all registered methods (commands, composites and workflows) with metadata.  Optional 'kind' narrows the listing to one kind; an unrecognised kind returns an empty list rather than an error.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `kind`: `str` |
+
+### `map_grid`
+
+Read one detected table as a grid of cell values (for previews).
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`table`: `dict` · **required** |
+
+### `map_image`
+
+Render one detected table as an SVG picture (values + axes + legend).
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`table`: `dict` · **required**<br>`include_values`: `bool`<br>`width`: `int` · default `960` · range 400…∞ |
+
+### `merge`
+
+Merge two recipes built from the same family of originals into one.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `recipe_a`: `dict` · **required**<br>`recipe_b`: `dict` · **required**<br>`name_a`: `str`<br>`name_b`: `str`<br>`stock_path`: `str`<br>`strict`: `bool` · default `false` |
+
+### `organize_apply`
+
+Copy (default) or move a scan's files into their folders.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `directory`: `str` · **required**<br>`rows`: `list` · **required**<br>`nested`: `bool` · default `true`<br>`move`: `bool` · default `false` |
+
+### `organize_preview`
+
+Where a scan's results would be filed, without touching anything.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `directory`: `str` · **required**<br>`rows`: `list` · **required**<br>`nested`: `bool` · default `true` |
+
+### `ping`
+
+Liveness check — always returns {'ok': True}.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | *(no parameters)* |
+
+### `recipe_info`
+
+Read a .remap file and report what it declares: schema, instruction count, identity floor, the files it was cooked from.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`include_instructions`: `bool` · default `false` |
+
+### `routine`
+
+Read a code routine as readable pseudo-code.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`offset`: `int` · **required**<br>`arch`: `str`<br>`before`: `int` · default `8` · range 0…∞<br>`after`: `int` · default `60` · range 0…∞ |
+
+### `scan`
+
+Batch-scan a directory of ECU binaries through all registered extractors.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `directory`: `str` · **required**<br>`recursive`: `bool` · default `false` |
+
+### `scan_candidates`
+
+List the files a batch scan would classify in a folder (no work done).
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `directory`: `str` · **required**<br>`recursive`: `bool` · default `false` |
+
+### `scan_classify`
+
+Scan a binary and annotate tables with probabilistic content labels.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`min_score`: `float` · default `0.85` · range 0.0…1.0<br>`max_series_tables`: `int` · default `16` · range 1…∞<br>`whole_file`: `bool` · default `false`<br>`top`: `int` · default `20` · range 1…∞ |
+
+### `scan_map_axes`
+
+Stage 1 of the two-stage scan: detect axes only (cached).
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`min_axis_length`: `int` · default `4`<br>`max_axis_length`: `int` · default `32`<br>`min_step`: `int` · default `1`<br>`max_step`: `int` · default `10000` |
+
+### `scan_map_tables`
+
+Stage 2 of the two-stage scan: pair axes into tables (cached).
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`min_table_score`: `float` · default `0.55` · range 0.0…1.0<br>`max_series_tables`: `int` · default `16` · range 1…∞<br>`min_axis_length`: `int` · default `4`<br>`max_axis_length`: `int` · default `32`<br>`min_step`: `int` · default `1`<br>`max_step`: `int` · default `10000` |
+
+### `scan_maps`
+
+Scan a binary for calibration map axes and 2D tables (one-shot, CLI-shaped).
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`region_start`: `int`<br>`region_end`: `int`<br>`min_score`: `float` · default `0.85` · range 0.0…1.0<br>`max_series_tables`: `int` · default `16` · range 1…∞<br>`whole_file`: `bool` · default `false`<br>`top`: `int` · default `20` · range 1…∞<br>`classify`: `bool` · default `false`<br>`xrefs`: `bool` · default `false` |
+
+### `scan_vins`
+
+Locate VIN candidates in an ECU binary and score them.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`min_confidence`: `float` · default `0.4` · range 0.0…1.0 |
+
+### `validate_after`
+
+Post-tune confirmation — verify mb bytes were written correctly.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`recipe`: `dict` · **required**<br>`recipe_name`: `str` |
+
+### `validate_before`
+
+Pre-flight strict check — verify ob bytes are at recorded offsets.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`recipe`: `dict` · **required**<br>`recipe_name`: `str` |
+
+### `validate_check`
+
+Diagnostic — search the whole binary for the recipe's ob bytes.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | `path`: `str` · **required**<br>`recipe`: `dict` · **required**<br>`recipe_name`: `str` |
+
+### `version`
+
+API/library version and the active native backend.
+
+| | |
+|---|---|
+| kind | `command` |
+| params | *(no parameters)* |
+
+## Composites — several steps, one report (9)
+
+### `analyze`
+
+Describe a whole ECU binary: identity, VIN, layout, maps, checksums, health.
+
+| | |
+|---|---|
+| kind | `composite` |
+| steps | `identify` → `scan_map_axes` → `scan_map_tables` → `check_coherence` → `health` |
+| params | `path`: `str` · **required**<br>`fast`: `bool` · default `false`<br>`skip_maps`: `bool` · default `false`<br>`xref_mode`: `str` · default `"v1"` |
+
+### `apply_any`
+
+Apply a recipe with no identity requirement — shift and ambiguity relaxed.
+
+| | |
+|---|---|
+| kind | `composite` |
+| steps | `recipe checks` → `size` → `anchor search` → `verify` |
+| params | `path`: `str` · **required**<br>`recipe`: `dict`<br>`recipe_path`: `str`<br>`recipe_name`: `str` |
+
+### `apply_shift`
+
+Apply a recipe when the target is the same firmware but the change is found at a displaced offset (±2048 bytes). Shift is reported; a non-unique anchor is refused.
+
+| | |
+|---|---|
+| kind | `composite` |
+| steps | `recipe checks` → `identity gate` → `anchor search` → `shift report` → `verify` |
+| params | `path`: `str` · **required**<br>`recipe`: `dict`<br>`recipe_path`: `str`<br>`recipe_name`: `str` |
+
+### `apply_strict`
+
+Apply a recipe only when every check passes: valid recipe, same firmware, exact original bytes, anchor at the expected offset, and a verified result. No flags loosen it.
+
+| | |
+|---|---|
+| kind | `composite` |
+| steps | `recipe checks` → `identity gate` → `exact bytes` → `anchor search` → `verify` |
+| params | `path`: `str` · **required**<br>`recipe`: `dict`<br>`recipe_path`: `str`<br>`recipe_name`: `str` |
+
+### `apply_unique`
+
+Apply a recipe with no identity requirement, requiring exact offsets and unique anchors.
+
+| | |
+|---|---|
+| kind | `composite` |
+| steps | `recipe checks` → `size` → `anchor search` → `verify` |
+| params | `path`: `str` · **required**<br>`recipe`: `dict`<br>`recipe_path`: `str`<br>`recipe_name`: `str` |
+
+### `cook_forced`
+
+Build a schema-5.0 recipe accepting non-unique anchors (change inside blank flash/padding). Declares identity_floor: firmware.
+
+| | |
+|---|---|
+| kind | `composite` |
+| steps | `size guard` → `identity guard` → `diff + anchors` → `annotate` → `maps/regions` → `contract` |
+| params | `stock_path`: `str` · **required**<br>`tuned_path`: `str` · **required**<br>`context_size`: `int` · default `32` · range 8…128<br>`description`: `str` |
+
+### `cook_strict`
+
+Build a schema-5.0 recipe from stock/tuned, requiring unique anchors. Declares identity_floor: any, so every apply command can use it.
+
+| | |
+|---|---|
+| kind | `composite` |
+| steps | `size guard` → `identity guard` → `diff + anchors` → `annotate` → `maps/regions` → `contract` |
+| params | `stock_path`: `str` · **required**<br>`tuned_path`: `str` · **required**<br>`context_size`: `int` · default `32` · range 8…128<br>`description`: `str` |
+
+### `diff_maps`
+
+Find matching calibration maps between two binaries and diff them cell-by-cell.
+
+| | |
+|---|---|
+| kind | `composite` |
+| steps | `scan_map_axes` → `scan_map_tables` → `match_by_axis` → `diff_cells` |
+| params | `stock_path`: `str` · **required**<br>`tuned_path`: `str` · **required**<br>`region_start`: `int`<br>`region_end`: `int`<br>`min_score`: `float` · default `0.55` · range 0.0…1.0<br>`threshold`: `float` · default `0.0`<br>`top`: `int` · default `50` · range 1…∞<br>`whole_file`: `bool` · default `false`<br>`max_series_tables`: `int` · default `16` · range 1…∞<br>`recipe`: `dict` |
+
+### `health`
+
+One-shot calibration health check (identity, checksums, maps, layout, VIN).
+
+| | |
+|---|---|
+| kind | `composite` |
+| steps | `identify` → `checksums` → `scan_map_tables` → `segment` → `scan_vins` |
+| params | `path`: `str` · **required** |
+
+## Workflows — data, not code (1)
+
+### `identify_cook`
+
+Identify both binaries, then cook a recipe in one call.
+
+| | |
+|---|---|
+| kind | `workflow` |
+| steps | `identify` → `identify` → `cook_strict` |
+| params | `modified_path`: `any` · **required**<br>`original_path`: `any` · **required** |

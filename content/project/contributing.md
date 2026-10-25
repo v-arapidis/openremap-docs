@@ -18,7 +18,7 @@ guides are split by domain — see [Ways to contribute](#ways-to-contribute).
 > `openremap contribute` measures your own dump for a byte pattern that is
 > stable in that family and absent from every family already supported, then
 > writes the fixture, an extractor skeleton, a test and a PR report. It never
-> asks for your dump. See [contribute](../contribute/index.md).
+> asks for your dump. See [contribute](/cli/contribute).
 
 ---
 
@@ -60,7 +60,7 @@ Any output produced by this tool — recipes, patched binaries, or identificatio
 
 | Type | Guide | Examples |
 |---|---|---|
-| **New ECU family** | [contribute](../contribute/index.md) → `contributing/extractors.md` | A family `identify` reports as `Unknown` |
+| **New ECU family** | [contribute](/cli/contribute) → `contributing/extractors.md` | A family `identify` reports as `Unknown` |
 | **Checksum profile** | `contributing/checksums.md` | A family whose stored checksum cannot be verified yet |
 | **CPU / arch decoder** | `contributing/decoders.md` | A CPU capstone does not cover, or better coverage of one it does |
 | **Map hunting / scoring** | `contributing/map-scoring.md` | Fewer false positives, better axis pairing, faster scans |
@@ -129,7 +129,7 @@ prints the manual steps that remain — because **position is behaviour**: the
 registry calls `can_handle()` in order and the **first** extractor that returns
 `True` wins.
 
-See [contribute](../contribute/index.md) for what it measures and why the
+See [contribute](/cli/contribute) for what it measures and why the
 collision check needs a checkout.
 
 ### Step 2 — where an extractor lives
@@ -205,7 +205,7 @@ The standard tags are module-level constants in
 `SYNC_MARKER`, `MANUFACTURER_CONFIRM`, `EXCLUSION_CLEAR`, `FILL_PATTERN`. You may
 also emit free-form tags of your own for family-specific checks. Structural tags
 are worth more than soft ones — see
-[Confidence scoring](../concepts/confidence.md#detection-quality-baseline).
+[Confidence scoring](/architecture/extractors#detection-quality-baseline).
 
 `detection_strength` still exists but is **deprecated**: it is only a fallback
 for an extractor that has not been migrated.
@@ -305,7 +305,7 @@ uv run openremap synth --output demo.bin --maps 4
 
 Or ask the wizard for the extracted fixture recipe — the 89-file mimic corpus in
 `_dev/contrib/` exists exactly so detection can be tested without real ROMs. See
-[`synth`](../synth/index.md).
+[`synth`](/cli/batch-and-fixtures#synth).
 
 Run the suite with:
 

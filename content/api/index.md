@@ -1,119 +1,78 @@
 ---
 title: API
-description: The openremap.api programmatic surface — what a method is, the three ways to call one (in-process, direct, JSON-RPC), and the pages of this section.
-tags: [api]
+description: >-
+  openremap.api — 41 methods over the engine, callable in-process from Python or
+  over JSON-RPC from any language. Every result is JSON-serialisable.
+tags: [api, overview]
 status: stable
 ---
 
-# API — drive OpenRemap from code
+# API
 
-`openremap.api` is the **programmatic face of OpenRemap**: the library that
-other programs use to do everything the terminal commands do — identify a
-file, scan a folder, cook a recipe, apply a tune — without ever touching a
-terminal.
-
-Everything in this section is for **developers**. If you are here to tune a
-car with the terminal, the [getting-started guide](../getting-started/index.md)
-is the better place to start.
-
-## Where the API sits
-
-OpenRemap is built in layers, and the API is the seam in the middle:
-
-| Layer | What it is |
-|---|---|
-| `openremap.core.*` | The engine — extractors, services (identify, maps, checksums, recipes), the Rust core |
-| **`openremap.api.*`** | The **canonical public surface** — a *registry* of methods with input schemas. `command` and `composite` methods declare parameter types; `workflow` methods declare only which inputs are required |
-| Consumers | The CLI, the TUI, and future apps (Studio, Harness) — all shells over the same engine |
-
-The point of the middle layer: a GUI never re-implements rules. Defaults and
-validation live **once**, in each method's schema, and every API consumer reads
-them from the registry. The CLI is the exception — it declares its own
-`--flags`.
-
-## What a method is
-
-A **method** is one action the engine knows how to do — `identify`, `cook`,
-`tune`, `scan`, … You call a method **by name** with a dict of parameters;
-it returns a plain, JSON-safe dict (never a Python object you have to
-serialise yourself).
-
-Each method is registered in the **registry** together with metadata:
-
-- its `kind` — `command` (atomic), `composite` (orchestrated), or `workflow`
-  (a declarative pipeline),
-- a `description`,
-- an `input_schema` — every parameter: its type, whether it is required,
-  its default, and numeric bounds.
-
-Schema rules, kinds and errors are explained on the
-[concepts page](concepts.md); the complete list of methods is the
-[reference](reference.md).
-
-## Three ways in, one path out
-
-The API deliberately offers **three ways to call the same methods**, all
-backed by one dispatch path — so results are identical no matter how you
-call:
+`openremap.api` is the single gate into the engine. The CLI and the TUI are
+consumers of it, not special cases — so anything they can do, you can call.
 
 ```python
 import openremap.api as api
 
-api.call("identify", {"path": "stock.bin"})   # 1. in-process dispatch
-api.ping()                                     # 2. ergonomic direct function
-#                                              # 3. JSON-RPC over stdio:
-#  python -m openremap.api.transport.stdio     #    {"method": "identify", ...}
+result = api.call("identify", {"path": "original.bin"})
+print(result["match_key"])          # EDC17C66::1037541778126241V0
 ```
 
-Every result returned by `call` is JSON-serialisable, so the in-process
-result and the RPC result are equivalent. In short:
+The registry holds **41 methods**: 31 `command`, 9 `composite`, 1 `workflow`.
 
-> **Three ways in, one path out.**
+## Three entry styles
 
-### The same call on each surface
+| Style | Call | When |
+|---|---|---|
+| dispatch by name | `api.call("identify", {...})` | method name comes from config, a queue, or user input |
+| direct function | `api.identify(path=...)` | you know the method at authoring time; gets type hints |
+| JSON-RPC over stdio | `openremap-api` | the consumer is not Python — a Go/Rust/Node/editor plugin, or a subprocess boundary |
 
-`ping` — the liveness check — on all three:
+All three go through the same dispatch, so defaults, validation, error codes and
+the returned data are identical.
 
-```python
-import openremap.api as api
-print(api.call("ping", {}))   # → {"ok": True}
-print(api.ping())             # → {"ok": True}
-```
+## The contract in one paragraph
+
+Names are strings. Parameters arrive as **one dict**. The registry fills in
+defaults, validates types and bounds from the method's declared `input_schema`, and
+then calls the handler. Whatever the handler returns goes through
+`to_json_safe()` exactly once — `Enum`, `bytes`, `dataclass` and `tuple` never leak
+out — so `api.call(...)` and the JSON you get over RPC are **the same data**. A
+refusal is a *result*, not an exception; a bad request is an *exception* with a
+JSON-RPC code.
+
+## Install
+
+The API ships inside the package like everything else:
 
 ```bash
-# JSON-RPC: pipe one request line, read one response line
-echo '{"id": 1, "method": "ping", "params": {}}' \
-  | python -m openremap.api.transport.stdio
-# → {"id": 1, "result": {"ok": true}}
+uv tool install openremap     # or: pip install openremap
 ```
 
-And a real method, `identify`, is worked through end-to-end on its own page:
-[identify — API](../identify/api.md) (in-process + JSON-RPC + error codes).
+```python
+import openremap.api as api   # the gate
+```
 
-## Pages in this section
+There is no server to run and no port to open. `openremap-api` speaks JSON-RPC on
+stdin/stdout for non-Python callers.
 
-| Page | What it covers |
+## Section map
+
+| Page | Contents |
 |---|---|
-| [API concepts](concepts.md) | The registry, input-schema contract, the three kinds (`command`/`composite`/`workflow`), errors and their codes |
-| [Workflows](workflows.md) | Declarative `.toml` pipelines that chain methods with `$input.*` plumbing |
-| [Transport (JSON-RPC)](transport.md) | The wire protocol, how to run the stdio server, exact request/response/error lines |
-| [Reference](reference.md) | The complete method catalogue, grouped by kind, with schemas |
+| [Method contract](methods.md) | `register` / `list_methods` / `dispatch`, the input-schema spec, validation rules, serialisation, error codes |
+| [Calling it](calling.md) | in-process, direct functions, JSON-RPC framing, a Python client, binary payloads, threading |
+| [Composites](composites.md) | the methods that return one report — cook, apply, health, analyze — and the refusal-as-data contract |
+| [Workflows](workflows.md) | the `.toml` pipeline format, `$input`/`$prev`/`$as`, the shipped `identify_cook` |
+| [Reference](reference.md) | all 41 methods with kind, steps and exact input schemas |
 
-## Not the terminal guide
+## Versioning
 
-Careful with the word *workflow*: the API-side **workflow** is a declarative
-`.toml` pipeline (documented [here](workflows.md)) — it is **not** the CLI
-command `openremap workflow`, which just *prints* a step-by-step guide in
-your terminal ([getting-started/workflow](../getting-started/workflow.md)).
-The two share only a name.
+```python
+api.call("version")     # {'version': '0.9.0', 'backend': 'rust'}
+```
 
-## Where to go next
-
-| You want to… | Go to |
-|---|---|
-| Understand registry, kinds and error codes | [API concepts](concepts.md) |
-| Write a declarative multi-step pipeline | [Workflows](workflows.md) |
-| Call the API from another language over stdio | [Transport (JSON-RPC)](transport.md) |
-| See every method and its parameters | [Reference](reference.md) |
-| A worked single-method example | [`identify` — API](../identify/api.md) or [`scan` — API](../scan/api.md) |
-| The three surfaces explained for humans | [CLI, API & RPC](../getting-started/interfaces.md) |
+`backend` is the native engine that loaded. If it is not `rust`, the extension is
+missing and the CPU-heavy methods will be slow or unavailable — the same fact
+`openremap --version` prints as `(rust)`.

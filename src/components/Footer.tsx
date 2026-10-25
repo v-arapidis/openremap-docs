@@ -27,10 +27,10 @@ export default function Footer() {
           >
             GitHub
           </a>
-          <a href="/project/disclaimer" className="hover:text-[#99ddff]">
+          <a href="/introduction/disclaimer" className="hover:text-[#99ddff]">
             Disclaimer
           </a>
-          <a href="/project/license" className="hover:text-[#99ddff]">
+          <a href="/introduction/license" className="hover:text-[#99ddff]">
             License
           </a>
         </div>

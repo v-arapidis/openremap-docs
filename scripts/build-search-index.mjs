@@ -49,11 +49,15 @@ function listFiles(dir, rel = "") {
 
 function toSearchableText(md) {
   return md
-    .replace(/```[\s\S]*?```/g, " ") // fenced code blocks
-    .replace(/`[^`]*`/g, " ") // inline code
+    // Fence markers only — a code block's *content* is kept: in a command
+    // reference the code IS the subject (`tune-strict`, `--min-score`), and
+    // dropping it made every command unfindable.
+    .replace(/^```[^\n]*$/gm, " ")
+    .replace(/`([^`\n]*)`/g, "$1") // inline code → its text
     .replace(/!\[[^\]]*\]\([^)]*\)/g, " ") // images
     .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1") // links → label text
-    .replace(/[#>*|_~-]+/g, " ")
+    .replace(/^[ \t]*[-*+][ \t]+/gm, " ") // list bullets
+    .replace(/[#>*|~]+/g, " ") // markdown syntax, keeping - and _ (they are part of names)
     .replace(/\s+/g, " ")
     .trim();
 }

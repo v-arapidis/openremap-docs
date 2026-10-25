@@ -1,37 +1,11 @@
 "use client";
 
-import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { TreeNode } from "@/lib/content";
 import { ChevronRightIcon } from "./icons";
 
-// Top-level sections that are per-command pages (each with index/cli/api
-// children). They are rendered under a single "Actions" heading so the
-// sidebar reads as Getting started · Concepts · Actions · Manufacturers ·
-// Project instead of one long flat list.
-const ACTIONS: readonly string[] = [
-  "identify",
-  "health",
-  "checksum",
-  "scan",
-  "scan-vins",
-  "analyze",
-  "convert",
-  "layout",
-  "scan-maps",
-  "diff-maps",
-  "routine",
-  "synth",
-  "cook",
-  "cook-volatile",
-  "merge",
-  "tune",
-  "validate",
-  "audit",
-  "contribute",
-];
-const ACTION_SET: ReadonlySet<string> = new Set(ACTIONS);
 
 // Persisted sidebar scroll offset across route changes (see Sidebar body).
 let savedSidebarScrollTop = 0;
@@ -86,12 +60,14 @@ function Branch({
 
   return (
     <li>
-      <div className="group flex items-center">
+      <div className="group flex items-center gap-0.5">
         {hasChildren ? (
           <button
             onClick={() => toggle(path)}
-            className="-ml-1 flex h-5 w-5 shrink-0 items-center justify-center rounded text-neutral-500 transition-colors hover:text-neutral-200"
             aria-expanded={isOpen}
+            aria-label={`${isOpen ? "Collapse" : "Expand"} ${node.title}`}
+            title={`${isOpen ? "Collapse" : "Expand"} ${node.title}`}
+            className="-ml-1 flex h-5 w-5 shrink-0 items-center justify-center rounded text-neutral-600 transition-colors hover:bg-[#3d4145]/70 hover:text-neutral-100"
           >
             <ChevronRightIcon
               size={13}
@@ -105,17 +81,20 @@ function Branch({
         {node.route ? (
           <Link
             href={node.route}
-            className={`block rounded-md py-1.5 pr-2 text-sm transition-colors ${
+            title={node.title}
+            aria-current={isActive ? "page" : undefined}
+            className={`min-w-0 flex-1 truncate rounded-md py-1.5 pr-2 text-sm underline-offset-2 transition-colors ${
               isActive
-                ? "font-medium text-[#88ccff]"
-                : "text-neutral-400 hover:text-neutral-100"
+                ? "bg-[#88ccff]/10 font-medium text-[#88ccff]"
+                : depth === 0
+                  ? "font-medium text-neutral-300 hover:bg-[#2c3035]/70 hover:text-white hover:underline"
+                  : "text-neutral-400 hover:bg-[#2c3035]/50 hover:text-neutral-100 hover:underline"
             }`}
-            style={{ paddingLeft: depth > 0 ? undefined : 0 }}
           >
             {node.title}
           </Link>
         ) : (
-          <span className="block py-1.5 pr-2 text-sm font-medium text-neutral-300">
+          <span className="block flex-1 py-1.5 pr-2 text-sm font-medium text-neutral-300">
             {node.title}
           </span>
         )}
@@ -146,23 +125,14 @@ export default function Sidebar({
   tree: TreeNode[];
 }) {
   const pathname = usePathname() ?? "/";
+
   const [openPaths, setOpenPaths] = useState<Set<string>>(() =>
     initialOpen(tree, pathname),
   );
-  const isInsideActions = ACTIONS.some(
-    (seg) => pathname === `/${seg}` || pathname.startsWith(`/${seg}/`),
-  );
-  // Start folded so the sidebar stays short; unfold automatically when the
-  // reader lands on a page that lives inside the group.
-  const [actionsOpen, setActionsOpen] = useState(isInsideActions);
 
-  useEffect(() => {
-    const inside = ACTIONS.some(
-      (seg) => pathname === `/${seg}` || pathname.startsWith(`/${seg}/`),
-    );
-    if (inside) setActionsOpen(true);
-  }, [pathname]);
-
+  // One route, one page: the URL is what the sidebar highlights. Nothing else
+  // can override it, so the highlight cannot disagree with the address bar.
+  const activePath = pathname;
   // The sidebar is its own scroll container. Route changes can remount it
   // (or re-render it before the new page paints), which would reset the
   // scroll position and throw the reader back to the top of the nav. Keep
@@ -228,82 +198,17 @@ export default function Sidebar({
       </div>
 
       <ul className="space-y-0.5">
-        {(() => {
-          // Group the per-command top-level sections under one collapsible
-          // "Actions" heading; everything else stays as a plain top-level
-          // entry, preserving the tree (SECTION_ORDER) sequence.
-          type Row =
-            | { kind: "node"; node: TreeNode }
-            | { kind: "group"; label: string; nodes: TreeNode[] };
-          const rows: Row[] = [];
-          let pending: TreeNode[] = [];
-          for (const node of tree) {
-            if (ACTION_SET.has(node.segment)) {
-              pending.push(node);
-            } else {
-              if (pending.length) {
-                rows.push({ kind: "group", label: "Actions", nodes: pending });
-                pending = [];
-              }
-              rows.push({ kind: "node", node });
-            }
-          }
-          if (pending.length) {
-            rows.push({ kind: "group", label: "Actions", nodes: pending });
-          }
-
-          return rows.map((row) =>
-            row.kind === "node" ? (
-              <Branch
-                key={row.node.segment}
-                node={row.node}
-                path={row.node.segment}
-                activePath={pathname}
-                openPaths={openPaths}
-                toggle={toggle}
-                depth={0}
-              />
-            ) : (
-              <Fragment key={`group-${row.nodes[0].segment}`}>
-                <li role="presentation" className="pt-3">
-                  <button
-                    type="button"
-                    onClick={() => setActionsOpen((open) => !open)}
-                    aria-expanded={actionsOpen}
-                    className="group -ml-1 flex w-full items-center gap-1.5 rounded-md py-1.5 pr-2 text-left text-sm font-medium text-[#88ccff] transition-colors hover:text-[#99ddff]"
-                  >
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center">
-                      <ChevronRightIcon
-                        size={13}
-                        className={`transition-transform duration-150 ${
-                          actionsOpen ? "rotate-90" : ""
-                        }`}
-                      />
-                    </span>
-                    <span>Actions</span>
-                    {!actionsOpen && (
-                      <span className="ml-auto truncate text-xs font-normal normal-case tracking-normal text-neutral-500">
-                        · click to expand
-                      </span>
-                    )}
-                  </button>
-                </li>
-                {actionsOpen &&
-                  row.nodes.map((node) => (
-                    <Branch
-                      key={node.segment}
-                      node={node}
-                      path={node.segment}
-                      activePath={pathname}
-                      openPaths={openPaths}
-                      toggle={toggle}
-                      depth={0}
-                    />
-                  ))}
-              </Fragment>
-            ),
-          );
-        })()}
+        {tree.map((node) => (
+          <Branch
+            key={node.segment}
+            node={node}
+            path={node.segment}
+            activePath={activePath}
+            openPaths={openPaths}
+            toggle={toggle}
+            depth={0}
+          />
+        ))}
       </ul>
     </nav>
   );
